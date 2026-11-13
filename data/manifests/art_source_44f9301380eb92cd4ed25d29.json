@@ -1,0 +1,17 @@
+{
+  "artifact": {
+    "artifact_id": "art_source_44f9301380eb92cd4ed25d29",
+    "checksum_status": "NO_REMOTE_CHECKSUM",
+    "observation_id": "01a0da05-1de7-7b22-b6fa-acb255934265",
+    "release": "DR1",
+    "retrieval_mode": "CUTOUT",
+    "retrieved_at": "2026-11-13T19:41:44.855695Z",
+    "sha256": "d801b354199f70a7aedbfa14fe6d1bf6c122a7ccba9d8eb4dd9e4f247c7ae44e",
+    "size_bytes": 3965760,
+    "source_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W34_2B/l2b-v27-2026-229/2/level2_2025W34_2B_0090_4D2_spx_l2b-v27-2026-229.fits?center=269.4520769586,4.6933649666d&size=0.05"
+  },
+  "local_path": "art_source_44f9301380eb92cd4ed25d29.fits",
+  "remote_checksum": "md5:358c7a741e188fc72372090ba97f4c45",
+  "requested_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W34_2B/l2b-v27-2026-229/2/level2_2025W34_2B_0090_4D2_spx_l2b-v27-2026-229.fits?center=269.4520769586,4.6933649666d&size=0.05",
+  "schema_version": "1.0"
+}

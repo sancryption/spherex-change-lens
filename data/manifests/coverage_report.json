@@ -1,0 +1,294 @@
+{
+  "evidence_level": "ARCHIVE_METADATA_WITH_FILE_VALIDATION",
+  "schema_version": "1.0",
+  "targets": [
+    {
+      "coordinates": {
+        "dec_deg": 4.6933649666,
+        "frame": "ICRS",
+        "ra_deg": 269.4520769586
+      },
+      "data_state": "DATA_FOUND",
+      "date_range": {
+        "end": "2026-09-22",
+        "start": "2025-08-15"
+      },
+      "detector_counts": {
+        "SPHEREx-D1": 60,
+        "SPHEREx-D2": 62,
+        "SPHEREx-D3": 60,
+        "SPHEREx-D4": 60,
+        "SPHEREx-D5": 62,
+        "SPHEREx-D6": 59
+      },
+      "discovery_status": "COMPLETE",
+      "error_code": null,
+      "file_validated_count": 1,
+      "file_validated_observation_ids": [
+        "01a0da05-1de7-7b22-b6fa-acb255934265"
+      ],
+      "frame_count": 363,
+      "http_status": 200,
+      "metadata_only_count": 362,
+      "missing_date_count": 0,
+      "name": "Barnard's Star",
+      "release_counts": {
+        "DR1": 240,
+        "QR3": 123
+      },
+      "science_validated_count": 0,
+      "target_id": "barnards_star",
+      "target_status": "UNVERIFIED",
+      "usable": false,
+      "visit_gap_days": 30.0,
+      "visit_group_count": 3,
+      "visit_groups": [
+        {
+          "end": "2025-10-01",
+          "frame_count": 120,
+          "start": "2025-08-15"
+        },
+        {
+          "end": "2026-05-05",
+          "frame_count": 120,
+          "start": "2026-03-11"
+        },
+        {
+          "end": "2026-09-22",
+          "frame_count": 123,
+          "start": "2026-08-16"
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "coordinates": {
+        "dec_deg": -56.7828441951,
+        "frame": "ICRS",
+        "ra_deg": 331.0441465888
+      },
+      "data_state": "DATA_FOUND",
+      "date_range": {
+        "end": "2026-10-02",
+        "start": "2025-04-24"
+      },
+      "detector_counts": {
+        "SPHEREx-D1": 48,
+        "SPHEREx-D2": 93,
+        "SPHEREx-D3": 99,
+        "SPHEREx-D4": 45,
+        "SPHEREx-D5": 84,
+        "SPHEREx-D6": 96
+      },
+      "discovery_status": "COMPLETE",
+      "error_code": null,
+      "file_validated_count": 0,
+      "file_validated_observation_ids": [],
+      "frame_count": 465,
+      "http_status": 200,
+      "metadata_only_count": 465,
+      "missing_date_count": 0,
+      "name": "Epsilon Indi B",
+      "release_counts": {
+        "DR1": 345,
+        "QR3": 120
+      },
+      "science_validated_count": 0,
+      "target_id": "epsilon_indi_b",
+      "target_status": "UNVERIFIED",
+      "usable": false,
+      "visit_gap_days": 30.0,
+      "visit_group_count": 4,
+      "visit_groups": [
+        {
+          "end": "2025-06-10",
+          "frame_count": 124,
+          "start": "2025-04-24"
+        },
+        {
+          "end": "2025-11-12",
+          "frame_count": 147,
+          "start": "2025-09-28"
+        },
+        {
+          "end": "2026-05-04",
+          "frame_count": 74,
+          "start": "2026-04-18"
+        },
+        {
+          "end": "2026-10-02",
+          "frame_count": 120,
+          "start": "2026-09-22"
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "coordinates": {
+        "dec_deg": -7.2451472222,
+        "frame": "ICRS",
+        "ra_deg": 133.7951291667
+      },
+      "data_state": "DATA_FOUND",
+      "date_range": {
+        "end": "2026-05-14",
+        "start": "2025-05-05"
+      },
+      "detector_counts": {
+        "SPHEREx-D1": 36,
+        "SPHEREx-D2": 48,
+        "SPHEREx-D3": 45,
+        "SPHEREx-D4": 36,
+        "SPHEREx-D5": 48,
+        "SPHEREx-D6": 45
+      },
+      "discovery_status": "COMPLETE",
+      "error_code": null,
+      "file_validated_count": 0,
+      "file_validated_observation_ids": [],
+      "frame_count": 258,
+      "http_status": 200,
+      "metadata_only_count": 258,
+      "missing_date_count": 0,
+      "name": "WISE 0855",
+      "release_counts": {
+        "DR1": 258
+      },
+      "science_validated_count": 0,
+      "target_id": "wise_0855",
+      "target_status": "UNVERIFIED",
+      "usable": false,
+      "visit_gap_days": 30.0,
+      "visit_group_count": 3,
+      "visit_groups": [
+        {
+          "end": "2025-05-06",
+          "frame_count": 30,
+          "start": "2025-05-05"
+        },
+        {
+          "end": "2025-12-13",
+          "frame_count": 128,
+          "start": "2025-10-31"
+        },
+        {
+          "end": "2026-05-14",
+          "frame_count": 100,
+          "start": "2026-04-21"
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "coordinates": {
+        "dec_deg": 30.4014381739,
+        "frame": "ICRS",
+        "ra_deg": 76.9565260346
+      },
+      "data_state": "DATA_FOUND",
+      "date_range": {
+        "end": "2026-09-16",
+        "start": "2025-09-01"
+      },
+      "detector_counts": {
+        "SPHEREx-D1": 56,
+        "SPHEREx-D2": 55,
+        "SPHEREx-D3": 56,
+        "SPHEREx-D4": 56,
+        "SPHEREx-D5": 56,
+        "SPHEREx-D6": 56
+      },
+      "discovery_status": "COMPLETE",
+      "error_code": null,
+      "file_validated_count": 0,
+      "file_validated_observation_ids": [],
+      "frame_count": 335,
+      "http_status": 200,
+      "metadata_only_count": 335,
+      "missing_date_count": 0,
+      "name": "RW Aurigae",
+      "release_counts": {
+        "DR1": 226,
+        "QR3": 109
+      },
+      "science_validated_count": 0,
+      "target_id": "rw_aurigae",
+      "target_status": "UNVERIFIED",
+      "usable": false,
+      "visit_gap_days": 30.0,
+      "visit_group_count": 3,
+      "visit_groups": [
+        {
+          "end": "2025-09-20",
+          "frame_count": 112,
+          "start": "2025-09-01"
+        },
+        {
+          "end": "2026-03-12",
+          "frame_count": 114,
+          "start": "2026-02-20"
+        },
+        {
+          "end": "2026-09-16",
+          "frame_count": 109,
+          "start": "2026-09-02"
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "coordinates": {
+        "dec_deg": 66.7549794172,
+        "frame": "ICRS",
+        "ra_deg": 248.167610833
+      },
+      "data_state": "DATA_FOUND",
+      "date_range": {
+        "end": "2026-09-27",
+        "start": "2025-04-24"
+      },
+      "detector_counts": {
+        "SPHEREx-D1": 584,
+        "SPHEREx-D2": 89,
+        "SPHEREx-D3": 574,
+        "SPHEREx-D4": 584,
+        "SPHEREx-D5": 89,
+        "SPHEREx-D6": 573
+      },
+      "discovery_status": "COMPLETE",
+      "error_code": null,
+      "file_validated_count": 0,
+      "file_validated_observation_ids": [],
+      "frame_count": 2493,
+      "http_status": 200,
+      "metadata_only_count": 2493,
+      "missing_date_count": 0,
+      "name": "R Draconis",
+      "release_counts": {
+        "DR1": 1638,
+        "QR3": 855
+      },
+      "science_validated_count": 0,
+      "target_id": "r_draconis",
+      "target_status": "UNVERIFIED",
+      "usable": false,
+      "visit_gap_days": 30.0,
+      "visit_group_count": 2,
+      "visit_groups": [
+        {
+          "end": "2025-07-22",
+          "frame_count": 240,
+          "start": "2025-04-24"
+        },
+        {
+          "end": "2026-09-27",
+          "frame_count": 2253,
+          "start": "2025-08-29"
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "usable_coverage_claimed": false,
+  "visit_gap_days": 30.0
+}

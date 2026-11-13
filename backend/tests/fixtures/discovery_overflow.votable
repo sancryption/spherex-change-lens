@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VOTABLE version="1.3" xmlns="http://www.ivoa.net/xml/VOTable/v1.3">
+  <RESOURCE type="results">
+    <INFO name="QUERY_STATUS" value="OK"/>
+    <TABLE>
+      <FIELD name="planeid" datatype="char" arraysize="*"/>
+      <DATA><TABLEDATA><TR><TD>plane-001</TD></TR></TABLEDATA></DATA>
+    </TABLE>
+    <INFO name="QUERY_STATUS" value="OVERFLOW"/>
+  </RESOURCE>
+</VOTABLE>

@@ -1,0 +1,67 @@
+[
+  {
+    "target_id": "barnards_star",
+    "name": "Barnard's Star",
+    "ra_deg": 269.4520769586,
+    "dec_deg": 4.6933649666,
+    "frame": "ICRS",
+    "nasa_source_url": "https://www.spaceappschallenge.org/2026/challenges/planet-x-and-spherex/",
+    "role": "NASA challenge test target; nearby high-proper-motion star",
+    "expected_mode": "MOTION",
+    "coverage_status": "UNVERIFIED",
+    "verification_level": "UNVERIFIED",
+    "notes": ["J2000 coordinates from SIMBAD; registry position is not propagated to observation dates."]
+  },
+  {
+    "target_id": "epsilon_indi_b",
+    "name": "Epsilon Indi B",
+    "ra_deg": 331.0441465888,
+    "dec_deg": -56.7828441951,
+    "frame": "ICRS",
+    "nasa_source_url": "https://www.spaceappschallenge.org/2026/challenges/planet-x-and-spherex/",
+    "role": "NASA challenge test target; nearby brown dwarf",
+    "expected_mode": "MOTION",
+    "coverage_status": "UNVERIFIED",
+    "verification_level": "UNVERIFIED",
+    "notes": ["J2000 coordinates for the Epsilon Indi B system from SIMBAD; no proper-motion propagation applied."]
+  },
+  {
+    "target_id": "wise_0855",
+    "name": "WISE 0855",
+    "ra_deg": 133.7951291667,
+    "dec_deg": -7.2451472222,
+    "frame": "ICRS",
+    "nasa_source_url": "https://www.spaceappschallenge.org/2026/challenges/planet-x-and-spherex/",
+    "role": "NASA challenge test target; cold brown dwarf",
+    "expected_mode": "MOTION",
+    "coverage_status": "UNVERIFIED",
+    "verification_level": "UNVERIFIED",
+    "notes": ["Coordinates preserve the exact values specified by the NASA challenge guide."]
+  },
+  {
+    "target_id": "rw_aurigae",
+    "name": "RW Aurigae",
+    "ra_deg": 76.9565260346,
+    "dec_deg": 30.4014381739,
+    "frame": "ICRS",
+    "nasa_source_url": "https://www.spaceappschallenge.org/2026/challenges/planet-x-and-spherex/",
+    "role": "NASA challenge test target; variable young star",
+    "expected_mode": "BRIGHTNESS",
+    "coverage_status": "UNVERIFIED",
+    "verification_level": "UNVERIFIED",
+    "notes": ["J2000 coordinates from SIMBAD."]
+  },
+  {
+    "target_id": "r_draconis",
+    "name": "R Draconis",
+    "ra_deg": 248.167610833,
+    "dec_deg": 66.7549794172,
+    "frame": "ICRS",
+    "nasa_source_url": "https://www.spaceappschallenge.org/2026/challenges/planet-x-and-spherex/",
+    "role": "NASA challenge test target; Mira variable star",
+    "expected_mode": "BRIGHTNESS",
+    "coverage_status": "UNVERIFIED",
+    "verification_level": "UNVERIFIED",
+    "notes": ["J2000 coordinates from SIMBAD."]
+  }
+]

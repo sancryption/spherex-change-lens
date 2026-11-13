@@ -1,0 +1,16 @@
+SELECT
+  'https://irsa.ipac.caltech.edu/' || a.uri || '?center=269.4520769586,4.6933649666d&size=0.166666666667' AS access_url,
+  p.planeid AS planeid,
+  a.uri AS artifact_path,
+  p.time_bounds_lower AS time_mjd,
+  p.energy_bandpassname AS band,
+  p.dataproducttype AS product,
+  p.position_dimension_naxis1 AS width,
+  p.position_dimension_naxis2 AS height,
+  p.poly AS footprint
+FROM spherex.artifact AS a
+JOIN spherex.plane AS p ON a.planeid = p.planeid
+WHERE 1=CONTAINS(POINT('ICRS', 269.4520769586, 4.6933649666), p.poly)
+  AND a.producttype = 'science'
+  AND a.contenttype = 'image/fits'
+ORDER BY p.time_bounds_lower
