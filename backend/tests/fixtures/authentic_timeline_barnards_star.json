@@ -1,0 +1,20 @@
+{
+  "frames": [
+    {
+      "availability": "VALIDATED_WITH_WARNINGS",
+      "band": "SPHEREx-D2",
+      "observation_id": "01a0da05-1de7-7b22-b6fa-acb255934265",
+      "observed_at": "2025-08-21T23:34:56.192000Z",
+      "preview_artifact_id": null,
+      "release": "DR1",
+      "warnings": [
+        "FITS_CONTAINER_VALIDATED_ONLY",
+        "SCIENCE_AND_WCS_VALIDATION_PENDING"
+      ]
+    }
+  ],
+  "investigation_id": "inv_barnards_star_authentic_fixture",
+  "provenance_id": "art_source_44f9301380eb92cd4ed25d29",
+  "series_status": "PARTIALLY_VALIDATED",
+  "timeline_id": "timeline_barnards_star_authentic_v1"
+}

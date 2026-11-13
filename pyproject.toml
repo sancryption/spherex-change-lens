@@ -57,6 +57,7 @@ markers = [
     "integration: Cross-component pipeline integration tests",
     "scientific: Scientific algorithms and tolerance verification tests",
     "e2e: End-to-end multi-service tests",
+    "live: opt-in test that accesses the IRSA archive over the network",
 ]
 
 [tool.coverage.run]

@@ -23,8 +23,8 @@ SPHEREx Change Lens is planned as a public web application enabling researchers 
 5. **R Draconis** (Mira-type pulsating variable)
 
 > [!WARNING]
-> **Scaffold Status Notice**  
-> Application features, scientific algorithms, and API endpoints are **NOT implemented yet**.  
+> **Implementation Status Notice**
+> The DATA backend prototype and its thin API are implemented on this branch. Frontend integration and scientific image analysis remain pending.
 > The target coverage, archival availability, and scientific usability for the five targets listed above are **pending verification** and must not be assumed complete until data retrieval and pipeline validation workstreams are executed.
 
 ---
@@ -92,11 +92,46 @@ python scripts/validate_environment.py
 
 ## 5. Development Principles & Guardrails
 - **No Mock Production Claims**: Do not present synthetic or placeholder data as verified NASA archival observations.
-- **Contract Driven**: Backend Pydantic models in `backend/src/change_lens/contracts` are the single source of truth for all API interactions.
+- **Contract Driven**: The scaffold models in `backend/src/change_lens/contracts` remain canonical for shared frontend integration. The DATA-specific models in `backend/src/changelens/contracts` are drafts pending INT-001.
 - **Strict Data Exclusion**: Large FITS files (`*.fits`, `*.fit`, `*.fts`), cache directories, and generated previews are ignored by Git.
 - **Minimal Dependencies**: We avoid heavy premature dependencies (e.g., Celery, Redis, PostgreSQL) in favor of SQLite and modular Python pipelines.
 
 ---
 
-## 6. License
+## 6. DATA Workstream Prototype
+
+This branch adds an initial DATA backend alongside the team scaffold. The data package lives in `backend/src/changelens`; its draft contracts are not yet reconciled with the shared `change_lens` contracts, so cross-workstream API integration remains pending INT-001.
+
+### Backend setup
+
+Use Python 3.11 and `uv`. From the repository root in PowerShell:
+
+```powershell
+uv sync --project backend --locked --extra dev
+New-Item -ItemType Directory -Force data/cached_mefs | Out-Null
+uv run --project backend --locked --extra dev python -m pytest -c backend/pyproject.toml
+```
+
+Offline tests are the default. The live IRSA smoke test is opt-in:
+
+```powershell
+uv run --project backend --locked --extra dev python -m pytest -c backend/pyproject.toml -o "addopts=" -m live backend/tests/test_live_irsa.py
+```
+
+### Run the DATA API
+
+```powershell
+uv run --project backend --locked --extra dev uvicorn changelens.api.app:app --app-dir backend/src --reload
+```
+
+The API exposes `/health/live`, `/health/ready`, `/v1/targets`, and `/openapi.json` on `http://127.0.0.1:8000`. Readiness returns `503` if the configured cache directory is missing or not writable. Set `CHANGELENS_CACHE_DIR` to use another directory.
+
+### Archive data and evidence
+
+- The five target definitions are in `data/targets/targets.json`; every target remains `UNVERIFIED`.
+- Submitted ADQL, TAP request parameters, and raw IRSA VOTable responses are retained in `data/target_queries/`.
+- Coverage counts and visit summaries are in `docs/COVERAGE_REPORT.md` and `data/manifests/coverage_report.json`.
+- FITS cache files live in `data/cached_mefs/` and are ignored by Git.
+- The authentic one-frame timeline fixture is marked partial: the FITS container was checked, while science and WCS validation remain pending.
+## 7. License
 License terms are pending confirmation by the project team. See [LICENSE](file:///c:/NASA/LICENSE).
