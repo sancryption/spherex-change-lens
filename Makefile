@@ -45,7 +45,7 @@ test-e2e:
 
 dev:
 	@echo "[Pending Implementation] Development servers start:"
-	@echo "Backend API: uvicorn change_lens.main:create_app --reload --port 8000"
+	@echo "Backend API: uvicorn change_lens.main:app --reload --port 8000"
 	@echo "Frontend UI: cd frontend && npm run dev"
 
 prewarm:

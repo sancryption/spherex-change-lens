@@ -50,9 +50,9 @@ jobs:
         run: |
           ruff check .
 
-      - name: Run Pytest Collection
+      - name: Run Backend Tests (offline, live IRSA tests skipped)
         run: |
-          pytest backend/tests/ --collect-only
+          pytest backend/tests/ -q -m "not live"
 
   frontend-quality:
     name: Frontend Syntax & Contract Validation
@@ -76,4 +76,4 @@ jobs:
       - name: Typecheck Frontend
         working-directory: ./frontend
         run: |
-          npm run typecheck || echo "Typecheck completed or pending complete feature components."
+          npm run typecheck

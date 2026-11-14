@@ -59,8 +59,9 @@ python scripts/validate_environment.py
 ## 3. Running Local Servers (Once Implemented)
 - **Backend API:**
   ```bash
-  uvicorn change_lens.main:create_app --reload --port 8000
+  uvicorn change_lens.main:app --reload --port 8000
   ```
+  Real SPHEREx data (demo): `SPHEREX_ARCHIVE_MOCK_MODE=false uvicorn change_lens.main:app --port 8000`, after `make prewarm` (see `docs/demo-runbook.md`).
 - **Frontend Development Server:**
   ```bash
   cd frontend && npm run dev
