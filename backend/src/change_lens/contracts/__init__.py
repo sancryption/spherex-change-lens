@@ -164,3 +164,39 @@ class ErrorResponse(BaseModel):
 
     error: ErrorDetail
     request_id: str
+
+
+# --- Possible-mover screening (SCI phase 3 exposed by BE) ---
+
+class MoverCandidate(BaseModel):
+    """A track that passed SCI motion screening and controls. Screening only, not a discovery."""
+
+    track_id: str
+    label: str = Field("possible_mover", description="Always 'possible_mover'")
+    displacement_arcsec: float
+    baseline_days: float
+    uncertainty_arcsec: float
+    control_status: str
+    reason_codes: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+
+
+class MoversResponse(BaseModel):
+    """Result of running the SCI pipeline on an investigation's timeline frames."""
+
+    investigation_id: str
+    status: str = Field(
+        ..., description="'COMPLETED', 'UNAVAILABLE' (e.g. synthetic data, <2 frames) or 'FAILED'"
+    )
+    detector: str | None = None
+    frames_used: int = 0
+    tracks_screened: int = 0
+    track_status_counts: dict[str, int] = Field(
+        default_factory=dict, description="motion_status -> count, e.g. AMBIGUOUS, ARTIFACT_RISK"
+    )
+    candidates: list[MoverCandidate] = Field(
+        default_factory=list, description="Empty list = no qualifying possible movers"
+    )
+    warnings: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+    method: dict[str, Any] = Field(default_factory=dict, description="Policies and parameters used")

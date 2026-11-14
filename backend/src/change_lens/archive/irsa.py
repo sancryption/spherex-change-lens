@@ -223,6 +223,7 @@ class IrsaArchiveClient:
         warnings = list(obs.warnings)
         origin = "authentic_live"
         preview_path: Path | None = None
+        source_path: Path | None = None
         try:
             source = retrieve(obs, cache_directory=self.cache_dir, manifest_directory=self.manifest_dir)
             if source.retrieval_mode == RetrievalMode.CACHE:
@@ -272,4 +273,5 @@ class IrsaArchiveClient:
             detector=_short_band(obs.band),
             release=obs.release,
             wavelength_range_um=DETECTOR_WAVELENGTH_UM.get(_short_band(obs.band)),
+            source_fits_path=source_path,
         )
