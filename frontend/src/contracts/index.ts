@@ -37,6 +37,8 @@ export interface CoordinateQueryRequest {
   ra: number;
   dec: number;
   radius_arcsec: number;
+  /** Optional preset target_id from /targets */
+  target_id?: string;
 }
 
 export interface InvestigationMetadata {
@@ -59,6 +61,10 @@ export interface EpochDescriptor {
   variance_url?: string;
   flags_summary: Record<string, number>;
   quality_warning: boolean;
+  /** Where the pixels came from. Always show it in the UI. */
+  data_origin: "authentic_live" | "authentic_cached" | "synthetic" | string;
+  /** Reason codes, e.g. "OUTSIDE_FOOTPRINT", "PSF_METADATA_INCOMPLETE" */
+  warnings: string[];
 }
 
 export interface TimelineResponse {
@@ -99,4 +105,19 @@ export interface EvidencePackage {
   light_curve_points: Array<Record<string, unknown>>;
   motion_vectors: Array<Record<string, unknown>>;
   quality_notices: string[];
+}
+
+// --- Error Contracts ---
+
+export interface ErrorDetail {
+  code: string; // e.g. INVALID_COORDINATES, NOT_FOUND, ARCHIVE_UNAVAILABLE
+  message: string; // safe to show in the UI
+  retryable: boolean;
+  details: Record<string, unknown>;
+}
+
+/** Body of every non-2xx API response */
+export interface ErrorResponse {
+  error: ErrorDetail;
+  request_id: string;
 }

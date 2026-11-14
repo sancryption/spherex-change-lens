@@ -52,6 +52,9 @@ class CoordinateQueryRequest(BaseModel):
     ra: float = Field(..., ge=0.0, lt=360.0, description="Right Ascension in decimal degrees")
     dec: float = Field(..., ge=-90.0, le=90.0, description="Declination in decimal degrees")
     radius_arcsec: float = Field(30.0, gt=0.0, le=3600.0, description="Search cone radius in arcseconds")
+    target_id: str | None = Field(
+        None, description="Optional preset target_id (from /targets) this query was started from"
+    )
 
 
 class InvestigationMetadata(BaseModel):
@@ -78,6 +81,12 @@ class EpochDescriptor(BaseModel):
     variance_url: str | None = None
     flags_summary: dict[str, int] = Field(default_factory=dict)
     quality_warning: bool = False
+    data_origin: str = Field(
+        "synthetic",
+        description="Where the pixels came from: 'authentic_live', 'authentic_cached' or 'synthetic'. "
+        "Always shown in the UI.",
+    )
+    warnings: list[str] = Field(default_factory=list, description="Reason codes for quality issues")
 
 
 class TimelineResponse(BaseModel):
@@ -126,3 +135,21 @@ class EvidencePackage(BaseModel):
     light_curve_points: list[dict[str, Any]] = Field(default_factory=list)
     motion_vectors: list[dict[str, Any]] = Field(default_factory=list)
     quality_notices: list[str] = Field(default_factory=list)
+
+
+# --- Error Contracts ---
+
+class ErrorDetail(BaseModel):
+    """Machine-readable error body."""
+
+    code: str = Field(..., description="Stable error code, e.g. INVALID_COORDINATES, NOT_FOUND")
+    message: str = Field(..., description="Human-readable message, safe to show in the UI")
+    retryable: bool = False
+    details: dict[str, Any] = Field(default_factory=dict)
+
+
+class ErrorResponse(BaseModel):
+    """Envelope returned for every non-2xx API response."""
+
+    error: ErrorDetail
+    request_id: str
