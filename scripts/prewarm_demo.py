@@ -3,7 +3,8 @@
 
 The first query for a position takes minutes (IRSA TAP discovery, cutout downloads,
 previews). This script does that work ahead of time and stores everything on disk
-(data/cached_mefs, data/previews, data/discovery_cache, data/mover_cache), so during
+(data/cached_mefs, data/previews, data/discovery_cache, data/mover_cache,
+data/evidence_cache, data/derived/differences), so during
 the demo every preset target loads instantly, even after a server restart.
 
 Usage (from the repo root, with the backend installed):
@@ -25,6 +26,7 @@ sys.path.insert(0, str(REPO_ROOT / "backend" / "src"))
 
 from change_lens.archive.irsa import IrsaArchiveClient  # noqa: E402
 from change_lens.config import get_settings, resolve_data_path  # noqa: E402
+from change_lens.investigations.evidence import build_evidence  # noqa: E402
 from change_lens.investigations.movers import screen_movers  # noqa: E402
 from change_lens.targets import NASA_PRESET_TARGETS  # noqa: E402
 
@@ -37,7 +39,7 @@ def main() -> int:
     parser.add_argument("--targets", nargs="+", choices=ids, default=ids)
     parser.add_argument("--detector", choices=[f"D{i}" for i in range(1, 7)], default=None)
     parser.add_argument("--radius", type=float, default=FRONTEND_DEFAULT_RADIUS_ARCSEC)
-    parser.add_argument("--skip-movers", action="store_true", help="only fetch frames/previews")
+    parser.add_argument("--skip-movers", action="store_true", help="only fetch frames/previews (no SCI movers/evidence)")
     args = parser.parse_args()
 
     settings = get_settings()
@@ -74,6 +76,14 @@ def main() -> int:
             ]
             m = screen_movers("prewarm", sources, cache_dir=data_dir / "mover_cache")
             movers = f"{m.status}: {len(m.candidates)} candidate(s), {m.tracks_screened} tracks"
+            ev, _ = build_evidence(
+                "prewarm",
+                sources,
+                derived_dir=resolve_data_path(settings.derived_dir),
+                cache_dir=data_dir / "evidence_cache",
+            )
+            diff = ev.difference.status if ev.difference else "-"
+            movers += f"; evidence {ev.status}, diff {diff}"
         elapsed = time.time() - t0
         rows.append((t.name, det, frames, with_preview, movers, elapsed))
         print(f"  {t.name}: {frames} frames ({with_preview} previews, {det}), movers {movers}  [{elapsed:.0f}s]", flush=True)

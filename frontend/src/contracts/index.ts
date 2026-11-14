@@ -158,3 +158,51 @@ export interface MoversResponse {
   limitations: string[];
   method: Record<string, unknown>;
 }
+
+/** SCI-011 difference (later - earlier frame). GET /investigations/{id}/evidence */
+export interface DifferenceSummary {
+  /** AVAILABLE | REJECTED (incompatible frames) | UNAVAILABLE */
+  status: "AVAILABLE" | "REJECTED" | "UNAVAILABLE" | string;
+  earlier_epoch_id: string | null;
+  later_epoch_id: string | null;
+  earlier_mjd: number | null;
+  later_mjd: number | null;
+  subtraction_order: string;
+  unit: string | null;
+  variance_status: string | null;
+  valid_pixel_count: number;
+  /** Frame-wide extremes, not source measurements */
+  minimum: number | null;
+  maximum: number | null;
+  /** North-up PNG of D/sqrt(Var): white = brighter, black = fainter, grey = no change/masked */
+  image_url: string | null;
+  reason_codes: string[];
+  warnings: string[];
+}
+
+/** SCI-012 evidence for one track; motion and brightness stay separate */
+export interface TrackEvidenceSummary {
+  track_id: string;
+  statuses: string[];
+  motion_status: string;
+  brightness_status: string;
+  reason_codes: string[];
+  limitations: string[];
+}
+
+export interface EvidenceResponse {
+  investigation_id: string;
+  /** COMPLETED | UNAVAILABLE (synthetic data, <2 frames) | FAILED */
+  status: "COMPLETED" | "UNAVAILABLE" | "FAILED" | string;
+  detector: string | null;
+  frames_used: number;
+  tracks_total: number;
+  /** summary status -> number of tracks carrying it */
+  status_counts: Record<string, number>;
+  /** tracks with any status other than NO_RELIABLE_CHANGE (max 50) */
+  notable_tracks: TrackEvidenceSummary[];
+  difference: DifferenceSummary | null;
+  warnings: string[];
+  limitations: string[];
+  method: Record<string, unknown>;
+}

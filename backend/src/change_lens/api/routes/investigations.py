@@ -12,10 +12,12 @@ from change_lens.api.state import ServicesDep
 from change_lens.archive.base import DiscoveredEpoch
 from change_lens.contracts import (
     CoordinateQueryRequest,
+    EvidenceResponse,
     InvestigationMetadata,
     MoversResponse,
     TimelineResponse,
 )
+from change_lens.investigations.evidence import build_evidence
 from change_lens.investigations.movers import screen_movers
 from change_lens.targets import NASA_PRESET_TARGETS
 from change_lens.timeline.builder import build_timeline
@@ -110,4 +112,37 @@ def get_movers(investigation_id: str, services: ServicesDep) -> MoversResponse:
     )
     if result.status != "FAILED":
         services.repo.save_movers(result)
+    return result
+
+
+@router.get("/{investigation_id}/evidence", response_model=EvidenceResponse)
+def get_evidence(investigation_id: str, services: ServicesDep) -> EvidenceResponse:
+    """Run (once, then cached) SCI phase 4 evidence synthesis on this timeline's frames.
+
+    Per-track motion/brightness statuses (SCI-012) plus a first-vs-last frame
+    difference image (SCI-011). Shares the SCI run with /movers. Synthetic/mock
+    investigations return status UNAVAILABLE.
+    """
+    if services.repo.get_investigation(investigation_id) is None:
+        raise InvestigationNotFoundError(f"Investigation '{investigation_id}' not found.")
+    cached = services.repo.get_evidence(investigation_id)
+    if cached is not None:
+        return cached
+    from change_lens.config import resolve_data_path
+
+    result, png = build_evidence(
+        investigation_id,
+        services.repo.get_epoch_sources(investigation_id),
+        derived_dir=resolve_data_path(services.settings.derived_dir),
+        cache_dir=resolve_data_path(services.settings.data_dir) / "evidence_cache",
+    )
+    if result.difference is not None and png is not None:
+        art_id = _artifact_id(png.resolve())
+        services.repo.save_artifact(art_id, png, "image/png")
+        url = f"{services.settings.api_prefix}/artifacts/{art_id}/preview"
+        result = result.model_copy(
+            update={"difference": result.difference.model_copy(update={"image_url": url})}
+        )
+    if result.status != "FAILED":
+        services.repo.save_evidence(result)
     return result

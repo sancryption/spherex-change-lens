@@ -8,7 +8,12 @@ import sqlite3
 import threading
 from pathlib import Path
 
-from change_lens.contracts import InvestigationMetadata, MoversResponse, TimelineResponse
+from change_lens.contracts import (
+    EvidenceResponse,
+    InvestigationMetadata,
+    MoversResponse,
+    TimelineResponse,
+)
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS investigations (
@@ -34,6 +39,10 @@ CREATE TABLE IF NOT EXISTS epoch_sources (
     PRIMARY KEY (investigation_id, epoch_id)
 );
 CREATE TABLE IF NOT EXISTS mover_results (
+    investigation_id TEXT PRIMARY KEY,
+    body             TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS evidence_results (
     investigation_id TEXT PRIMARY KEY,
     body             TEXT NOT NULL
 );
@@ -125,3 +134,16 @@ class Repository:
     def get_movers(self, investigation_id: str) -> MoversResponse | None:
         row = self._get("SELECT body FROM mover_results WHERE investigation_id = ?", (investigation_id,))
         return MoversResponse.model_validate_json(row[0]) if row else None
+
+    # evidence results (SCI phase 4) -------------------------------------------
+    def save_evidence(self, result: EvidenceResponse) -> None:
+        self._put(
+            "INSERT OR REPLACE INTO evidence_results VALUES (?, ?)",
+            (result.investigation_id, result.model_dump_json()),
+        )
+
+    def get_evidence(self, investigation_id: str) -> EvidenceResponse | None:
+        row = self._get(
+            "SELECT body FROM evidence_results WHERE investigation_id = ?", (investigation_id,)
+        )
+        return EvidenceResponse.model_validate_json(row[0]) if row else None

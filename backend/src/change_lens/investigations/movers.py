@@ -18,7 +18,7 @@ D2 and D6) and should be confirmed by SCI:
 
 import hashlib
 import logging
-from collections import Counter
+from collections import Counter, OrderedDict
 from pathlib import Path
 
 from change_lens.contracts import MoverCandidate, MoversResponse
@@ -31,6 +31,73 @@ FLAG_POLICY_VERSION = "spherex-source-informational-v0"
 MIN_FRAMES = 2
 
 
+Source = tuple[str, float, Path, str | None, str | None]
+
+# Small in-process memo so /movers and /evidence on the same frames run SCI once.
+_SCI_MEMO: OrderedDict[tuple, tuple] = OrderedDict()
+_SCI_MEMO_SIZE = 4
+
+
+def clear_sci_memo() -> None:
+    _SCI_MEMO.clear()
+
+
+def sci_method() -> dict:
+    return {
+        "pipeline": "sci-phase2+phase3",
+        "flag_policy": FLAG_POLICY_VERSION,
+        "retained_flag_bits": {str(SOURCE_BIT): "SOURCE (informational)"},
+        "centroid_radius_px": CENTROID_RADIUS_PX,
+    }
+
+
+def usable_sources(sources: list[Source]) -> tuple[list[Source], str | None, str | None]:
+    """Frames with a FITS on disk, their single detector, and why SCI can't run (or None)."""
+    usable = [s for s in sources if s[2].is_file()]
+    detectors = {s[3] for s in usable}
+    detector = next(iter(detectors)) if len(detectors) == 1 else None
+    if len(usable) < MIN_FRAMES:
+        return usable, detector, (
+            "NO_FITS_FOR_SYNTHETIC_OR_MISSING_FRAMES" if not usable else "FEWER_THAN_TWO_FRAMES"
+        )
+    if len(detectors) > 1:
+        return usable, detector, "MIXED_DETECTORS"
+    return usable, detector, None
+
+
+def run_sci(usable: list[Source], detector: str | None) -> tuple:
+    """Run SCI phase 2 + 3 unchanged on chronological frames; returns (phase2, phase3)."""
+    from change_lens.pipeline.masks import FlagAction, FlagPolicy
+    from change_lens.pipeline.phase2 import PlaneIdentity, run_phase2
+    from change_lens.pipeline.phase3 import run_phase3
+
+    key = tuple((str(s[2]), s[2].stat().st_mtime_ns, s[4]) for s in usable) + (
+        FLAG_POLICY_VERSION,
+        CENTROID_RADIUS_PX,
+    )
+    if key in _SCI_MEMO:
+        _SCI_MEMO.move_to_end(key)
+        return _SCI_MEMO[key]
+    det = detector or "UNKNOWN"
+    identities = [
+        # spectral_plane is detector-level: per-pixel wavelength varies across a SPHEREx
+        # detector (WCS-WAVE), which SCI flags as a limitation rather than a mismatch.
+        PlaneIdentity(det, "spherex_l2_spectral_image", det, s[4] or "UNKNOWN")
+        for s in usable
+    ]
+    policy = FlagPolicy(
+        FLAG_POLICY_VERSION, "SPHEREX_L2_SPECTRAL_IMAGE", {SOURCE_BIT: FlagAction.RETAIN}
+    )
+    phase2 = run_phase2(
+        [s[2] for s in usable], identities, policy, centroid_radius=CENTROID_RADIUS_PX
+    )
+    phase3 = run_phase3(phase2)
+    _SCI_MEMO[key] = (phase2, phase3)
+    while len(_SCI_MEMO) > _SCI_MEMO_SIZE:
+        _SCI_MEMO.popitem(last=False)
+    return phase2, phase3
+
+
 def _cache_path(cache_dir: Path, sources: list) -> Path:
     sig = repr(
         (FLAG_POLICY_VERSION, CENTROID_RADIUS_PX, sorted((s[0], str(s[2])) for s in sources))
@@ -40,7 +107,7 @@ def _cache_path(cache_dir: Path, sources: list) -> Path:
 
 def screen_movers(
     investigation_id: str,
-    sources: list[tuple[str, float, Path, str | None, str | None]],
+    sources: list[Source],
     cache_dir: Path | None = None,
 ) -> MoversResponse:
     """sources: (epoch_id, mjd, fits_path, detector, release), chronological.
@@ -68,47 +135,17 @@ def screen_movers(
 
 def _screen(
     investigation_id: str,
-    sources: list[tuple[str, float, Path, str | None, str | None]],
+    sources: list[Source],
 ) -> MoversResponse:
-    method = {
-        "pipeline": "sci-phase2+phase3",
-        "flag_policy": FLAG_POLICY_VERSION,
-        "retained_flag_bits": {str(SOURCE_BIT): "SOURCE (informational)"},
-        "centroid_radius_px": CENTROID_RADIUS_PX,
-    }
-    usable = [s for s in sources if s[2].is_file()]
-    detectors = {s[3] for s in usable}
-    detector = next(iter(detectors)) if len(detectors) == 1 else None
-    base = {"investigation_id": investigation_id, "detector": detector, "method": method}
-
-    if len(usable) < MIN_FRAMES:
-        reason = "NO_FITS_FOR_SYNTHETIC_OR_MISSING_FRAMES" if not usable else "FEWER_THAN_TWO_FRAMES"
+    usable, detector, reason = usable_sources(sources)
+    base = {"investigation_id": investigation_id, "detector": detector, "method": sci_method()}
+    if reason is not None:
         return MoversResponse(status="UNAVAILABLE", frames_used=len(usable), warnings=[reason], **base)
-    if len(detectors) > 1:
-        return MoversResponse(
-            status="UNAVAILABLE", frames_used=len(usable), warnings=["MIXED_DETECTORS"], **base
-        )
 
-    from change_lens.pipeline.masks import FlagAction, FlagPolicy
-    from change_lens.pipeline.phase2 import PlaneIdentity, run_phase2
-    from change_lens.pipeline.phase3 import possible_movers, run_phase3
-
-    releases = {s[4] or "UNKNOWN" for s in usable}
-    det = detector or "UNKNOWN"
-    identities = [
-        # spectral_plane is detector-level: per-pixel wavelength varies across a SPHEREx
-        # detector (WCS-WAVE), which SCI flags as a limitation rather than a mismatch.
-        PlaneIdentity(det, "spherex_l2_spectral_image", det, s[4] or "UNKNOWN")
-        for s in usable
-    ]
-    policy = FlagPolicy(
-        FLAG_POLICY_VERSION, "SPHEREX_L2_SPECTRAL_IMAGE", {SOURCE_BIT: FlagAction.RETAIN}
-    )
     try:
-        phase2 = run_phase2(
-            [s[2] for s in usable], identities, policy, centroid_radius=CENTROID_RADIUS_PX
-        )
-        phase3 = run_phase3(phase2)
+        phase2, phase3 = run_sci(usable, detector)
+        from change_lens.pipeline.phase3 import possible_movers
+
         candidates = possible_movers(phase3)
     except Exception as exc:  # report, never 500: the timeline must keep working
         LOGGER.warning("Mover screening failed for %s: %s", investigation_id, exc)
@@ -119,6 +156,7 @@ def _screen(
             **base,
         )
 
+    releases = {s[4] or "UNKNOWN" for s in usable}
     warnings = list(dict.fromkeys([*phase2.alignment.warnings, *phase3.warnings]))
     if len(releases) > 1:
         warnings.append("MIXED_RELEASES")

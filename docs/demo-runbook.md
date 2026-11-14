@@ -46,8 +46,8 @@ pip install -e "backend/[dev]"
 python scripts/prewarm_demo.py        # or: make prewarm   (~30-50 min for all 5 targets)
 ```
 
-- It fetches real frames and runs mover screening for all 5 NASA targets, using the frontend's default parameters (`radius_arcsec=60`, default detector).
-- Everything is stored on disk (`data/cached_mefs`, `data/previews`, `data/discovery_cache`, `data/mover_cache`). After that, preset targets load **instantly**, even after a server restart.
+- It fetches real frames and runs mover screening plus evidence synthesis (difference image) for all 5 NASA targets, using the frontend's default parameters (`radius_arcsec=60`, default detector).
+- Everything is stored on disk (`data/cached_mefs`, `data/previews`, `data/discovery_cache`, `data/mover_cache`, `data/evidence_cache`, `data/derived/differences`). After that, preset targets load **instantly**, even after a server restart.
 - Re-running is safe: warm targets are skipped in seconds. One target failing (e.g. an IRSA timeout) does not stop the others; just re-run.
 - Optional extra: `python scripts/prewarm_demo.py --detector D6 --targets wise-0855` (D6 ≈ 4.4–5.0 µm, where cold brown dwarfs are brightest).
 

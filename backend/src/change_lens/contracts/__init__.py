@@ -200,3 +200,60 @@ class MoversResponse(BaseModel):
     warnings: list[str] = Field(default_factory=list)
     limitations: list[str] = Field(default_factory=list)
     method: dict[str, Any] = Field(default_factory=dict, description="Policies and parameters used")
+
+
+class DifferenceSummary(BaseModel):
+    """SCI-011 difference product (later - earlier frame), summarized for the UI."""
+
+    status: str = Field(..., description="'AVAILABLE', 'REJECTED' (incompatible frames) or 'UNAVAILABLE'")
+    earlier_epoch_id: str | None = None
+    later_epoch_id: str | None = None
+    earlier_mjd: float | None = None
+    later_mjd: float | None = None
+    subtraction_order: str = "later_epoch - earlier_epoch"
+    unit: str | None = None
+    variance_status: str | None = None
+    valid_pixel_count: int = 0
+    minimum: float | None = Field(None, description="Frame-wide extreme, not a source measurement")
+    maximum: float | None = Field(None, description="Frame-wide extreme, not a source measurement")
+    image_url: str | None = Field(
+        None,
+        description="PNG of D/sqrt(Var(D)) clipped to +/-5: black = fainter, white = brighter, "
+        "mid-grey = no change or masked",
+    )
+    reason_codes: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+
+
+class TrackEvidenceSummary(BaseModel):
+    """SCI-012 evidence for one source track (motion and brightness kept separate)."""
+
+    track_id: str
+    statuses: list[str] = Field(..., description="Summary labels, motion first then brightness")
+    motion_status: str
+    brightness_status: str
+    reason_codes: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+
+
+class EvidenceResponse(BaseModel):
+    """SCI phase 4 evidence synthesis for an investigation's timeline frames."""
+
+    investigation_id: str
+    status: str = Field(
+        ..., description="'COMPLETED', 'UNAVAILABLE' (e.g. synthetic data, <2 frames) or 'FAILED'"
+    )
+    detector: str | None = None
+    frames_used: int = 0
+    tracks_total: int = 0
+    status_counts: dict[str, int] = Field(
+        default_factory=dict, description="summary status -> number of tracks carrying it"
+    )
+    notable_tracks: list[TrackEvidenceSummary] = Field(
+        default_factory=list,
+        description="Tracks with any status other than NO_RELIABLE_CHANGE (capped, see warnings)",
+    )
+    difference: DifferenceSummary | None = None
+    warnings: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+    method: dict[str, Any] = Field(default_factory=dict)
