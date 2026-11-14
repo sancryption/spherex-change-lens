@@ -38,7 +38,13 @@ class TrackPoint:
 
 @dataclass(frozen=True)
 class AssociationPolicy:
-    """Search bounds in arcseconds; defaults are synthetic screening choices."""
+    """Search bounds in arcseconds; defaults are synthetic screening choices.
+
+    Set allowance_arcsec_per_day=0.03 for an illustrative moving-source search.
+    Zero preserves the original default. This is not a universal source speed
+    limit: proper motion alone may not describe parallax-driven displacement.
+    The allowance expands candidates only; quality and uniqueness still apply.
+    """
 
     radius_arcsec: float = 2.0
     uncertainty_multiplier: float = 3.0

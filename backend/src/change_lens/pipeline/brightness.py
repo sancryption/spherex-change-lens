@@ -226,6 +226,9 @@ def compatibility_reasons(frames: list[AlignedFrame]) -> tuple[str, ...]:
         unit = p.get("validation", {}).get("image_unit")
         if not all(identity.get(k) for k in ("band", "product", "spectral_plane", "release")):
             reasons.append("MISSING_PLANE_IDENTITY")
+        for header, key in (("BAND", "band"), ("PRODTYPE", "product"), ("RELEASE", "release")):
+            if header in metadata and metadata[header] != identity.get(key):
+                reasons.append("PLANE_IDENTITY_CONFLICTS_WITH_HEADER")
         calibration = metadata.get("CALVER")
         if not calibration:
             reasons.append("CALIBRATION_UNKNOWN")
@@ -355,3 +358,64 @@ def extract_photometry(
         ),
         provenance,
     )
+
+
+@dataclass(frozen=True)
+class BrightnessGroup:
+    """Exact caller-certified band/plane and calibration identity; no channel guessing."""
+
+    band: str
+    product: str
+    spectral_plane: str
+    release: str
+    calibration: str
+    unit: str
+    result: BrightnessResult
+
+
+@dataclass(frozen=True)
+class GroupedBrightnessResult:
+    track_id: str
+    groups: tuple[BrightnessGroup, ...]
+    unavailable: tuple[BrightnessResult, ...]
+
+
+def extract_grouped_photometry(
+    track: SourceTrack, frames: dict[str, AlignedFrame], *, policy: BrightnessPolicy | None = None
+) -> GroupedBrightnessResult:
+    """Compare epochs only within exact certified band/plane/calibration groups.
+
+    Input frames must already be aligned by SCI-003. Phase 2 rejects mixed-band
+    series, so callers with multiple bands prepare compatible series separately
+    and provide their aligned frames here. Grid compatibility is still checked
+    within each group. One common measurement policy applies to every group;
+    no premeasured values with differing apertures are combined. Unknown identity
+    or calibration is retained as unavailable, never assigned to a guessed band.
+    A single-epoch group is unavailable. No overall cross-band change is inferred.
+    """
+    policy = policy or BrightnessPolicy()
+    grouped = {}
+    unavailable = []
+    for point in sorted(track.points, key=lambda p: p.key):
+        frame = frames.get(point.observation_id)
+        identity = frame.provenance.get("plane_identity", {}) if frame else {}
+        validation = frame.provenance.get("validation", {}) if frame else {}
+        values = tuple(identity.get(k) for k in ("band", "product", "spectral_plane", "release"))
+        calibration = validation.get("metadata", {}).get("CALVER")
+        unit = validation.get("image_unit")
+        issues = compatibility_reasons([frame]) if frame else ("MISSING_EPOCH_FRAME",)
+        if issues or not all(
+            isinstance(v, str) and v.strip() for v in (*values, calibration, unit)
+        ):
+            subset = SourceTrack(track.track_id, (point,), ambiguous=track.ambiguous)
+            result = extract_photometry(subset, frames, policy=policy)
+            unavailable.append(result)
+            continue
+        key = (*values, calibration, str(u.Unit(unit)))
+        grouped.setdefault(key, []).append(point)
+    groups = []
+    for key, points in sorted(grouped.items()):
+        subset = SourceTrack(track.track_id, tuple(points), ambiguous=track.ambiguous)
+        result = extract_photometry(subset, frames, policy=policy)
+        groups.append(BrightnessGroup(*key, result))
+    return GroupedBrightnessResult(track.track_id, tuple(groups), tuple(unavailable))
