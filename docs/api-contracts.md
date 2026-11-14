@@ -98,3 +98,13 @@ Set `SPHEREX_ARCHIVE_MOCK_MODE=false` to serve real SPHEREx data. `change_lens.a
 - The UI must present candidates as **screening results, never discoveries**.
 - BE defaults to be confirmed by SCI: FLAGS bit 21 (`SOURCE`, informational, set on ~50% of pixels) is retained and every other set bit is excluded; `centroid_radius=3` px.
 - Live check on the WISE 0855 field (DR1, 6 frames each): D2 → 8 tracks (7 AMBIGUOUS, 1 ARTIFACT_RISK), 0 candidates. D6 → 6 tracks, 0 candidates. This is consistent with WISE 0855 not being detectable in SPHEREx.
+
+### Evidence synthesis (SCI phase 4 via BE)
+`GET /api/v1/investigations/{investigation_id}/evidence` → `EvidenceResponse`
+
+- Runs SCI-011 `compute_difference` on the **first and last** timeline frames (longest baseline) and SCI-012 `synthesize_evidence` on the phase 3 result. Shares the phase 2/3 run with `/movers`, so calling both costs one SCI run. Cached per investigation, and on disk per set of FITS frames (`data/evidence_cache/`), so pre-warmed targets return instantly.
+- `status`: same meaning as for `/movers`.
+- `status_counts`: summary status → number of tracks carrying it. A track can carry a motion and a brightness status, so the counts can add up to more than `tracks_total`. `notable_tracks` lists tracks with any status other than `NO_RELIABLE_CHANGE` (max 50; a `NOTABLE_TRACKS_TRUNCATED` warning is added if cut).
+- `difference.status`: `AVAILABLE`, `REJECTED` (frames incompatible, e.g. different calibration version; see `reason_codes`) or `UNAVAILABLE`. A rejected difference is normal on real data and does **not** weaken or cancel track evidence.
+- `difference.image_url`: north-up PNG of D/√Var(D) clipped to ±5: white = brighter later, black = fainter later, mid-grey = no change or masked. `minimum`/`maximum` are frame-wide extremes, **not** source measurements. NaN values are returned as `null`.
+- An empty `notable_tracks` list means insufficient evidence, never proof of no change. The UI must present all of this as **screening evidence, never discoveries**.
