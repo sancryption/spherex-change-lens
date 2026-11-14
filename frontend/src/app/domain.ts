@@ -7,10 +7,10 @@ import type {
 export type QueryParameters = CoordinateQueryRequest & { target_id?: string };
 
 /** The latest backend contract adds provenance and reason codes to each epoch. */
-export interface ObservationFrame extends EpochDescriptor {
+export type ObservationFrame = Omit<EpochDescriptor, "data_origin"> & {
   data_origin?: "authentic_live" | "authentic_cached" | "synthetic" | string;
   warnings?: string[];
-}
+};
 
 export interface ObservationTimeline extends Omit<TimelineResponse, "epochs"> {
   epochs: ObservationFrame[];
