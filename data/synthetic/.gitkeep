@@ -1,0 +1,2 @@
+# Directory for deterministic synthetic FITS/images used strictly by tests and demos
+# Large or non-deterministic data must not be placed here.

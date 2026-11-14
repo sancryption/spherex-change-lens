@@ -1,0 +1,47 @@
+# Git & Version Control
+.git
+.gitignore
+.gitattributes
+
+# Environment & Credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python Artifacts & Virtualenvs
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.pytest_cache/
+.coverage
+.ruff_cache/
+.mypy_cache/
+
+# Node & Frontend Build
+**/node_modules
+frontend/dist
+frontend/.cache
+npm-debug.log*
+
+# Large Data & Astronomical FITS Files
+data/cached_mefs/*
+data/previews/*
+data/derived/*
+data/synthetic/*
+data/*.db
+data/*.sqlite
+*.fits
+*.fit
+*.fts
+
+# Test Outputs & Documentation
+playwright-report/
+test-results/
+docs/

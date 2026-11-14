@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spherex-change-lens-meta"
+version = "0.1.0"
+description = "Project-wide tooling and linting configuration for SPHEREx Change Lens"
+readme = "README.md"
+requires-python = ">=3.11"
+# NOTE: Runtime dependencies belong strictly to backend/pyproject.toml.
+# Root pyproject.toml defines only repository-level tooling configurations.
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "data",
+    "frontend",
+    "dist",
+    "build",
+    "node_modules",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "C4",  # flake8-comprehensions
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["backend/tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-ra -q --strict-markers"
+markers = [
+    "unit: Isolated unit tests without external calls",
+    "contract: API contract and schema alignment tests",
+    "integration: Cross-component pipeline integration tests",
+    "scientific: Scientific algorithms and tolerance verification tests",
+    "e2e: End-to-end multi-service tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["backend/src/change_lens"]
+omit = [
+    "*/tests/*",
+    "*/scripts/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+show_missing = true

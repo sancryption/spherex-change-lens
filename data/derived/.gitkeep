@@ -1,0 +1,2 @@
+# Directory for derived products (difference FITS, light curves, motion plots)
+# Derived artifacts are excluded from git tracking via .gitignore.

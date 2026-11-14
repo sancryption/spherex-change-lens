@@ -1,0 +1,2 @@
+# Directory for generated PNG/WebP preview thumbnails and tiles
+# Preview artifacts are excluded from git tracking via .gitignore.

@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "change-lens"
+version = "0.1.0"
+description = "SPHEREx Change Lens - Core Backend and Scientific Analysis Engine"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "SPHEREx Change Lens Team" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.28.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    "numpy>=1.26.0",
+    "scipy>=1.12.0",
+    "astropy>=6.0.0",
+    "reproject>=0.13.0",
+    # photutils is declared for future scientific source detection;
+    # algorithms are not yet implemented in scaffolding.
+    "photutils>=1.11.0",
+    "matplotlib>=3.8.0",
+    "pillow>=10.2.0",
+    # SQLite is built into Python standard library; no external DB driver required.
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.27.0",
+    "ruff>=0.3.0",
+    "mypy>=1.9.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

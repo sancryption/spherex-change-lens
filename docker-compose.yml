@@ -1,0 +1,40 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.api
+    container_name: change-lens-api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - LOG_LEVEL=INFO
+      - SQLITE_DB_PATH=/app/data/change_lens.db
+      - DATA_DIR=/app/data
+      - SPHEREX_ARCHIVE_MOCK_MODE=true
+    volumes:
+      - ./backend/src:/app/src:ro
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "/app/infra/docker/healthcheck.sh || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.frontend
+    container_name: change-lens-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - api
+    restart: unless-stopped

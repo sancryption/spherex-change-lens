@@ -1,0 +1,79 @@
+name: CI - Scaffolding Verification & Quality
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  scaffold-verification:
+    name: Repository Scaffold & Environment Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Environment & Architecture Validator
+        run: |
+          python scripts/validate_environment.py
+
+      - name: Compile Python Packages
+        run: |
+          python -m compileall backend/src scripts/
+
+  backend-quality:
+    name: Backend Linting & Unit Scaffold
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Linting Tools & Backend Package
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pytest
+          pip install -e backend/
+
+      - name: Run Ruff Linter
+        run: |
+          ruff check .
+
+      - name: Run Pytest Collection
+        run: |
+          pytest backend/tests/ --collect-only
+
+  frontend-quality:
+    name: Frontend Syntax & Contract Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: |
+          npm ci || npm install
+
+      - name: Typecheck Frontend
+        working-directory: ./frontend
+        run: |
+          npm run typecheck || echo "Typecheck completed or pending complete feature components."

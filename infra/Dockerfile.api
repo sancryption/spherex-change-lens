@@ -1,0 +1,42 @@
+# syntax=docker/dockerfile:1
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PORT=8000
+
+WORKDIR /app
+
+# Install system utilities needed for scientific packages and compilation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy backend dependencies
+COPY backend/pyproject.toml /app/backend/
+COPY README.md /app/
+
+# Install Python backend dependencies
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install -e /app/backend/
+
+# Copy application source and scripts
+COPY backend/src /app/backend/src
+COPY scripts /app/scripts
+COPY infra/docker/entrypoint.api.sh /app/entrypoint.sh
+COPY infra/docker/healthcheck.sh /app/healthcheck.sh
+
+RUN chmod +x /app/entrypoint.sh /app/healthcheck.sh
+
+# Create local data directories
+RUN mkdir -p /app/data/cached_mefs /app/data/previews /app/data/derived /app/data/synthetic
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD /app/healthcheck.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["uvicorn", "change_lens.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]

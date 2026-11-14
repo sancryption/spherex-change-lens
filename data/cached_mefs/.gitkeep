@@ -1,0 +1,2 @@
+# Directory for locally cached Multi-Extension FITS (MEF) files
+# Actual FITS files are strictly excluded from git tracking via .gitignore.
