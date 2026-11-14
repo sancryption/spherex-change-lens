@@ -43,8 +43,8 @@ jobs:
       - name: Install Linting Tools & Backend Package
         run: |
           python -m pip install --upgrade pip
-          pip install ruff pytest
-          pip install -e backend/
+          pip install ruff
+          pip install -e "backend/[dev]"
 
       - name: Run Ruff Linter
         run: |

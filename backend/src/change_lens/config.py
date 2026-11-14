@@ -44,3 +44,13 @@ class Settings:
 def get_settings() -> Settings:
     """Factory function for retrieving typed settings."""
     return Settings()
+
+
+# Repo root = three levels above backend/src/change_lens/config.py
+REPO_ROOT = Path(__file__).resolve().parents[3]
+
+
+def resolve_data_path(path: Path) -> Path:
+    """Resolve relative data paths against the repo root, so the API works from any CWD."""
+    path = Path(path)
+    return path if path.is_absolute() else (REPO_ROOT / path).resolve()
