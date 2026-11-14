@@ -1,0 +1,98 @@
+# Handoff — DATA / BE starter slice
+
+## Open notifications awaiting a decision
+
+- **N-003 — Full-file fallback off by default:** `PROPOSED`. The PDF-specified fallback after cutout HTTP 503 retrieves the full source, verifies its archive checksum, locally crops celestial image HDUs to the requested cutout, and caches that derived FITS. No proposed alternative behavior was added.
+- **N-004 — Record target-position wavelength per frame:** `PROPOSED`. No wavelength field or WCS-WAVE calculation was added.
+- **N-005 — Store target proper motion and epoch:** `PROPOSED`. Registry positions remain at their catalogued coordinates; no proper-motion propagation was added.
+
+N-001 and N-002 are `NOTED`. Full notices and evidence remain in [`CLAUDE.md`](../CLAUDE.md#10-notification-log).
+
+## Finished and verified
+
+- **T0 — Python 3.10 project and run instructions:** pinned runtime and dependencies in `backend/pyproject.toml` and `backend/uv.lock`; README documents setup, offline tests, live test, API run command, cache setup, and outputs.
+- **T1 — Draft contracts:** Pydantic models cover the task's targets, investigations, discovery, observations, source artifacts, timelines, errors, and status enums. Investigation FOV accepts the documented IRSA cutout range. `ObservationRecord.remote_checksum` preserves the archive's checksum metadata for full-file verification. All contracts remain `DRAFT` pending INT-001.
+- **T2 — DATA-001 registry:** `data/targets/targets.json` contains all five challenge targets. WISE 0855 preserves RA `133.7951291667`, Dec `-7.2451472222`. Every registry target is `UNVERIFIED` with an `UNVERIFIED` verification level.
+- **T3 — DATA-002 discovery:** `changelens.data.discovery.discover()` sends bounded, read-only TAP requests, records exact ADQL, all submitted TAP form parameters in `DiscoveryResult.raw_query_parameters` and content-addressed `art_request_*.json` files, and content-addressed raw VOTable bytes. Distinct responses to the same query retain distinct artifact IDs. Collection values are restricted to literal release labels before building the query. It distinguishes no results, HTTP 4xx, HTTP 5xx, timeout, partial response, and complete results; a trailing `QUERY_STATUS=OVERFLOW` marker keeps the result partial. The six recorded ADQL queries now each have a field-for-field verified request sidecar. The prior opt-in live smoke passed and five live queries on 14 Nov 2026 returned HTTP 200 and complete results. A fresh parent-recovery live recheck on 14 Nov timed out after three bounded attempts (`TIMEOUT`, no HTTP status or response body); the previously passing live receipt remains available, and the outbound form values are unchanged.
+- **T4 — DATA-003 retrieval:** streaming downloads use connect/read timeouts, bounded retries, a 5 GiB configurable cache budget, SHA-256, optional full-file archive checksum verification, FITS container checks, temporary files, and atomic promotion. Same-process retrievals sharing a cache directory serialize budget accounting so concurrent threads cannot overspend the budget. If manifest persistence fails after promotion, the FITS cache file is removed. When a requested cutout returns HTTP 503, the full source is checksum-verified and celestial 2D image HDUs are locally cropped with WCS updates; the full source checksum and cropped-file SHA-256 are both recorded. Non-image and 1D extensions are preserved. Invalid, partial, and checksum-mismatched files do not become cache entries. One authentic Barnard's Star 29×29 cutout (3,965,760 bytes) is stored locally under the ignored cache; its manifest is [`data/manifests/art_source_44f9301380eb92cd4ed25d29.json`](../data/manifests/art_source_44f9301380eb92cd4ed25d29.json), SHA-256 `d801b354199f70a7aedbfa14fe6d1bf6c122a7ccba9d8eb4dd9e4f247c7ae44e`. Its archive checksum is the full source-file MD5, so the derived cutout is labeled `NO_REMOTE_CHECKSUM`; local SHA-256 is recorded.
+- **T5 — DATA-005 coverage evidence:** [`COVERAGE_REPORT.md`](COVERAGE_REPORT.md) and `data/manifests/coverage_report.json` record frames, date ranges, detector counts, visit groups, and release counts for all five targets. One Barnard's Star frame is FITS-container validated; science-validated count is zero. No target is marked usable.
+- **Authentic timeline fixture:** `backend/tests/fixtures/authentic_timeline_barnards_star.json` contains one authentic frame and links to its source manifest via `provenance_id`. It is `PARTIALLY_VALIDATED`, with warnings that science and WCS validation are pending.
+- **T6 — BE-001 API skeleton:** `/health/live`, `/health/ready`, `/v1/targets`, and generated OpenAPI are present in `changelens.api.app`. Errors use the shared envelope; request IDs are returned and logged through Uvicorn's configured INFO logger. CORS allows local frontend origins on ports 5173 and 3000.
+- **T7 — Handoff:** this document is the current session handoff.
+- **T8 — DATA-004 local preview:** `changelens.data.generate_preview()` verifies the local FITS file against its manifest and SHA-256, crops the celestial `IMAGE` HDU around a registered target, writes an asinh 1st–99th percentile PNG and a JSON sidecar with cropped WCS, crop origin, target coordinates, dimensions, stretch, source artifact, observation ID, and validation caveat. `POST /v1/previews` generates the artifact from an already cached source; the returned `preview_url` serves only its PNG at `GET /v1/previews/{artifact_id}.png`. It does not fetch or serve the full FITS file. Invalid FITS, stale source hashes, missing artifacts, and no-overlap requests return explicit typed errors. Preview output is labeled `FITS_CONTAINER_VALIDATED_ONLY` with `SCIENCE_AND_WCS_VALIDATION_PENDING`; the crop uses the stored WCS operationally but does not establish science or WCS validation.
+
+### Verification commands
+
+- `uv lock --check --project backend`
+- `uv run --project backend --locked python -m pytest -c backend/pyproject.toml` — offline tests; live tests are excluded by default.
+- `uv run --project backend --locked python -m pytest -c backend/pyproject.toml backend/tests/test_previews.py backend/tests/test_preview_api.py backend/tests/test_api.py` — focused local-preview and API checks.
+- `uv run --project backend --locked python -m pytest -c backend/pyproject.toml -o "addopts=" -m live backend/tests/test_live_irsa.py` — opt-in IRSA smoke test.
+
+The live coverage query returned:
+
+| Target | Frames | Date range | Visit groups | Releases |
+|---|---:|---|---:|---|
+| Barnard's Star | 363 | 2025-08-15 to 2026-09-22 | 3 | DR1 240, QR3 123 |
+| Epsilon Indi B | 465 | 2025-04-24 to 2026-10-02 | 4 | DR1 345, QR3 120 |
+| WISE 0855 | 258 | 2025-05-05 to 2026-05-14 | 3 | DR1 258 |
+| RW Aurigae | 335 | 2025-09-01 to 2026-09-16 | 3 | DR1 226, QR3 109 |
+| R Draconis | 2,493 | 2025-04-24 to 2026-09-27 | 2 | DR1 1,638, QR3 855 |
+
+Detector counts and report caveats are in [`COVERAGE_REPORT.md`](COVERAGE_REPORT.md). Release counts are displayed separately; no mixed-release series is declared compatible.
+
+Call-1 through call-3 reviewer reports and their bound receipts are retained in the durable assurance ledger. The review budget is exhausted; parent recovery resolved B2 and B3 with focused RED/GREEN evidence. The final clean-clone install and offline suite were run on the recovery candidate; the durable ledger records that candidate-bound result. The only expected offline warning is from the deliberately truncated FITS fixture.
+
+### TDD record
+
+- `TDD_REQUIRED: yes`.
+- Observable seams: `TargetRecord` registry loading, `discover(InvestigationRequest)`, `retrieve(ObservationRecord)`, coverage report construction, and FastAPI ASGI responses.
+- Historical RED/GREEN evidence is recorded from the original rollout in `C:\Users\user\.codex\sessions\2026\11\14\rollout-2026-11-14T02-30-56-01a1d62d-51a9-7c91-af50-0b991c31025f.jsonl`. Initial import errors are setup failures, not behavior RED evidence.
+  - Contracts: from `backend`, `..\.venv\Scripts\python.exe -m pytest -q tests/test_contracts.py` first reported 13 failures because the draft models were absent; the same command later passed 14 tests. The date-order validator also had a direct RED (`DID NOT RAISE ValidationError`) and then passed with the same focused test.
+  - Registry: from `backend`, `..\.venv\Scripts\python.exe -m pytest -q tests/test_targets.py` exposed one target metadata assertion (`1 failed, 4 passed`), then passed all 5 tests after the registry data was corrected.
+  - Discovery: `uv run --project backend --locked python -m pytest -q backend/tests/test_discovery.py -k recorded_discovery` exposed a response-normalization mismatch (`PARTIAL` instead of `COMPLETE`); the focused discovery/registry/contracts command later passed 29 tests. Review-round regressions also supplied direct RED evidence for same-query raw-response identity, literal release filtering, and a trailing overflow marker; their exact commands and outcomes are in the durable assurance ledger.
+  - Retrieval: focused checksum/cutout tests exposed missing checksum metadata and retry behavior; the pre-fix 503 fallback regression failed because the artifact was `FULL_FILE` instead of a locally cropped `CUTOUT`. The full retrieval suite then passed 12 tests with one expected warning for the deliberately truncated FITS fixture.
+  - Coverage: `uv run --project backend --locked python -m pytest -q backend/tests/test_coverage.py` exposed a sort `TypeError` (`1 failed, 2 passed`), then passed all 3 tests.
+  - API: `uv run --project backend --locked python -m pytest -q backend/tests/test_api.py` exposed two request-ID/CORS failures (`2 failed, 4 passed`), then passed all 6 tests.
+- Call-2 B1 logging regression (TDD): the first observable seam is a request log captured through Uvicorn's configured `uvicorn.error` logger at its normal INFO level. After changing the existing test to observe that logger, `uv run --project backend --locked python -m pytest -q -c backend/pyproject.toml backend/tests/test_api.py::test_request_id_is_returned_logged_and_used_in_error_envelope` failed because no request ID log was emitted. Changing the API logger to `logging.getLogger("uvicorn.error")` made the same command pass. The full API module then passed 6 tests. A default Uvicorn launch returned HTTP 200 and the supplied request ID on `/health/live`, `/health/ready`, `/v1/targets`, and `/openapi.json`; all four INFO request-completion lines contained the matching ID. Receipt `api-smoke-call3.json` records the checks and the expected exit code 1 after Ctrl+C.
+- Parent-recovery B2 package-import regression (TDD): observable seam is the BE handoff import `from changelens.data import discover, retrieve`. RED: `uv run --project backend --locked python -m pytest -q -c backend/pyproject.toml backend/tests/test_data_exports.py::test_be_handoff_imports_discovery_and_retrieval_from_data_package` failed with `ImportError` because the package exported neither function. GREEN: after `changelens.data` re-exported the two public functions, the same command passed.
+- Parent-recovery B3 request-provenance regression (TDD): observable seam is a `DiscoveryResult` and persisted artifacts preserving the exact submitted TAP form. RED: `uv run --project backend --locked python -m pytest -q -c backend/pyproject.toml backend/tests/test_discovery.py::test_discovery_preserves_exact_request_parameters_and_artifact` failed because `raw_query_parameters` had renamed/omitted fields and no request artifact existed. GREEN: after preserving the exact `REQUEST`, `LANG`, `FORMAT`, `MAXREC`, and `QUERY` values and writing a content-addressed JSON request sidecar, the same command passed. Existing recorded ADQL queries received matching request sidecars.
+- DATA-004 local preview generator (TDD): observable seam is a validated cached `SourceArtifact` plus `TargetRecord` yielding a PNG and WCS/provenance JSON. RED: `python -m pytest -c backend/pyproject.toml backend/tests/test_previews.py -q` failed because the generator and typed error were not exported (`3 failed`). GREEN: the same command passed all 3 initial behavior/error cases; later focused regression coverage added target-to-pixel WCS, orientation, cache-hit source mode, missing image/WCS, no-overlap, tampering, observation-identity, and same-bytes/different-observation assertions.
+- DATA-004 browser path (TDD): observable seam is a browser POST returning the correct observation/provenance and a GET serving PNG bytes only. RED: `python -m pytest -c backend/pyproject.toml backend/tests/test_preview_api.py -q` returned `404` for `POST /v1/previews`; GREEN: the same test passed after adding the local-only API, typed error mapping, and PNG route. The test also confirms a tampered FITS source returns `INVALID_FITS` and a FITS URL is not served.
+- DATA-004 sidecar replacement regression (TDD): observable seam is regeneration of an existing preview when metadata-file promotion fails. RED: `python -m pytest -c backend/pyproject.toml backend/tests/test_previews.py::test_failed_sidecar_replace_preserves_existing_preview_pair -q` reported `DID NOT RAISE` when the fourth replace operation was forced to fail; GREEN: the same command passed after staging both files and restoring the original PNG/JSON pair on a failed promotion.
+- DATA-004 large-image memory regression (TDD): observable seam is the array passed to `Cutout2D`. RED: `python -m pytest -c backend/pyproject.toml backend/tests/test_previews.py::test_image_is_cropped_before_float64_display_conversion -q` failed because the full FITS array reached the crop as float64; GREEN: the same command passed after cropping in the source dtype and converting only the cropped pixels for display.
+- Parent-recovery focused verification: `uv run --project backend --locked python -m pytest -q -c backend/pyproject.toml backend/tests/test_discovery.py backend/tests/test_data_exports.py backend/tests/test_api.py` passed 18 tests after both changes and a small helper refactor. `uv lock --check --project backend` and `git -c core.safecrlf=false diff --check d45aa956fac7ecb81ba712b06995c27bbb08020a --` also passed. The opt-in live IRSA command later failed after 183.76 seconds because all three bounded attempts timed out; the result was `DiscoveryStatus.TIMEOUT` with no HTTP status. The previous call-2 live receipt passed and the transmitted TAP fields did not change.
+- Parent-recovery API runtime check: the README-style Uvicorn `--reload` launch returned HTTP 200 on all four routes; each supplied ID matched the response header and an INFO `request_complete` log. Receipt `api-smoke-parent-recovery.json` records the expected process exit code 1 after Ctrl+C.
+- The review-round RED commands (run from the repository root) and observed failures were:
+  - `uv run --project backend --locked python -m pytest backend/tests/test_discovery.py::test_repeated_query_responses_keep_distinct_raw_artifacts -q -c backend/pyproject.toml` — both calls returned the same artifact ID (`1 failed`).
+  - `uv run --project backend --locked python -m pytest backend/tests/test_contracts.py::test_investigation_request_rejects_collection_like_wildcards -q -c backend/pyproject.toml` — all four wildcard cases failed to raise validation errors.
+  - `uv run --project backend --locked python -m pytest backend/tests/test_discovery.py::test_votable_overflow_keeps_rows_and_marks_result_partial -q -c backend/pyproject.toml` — returned `COMPLETE` instead of `PARTIAL`.
+  - `uv run --project backend --locked python -m pytest backend/tests/test_retrieval.py::test_cutout_503_falls_back_to_full_file -q -c backend/pyproject.toml` — returned `FULL_FILE` instead of `CUTOUT`.
+  - The focused discovery/contracts/retrieval command below later passed after the fixes. The legacy uncropped-cache guard separately had a sensitivity RED (0 archive calls instead of 1) when disabled, and GREEN after it was restored.
+- Refactor evidence: after the 503 fallback behavior passed, the fallback transformation was extracted into `_apply_local_cutout_fallback()` to keep source verification, derived-file hashing, and cleanup in one seam. The post-refactor command `uv run --project backend --locked python -m pytest -q backend/tests/test_retrieval.py backend/tests/test_discovery.py backend/tests/test_contracts.py` passed 47 tests with one expected truncated-FITS warning; the focused fallback test also passed after adding checks for WCS, extension preservation, manifest provenance, and cache reuse.
+- The stale-cache regression was sensitivity-checked: with the `FULL_FILE`/missing-`local_crop` rejection temporarily disabled, `uv run --project backend --locked python -m pytest -q backend/tests/test_retrieval.py::test_uncropped_legacy_full_file_cache_is_refetched_for_cutout` failed because the network call count was 0 instead of 1; restoring the guard made the same command pass.
+- No TDD exceptions were used.
+
+## Not finished or unverified
+
+- Shared contracts are still drafts and must be reviewed/frozen by INT-001 before other workstreams treat names as stable.
+- FITS container checks do not validate SPHEREx science extensions, WCS, masks, variance, compatibility, or photometry. The authentic timeline has one frame and cannot demonstrate change over time.
+- The preview generator uses a source celestial WCS to position and describe a crop, but it does not validate that WCS or the science pixels; preview sidecars retain the validation caveat.
+- No target has a validation report authorizing `USABLE`; all five remain `UNVERIFIED`.
+- SIA2 was not implemented or verified. Current discovery uses the IRSA TAP method documented by the IRSA tutorial (N-001).
+- N-003, N-004, and N-005 remain proposed; only the PDF-specified defaults are implemented.
+- The authentic FITS binary is local and ignored by Git. Its manifest and timeline fixture are included in the workspace, but a clean clone must retrieve the file again to have the binary.
+
+## Workstreams unblocked
+
+- **FE:** can read target presets from `GET /v1/targets`, request local previews with `POST /v1/previews`, display the returned `preview_url`, inspect `/openapi.json`, and use the authentic one-frame timeline fixture. Treat all contract fields as draft until INT-001 freezes them.
+- **BE:** can import `discover()`, `retrieve()`, and `generate_preview()` from `changelens.data`; the API skeleton and typed error shape are in place.
+- **SCI:** can inspect the locally cached authentic cutout and source manifest at the paths above; science and WCS validation remain to be done.
+- **QA:** can run the offline suite by default and the opt-in live test with the command above. Recorded ADQL, exact TAP request parameter JSON, and raw archive responses are in `data/target_queries/`.
+- **INFRA:** can use the pinned backend environment and the README run/cache instructions.
+- **INT:** can review draft contracts, target registry, notifications, and the five-target coverage report.
+
+## Known problems and next three actions
+
+1. INT reviews and freezes the draft contracts, including FOV bounds and `remote_checksum`.
+2. SCI validates the authentic cutout's required extensions and WCS; update the target status only after a validation report exists.
+3. FE/BE integrate against the draft target endpoint and one-frame fixture after INT confirms the contract.

@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "change-lens"
 version = "0.1.0"
 description = "SPHEREx Change Lens - Core Backend and Scientific Analysis Engine"
-readme = "README.md"
 requires-python = ">=3.11"
 authors = [
     { name = "SPHEREx Change Lens Team" }
@@ -20,6 +19,7 @@ classifiers = [
 ]
 
 dependencies = [
+    "requests>=2.34.2",
     "fastapi>=0.110.0",
     "uvicorn[standard]>=0.28.0",
     "pydantic>=2.6.0",
@@ -57,3 +57,7 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
+
+pythonpath = ["src"]
+addopts = "-ra -m 'not live'"
+markers = ["live: opt-in test that accesses IRSA over the network"]

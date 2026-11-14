@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VOTABLE version="1.3" xmlns="http://www.ivoa.net/xml/VOTable/v1.3">
+  <RESOURCE type="results">
+    <INFO name="QUERY_STATUS" value="OK"/>
+    <TABLE>
+      <FIELD name="access_url" datatype="char" arraysize="*" ID="col_0"/>
+      <FIELD name="planeid" datatype="char" arraysize="*" ID="col_1"/>
+      <FIELD name="artifact_path" datatype="char" arraysize="*" ID="col_2"/>
+      <FIELD name="time_mjd" datatype="double" ID="col_3"/>
+      <FIELD name="band" datatype="char" arraysize="*" ID="col_4"/>
+      <FIELD name="release" datatype="char" arraysize="*" ID="col_5"/>
+      <FIELD name="product" datatype="char" arraysize="*" ID="col_6"/>
+      <FIELD name="width" datatype="int" ID="col_7"/>
+      <FIELD name="height" datatype="int" ID="col_8"/>
+      <FIELD name="footprint" datatype="char" arraysize="*" ID="col_9"/>
+      <FIELD name="remote_checksum" datatype="char" arraysize="*" ID="col_10"/>
+      <DATA><TABLEDATA>
+        <TR>
+          <TD>https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/test.fits?center=133.7951291667,-7.2451472222d&amp;size=0.1666666667</TD>
+          <TD>plane-001</TD><TD>ibe/data/spherex/dr1/level2/test.fits</TD>
+          <TD>40587</TD><TD>SPHEREx-D2</TD><TD>dr1</TD>
+          <TD>image</TD><TD>2040</TD><TD>2040</TD><TD>01030000</TD>
+          <TD>md5:ba0cb5d912601e6ccb45b96245be6234</TD>
+        </TR>
+      </TABLEDATA></DATA>
+    </TABLE>
+  </RESOURCE>
+</VOTABLE>
