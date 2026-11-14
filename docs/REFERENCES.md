@@ -20,7 +20,7 @@ The registry keeps positions at the catalogued J2000 coordinates. Proper-motion 
 - [IRSA SPHEREx cutout tutorial](https://caltech-ipac.github.io/irsa-tutorials/spherex-cutouts/) — source for the TAP join, polygon coverage predicate, cutout URL pattern, and archive image HDU names.
 - [IRSA Table Access Protocol documentation](https://irsa.ipac.caltech.edu/docs/program_interface/TAP.html) — TAP endpoint and request behavior used by `changelens.data.discovery`.
 - [IRSA SPHEREx cutout tool documentation](https://irsa.ipac.caltech.edu/data/SPHEREx/docs/cutout_tool.html) and [SPHEREx Help](https://irsa.ipac.caltech.edu/onlinehelp/spherex/help.pdf?id=418230f) — cutout URL parameters and supported field-of-view bounds enforced by the draft investigation contract.
-- Live query and response evidence is retained in `data/target_queries/`; the five-target summary is in `docs/COVERAGE_REPORT.md` and `data/manifests/coverage_report.json`.
+- Live query and response evidence is retained in `data/target_queries/`; the five-target coverage and validation-level summary is in `docs/COVERAGE_REPORT.md` and `data/manifests/coverage_report.json`. The full chronological `TimelineManifest` is returned by `changelens.data.build_coverage_report()`.
 - Authentic cutout provenance, source URL, size, retrieval mode, and local SHA-256 are recorded in `data/manifests/art_source_44f9301380eb92cd4ed25d29.json`. The FITS file itself is in the git-ignored `data/cached_mefs/` directory.
 
 ## Software

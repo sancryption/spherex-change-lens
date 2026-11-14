@@ -70,6 +70,8 @@ def test_recorded_discovery_response_is_normalized_and_saved(tmp_path: Path) -> 
     assert observation.observed_at.isoformat() == "1970-01-01T00:00:00+00:00"
     assert observation.band == "SPHEREx-D2"
     assert observation.release == "DR1"
+    assert observation.product_family == "LEVEL2"
+    assert observation.spectral_plane == "plane-001"
     assert observation.width == 2040 and observation.height == 2040
     assert observation.remote_checksum == "md5:ba0cb5d912601e6ccb45b96245be6234"
     assert observation.access_url is not None and "center=133.7951291667" in str(observation.access_url)

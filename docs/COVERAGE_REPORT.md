@@ -2,6 +2,8 @@
 
 This report summarizes IRSA archive metadata and recorded FITS-container checks. Science validation has not been performed. Usable coverage is not claimed; every target remains `UNVERIFIED` until the required validation evidence is recorded.
 
+Timelines group observations by band, product family, spectral plane, and release. Exact duplicate records are counted once; conflicting or unusable observations remain with reasons. Full per-series and per-frame manifests are returned by `build_coverage_report()`; the checked-in JSON stores compact target summaries.
+
 Visit groups split when adjacent observation times differ by more than 30 days.
 
 | Target | Discovery | Frames | Date range | Detectors | Visit groups | Releases |
@@ -15,7 +17,12 @@ Visit groups split when adjacent observation times differ by more than 30 days.
 ## Evidence limits
 
 - **Barnard's Star:** 362 metadata records; 1 file-validated; 0 science-validated; target status `UNVERIFIED`; usable `false`.
+  - Timeline evidence: 363 found, 1 downloaded, 1 parsed, 0 compatible, 0 scientifically measured; series status `PARTIALLY_VALIDATED`.
 - **Epsilon Indi B:** 465 metadata records; 0 file-validated; 0 science-validated; target status `UNVERIFIED`; usable `false`.
+  - Timeline evidence: 465 found, 0 downloaded, 0 parsed, 0 compatible, 0 scientifically measured; series status `PARTIALLY_VALIDATED`.
 - **WISE 0855:** 258 metadata records; 0 file-validated; 0 science-validated; target status `UNVERIFIED`; usable `false`.
+  - Timeline evidence: 258 found, 0 downloaded, 0 parsed, 0 compatible, 0 scientifically measured; series status `PARTIALLY_VALIDATED`.
 - **RW Aurigae:** 335 metadata records; 0 file-validated; 0 science-validated; target status `UNVERIFIED`; usable `false`.
+  - Timeline evidence: 335 found, 0 downloaded, 0 parsed, 0 compatible, 0 scientifically measured; series status `PARTIALLY_VALIDATED`.
 - **R Draconis:** 2493 metadata records; 0 file-validated; 0 science-validated; target status `UNVERIFIED`; usable `false`.
+  - Timeline evidence: 2493 found, 0 downloaded, 0 parsed, 0 compatible, 0 scientifically measured; series status `PARTIALLY_VALIDATED`.

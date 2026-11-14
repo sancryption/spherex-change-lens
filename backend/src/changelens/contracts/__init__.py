@@ -100,6 +100,28 @@ class SeriesStatus(str, Enum):  # noqa: UP042
     UNAVAILABLE = "UNAVAILABLE"
 
 
+class ValidationStatus(str, Enum):  # noqa: UP042
+    NOT_RUN = "NOT_RUN"
+    PASSED = "PASSED"
+    FAILED = "FAILED"
+    PARTIAL = "PARTIAL"
+
+
+class RetrievalStatus(str, Enum):  # noqa: UP042
+    NOT_ATTEMPTED = "NOT_ATTEMPTED"
+    DOWNLOADED = "DOWNLOADED"
+    FAILED = "FAILED"
+
+
+class TimelineStatus(str, Enum):  # noqa: UP042
+    EMPTY = "EMPTY"
+    UNAVAILABLE = "UNAVAILABLE"
+    ONE_FRAME = "ONE_FRAME"
+    PARTIALLY_VALIDATED = "PARTIALLY_VALIDATED"
+    INCOMPATIBLE = "INCOMPATIBLE"
+    USABLE = "USABLE"
+
+
 class ErrorCode(str, Enum):  # noqa: UP042
     INVALID_COORDINATES = "INVALID_COORDINATES"
     NO_OBSERVATIONS = "NO_OBSERVATIONS"
@@ -192,6 +214,8 @@ class ObservationRecord(ContractModel):
     band: str | None = None
     release: str | None = None
     product: str | None = None
+    product_family: str | None = None
+    spectral_plane: str | None = None
     width: int | None = Field(default=None, gt=0)
     height: int | None = Field(default=None, gt=0)
     footprint: dict[str, Any] | None = None
@@ -276,6 +300,78 @@ class TimelineModel(ContractModel):
     provenance_id: str = Field(min_length=1)
 
 
+class ObservationValidationReport(ContractModel):
+    """Recorded per-observation retrieval and validation evidence."""
+
+    observation_id: str = Field(min_length=1)
+    band: str | None = None
+    product_family: str | None = None
+    spectral_plane: str | None = None
+    release: str | None = None
+    retrieval_status: RetrievalStatus = RetrievalStatus.NOT_ATTEMPTED
+    fits_status: ValidationStatus = ValidationStatus.NOT_RUN
+    wcs_status: ValidationStatus = ValidationStatus.NOT_RUN
+    compatibility_status: ValidationStatus = ValidationStatus.NOT_RUN
+    science_status: ValidationStatus = ValidationStatus.NOT_RUN
+    reasons: list[str] = Field(default_factory=list)
+
+
+class TimelineEvidenceCounts(ContractModel):
+    data_found: int = Field(default=0, ge=0)
+    downloaded: int = Field(default=0, ge=0)
+    parsed: int = Field(default=0, ge=0)
+    compatible: int = Field(default=0, ge=0)
+    scientifically_measured: int = Field(default=0, ge=0)
+
+
+class TimelineManifestFrame(ContractModel):
+    observation_id: str = Field(min_length=1)
+    observed_at: datetime | None = None
+    band: str | None = None
+    product_family: str | None = None
+    spectral_plane: str | None = None
+    release: str | None = None
+    duplicate_count: int = Field(default=1, ge=1)
+    retrieval_status: RetrievalStatus = RetrievalStatus.NOT_ATTEMPTED
+    fits_status: ValidationStatus = ValidationStatus.NOT_RUN
+    wcs_status: ValidationStatus = ValidationStatus.NOT_RUN
+    compatibility_status: ValidationStatus = ValidationStatus.NOT_RUN
+    science_status: ValidationStatus = ValidationStatus.NOT_RUN
+    reasons: list[str] = Field(default_factory=list)
+
+
+class TimelineManifestSeries(ContractModel):
+    series_id: ArtifactId
+    band: str | None = None
+    product_family: str | None = None
+    spectral_plane: str | None = None
+    release: str | None = None
+    status: TimelineStatus
+    frames: list[TimelineManifestFrame] = Field(default_factory=list)
+    time_baseline_days: float = Field(default=0, ge=0)
+    evidence_counts: TimelineEvidenceCounts = Field(default_factory=TimelineEvidenceCounts)
+    reasons: list[str] = Field(default_factory=list)
+
+
+class TimelineManifest(ContractModel):
+    """Chronological target coverage with explicit evidence at each validation level."""
+
+    target_id: str = Field(min_length=1)
+    target_name: str = Field(min_length=1)
+    discovery_status: DiscoveryStatus
+    status: TimelineStatus
+    record_count: int = Field(default=0, ge=0)
+    distinct_frame_count: int = Field(default=0, ge=0)
+    duplicate_record_count: int = Field(default=0, ge=0)
+    time_baseline_days: float = Field(default=0, ge=0)
+    evidence_counts: TimelineEvidenceCounts = Field(default_factory=TimelineEvidenceCounts)
+    series: list[TimelineManifestSeries] = Field(default_factory=list)
+    unmatched_validation_reports: list[ObservationValidationReport] = Field(default_factory=list)
+    unmatched_source_artifacts: list[SourceArtifact] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+    provenance_id: ArtifactId | None = None
+
+
 class ErrorDetail(ContractModel):
     code: ErrorCode
     message: str = Field(min_length=1)
@@ -303,6 +399,7 @@ __all__ = [
     "InvestigationRequest",
     "ObservationAvailability",
     "ObservationRecord",
+    "ObservationValidationReport",
     "PreviewMetadata",
     "PreviewRequest",
     "RetrievalMode",
@@ -314,6 +411,13 @@ __all__ = [
     "TargetCoverageStatus",
     "TargetRecord",
     "TimelineFrame",
+    "TimelineEvidenceCounts",
+    "TimelineManifest",
+    "TimelineManifestFrame",
+    "TimelineManifestSeries",
     "TimelineModel",
+    "TimelineStatus",
     "VerificationLevel",
+    "ValidationStatus",
+    "RetrievalStatus",
 ]

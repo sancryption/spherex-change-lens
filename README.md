@@ -140,7 +140,7 @@ The response includes `observation_id`, WCS and stretch metadata, and `preview_u
 
 - The five target definitions are in `data/targets/targets.json`; every target remains `UNVERIFIED`.
 - Submitted ADQL, TAP request parameters, and raw IRSA VOTable responses are retained in `data/target_queries/`.
-- Coverage counts and visit summaries are in `docs/COVERAGE_REPORT.md` and `data/manifests/coverage_report.json`.
+- Coverage counts, timeline status, and found/downloaded/parsed/compatible/science evidence are in `docs/COVERAGE_REPORT.md` and `data/manifests/coverage_report.json`. `changelens.data.build_coverage_report()` returns the full per-series and per-frame manifests.
 - FITS cache files live in `data/cached_mefs/` and are ignored by Git.
 - The authentic one-frame timeline fixture is marked partial: the FITS container was checked, while science and WCS validation remain pending.
 ## 7. License
