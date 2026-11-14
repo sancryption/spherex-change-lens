@@ -129,3 +129,32 @@ export interface ErrorResponse {
   error: ErrorDetail;
   request_id: string;
 }
+
+// --- Possible-mover screening: GET /api/v1/investigations/{id}/movers ---
+
+export interface MoverCandidate {
+  track_id: string;
+  label: "possible_mover" | string;
+  displacement_arcsec: number;
+  baseline_days: number;
+  uncertainty_arcsec: number;
+  control_status: string;
+  reason_codes: string[];
+  limitations: string[];
+}
+
+export interface MoversResponse {
+  investigation_id: string;
+  /** COMPLETED | UNAVAILABLE (synthetic data, <2 frames) | FAILED */
+  status: "COMPLETED" | "UNAVAILABLE" | "FAILED" | string;
+  detector: string | null;
+  frames_used: number;
+  tracks_screened: number;
+  /** motion_status -> count, e.g. { AMBIGUOUS: 7, ARTIFACT_RISK: 1 } */
+  track_status_counts: Record<string, number>;
+  /** Empty = no qualifying possible movers. Never call these discoveries. */
+  candidates: MoverCandidate[];
+  warnings: string[];
+  limitations: string[];
+  method: Record<string, unknown>;
+}
