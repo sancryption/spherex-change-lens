@@ -4,10 +4,10 @@ Status: Pending implementation (SCI workstream).
 Brightness variation algorithms are not implemented in scaffolding.
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
 
-def extract_photometry(epoch_images: List[Any], coordinates: Dict[str, float]) -> Dict[str, Any]:
+def extract_photometry(epoch_images: list[Any], coordinates: dict[str, float]) -> dict[str, Any]:
     """Placeholder for aperture/PSF photometry and light-curve compilation.
 
     Raises NotImplementedError until scientific pipeline is implemented.

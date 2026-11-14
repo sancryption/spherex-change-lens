@@ -1,9 +1,8 @@
 """Application configuration boundary for SPHEREx Change Lens."""
 
-from dataclasses import dataclass, field
 import os
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List
 
 
 @dataclass
@@ -17,7 +16,7 @@ class Settings:
     api_host: str = os.getenv("API_HOST", "127.0.0.1")
     api_port: int = int(os.getenv("API_PORT", "8000"))
     api_prefix: str = os.getenv("API_PREFIX", "/api/v1")
-    cors_origins: List[str] = field(
+    cors_origins: list[str] = field(
         default_factory=lambda: [
             "http://localhost:3000",
             "http://127.0.0.1:3000",

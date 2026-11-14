@@ -1,6 +1,7 @@
 """Common API dependencies and injection helpers (scaffold placeholder)."""
 
-from typing import Generator
+from collections.abc import Generator
+
 from change_lens.config import Settings, get_settings
 
 

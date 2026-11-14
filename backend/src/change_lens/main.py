@@ -1,6 +1,7 @@
 """Application entrypoint and factory placeholder for SPHEREx Change Lens."""
 
 from typing import Any
+
 from change_lens.config import get_settings
 
 

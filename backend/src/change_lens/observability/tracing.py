@@ -1,8 +1,9 @@
 """Lightweight execution tracing helper for pipeline steps."""
 
-from contextlib import contextmanager
 import time
-from typing import Generator
+from collections.abc import Generator
+from contextlib import contextmanager
+
 from change_lens.observability.logging_config import logger
 
 

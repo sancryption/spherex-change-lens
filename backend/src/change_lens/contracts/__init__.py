@@ -3,9 +3,9 @@
 Single source of truth for API schemas across backend, frontend, and docs.
 """
 
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field
+from typing import Any
 
+from pydantic import BaseModel, Field
 
 # --- Target Contracts ---
 
@@ -17,8 +17,8 @@ class TargetItem(BaseModel):
     ra: float = Field(..., description="Right Ascension in decimal degrees (J2000)")
     dec: float = Field(..., description="Declination in decimal degrees (J2000)")
     category: str = Field(..., description="Classification category (e.g. standard_star, brown_dwarf, yso)")
-    description: Optional[str] = Field(None, description="Brief scientific description")
-    known_proper_motion: Optional[Dict[str, float]] = Field(
+    description: str | None = Field(None, description="Brief scientific description")
+    known_proper_motion: dict[str, float] | None = Field(
         None, description="Known proper motion components if established"
     )
 
@@ -26,7 +26,7 @@ class TargetItem(BaseModel):
 class TargetListResponse(BaseModel):
     """Response payload listing reference targets."""
 
-    targets: List[TargetItem]
+    targets: list[TargetItem]
     total_count: int
 
 
@@ -37,7 +37,7 @@ class TargetCoverageResponse(BaseModel):
     ra: float
     dec: float
     available_epochs_count: int = Field(0, description="Number of discovered observation epochs")
-    spectral_bands: List[str] = Field(default_factory=list, description="SPHEREx band identifiers")
+    spectral_bands: list[str] = Field(default_factory=list, description="SPHEREx band identifiers")
     verification_status: str = Field(
         "pending_verification",
         description="Status of archive verification ('pending_verification', 'verified', 'no_coverage')",
@@ -58,7 +58,7 @@ class InvestigationMetadata(BaseModel):
     """Summary descriptor for an active or queried investigation."""
 
     investigation_id: str = Field(..., description="Unique identifier for investigation session")
-    target_name: Optional[str] = None
+    target_name: str | None = None
     ra: float
     dec: float
     created_at_utc: str
@@ -74,9 +74,9 @@ class EpochDescriptor(BaseModel):
     observation_time_utc: str
     mjd: float = Field(..., description="Modified Julian Date")
     band_id: str
-    preview_url: Optional[str] = None
-    variance_url: Optional[str] = None
-    flags_summary: Dict[str, int] = Field(default_factory=dict)
+    preview_url: str | None = None
+    variance_url: str | None = None
+    flags_summary: dict[str, int] = Field(default_factory=dict)
     quality_warning: bool = False
 
 
@@ -84,7 +84,7 @@ class TimelineResponse(BaseModel):
     """Chronological sequence of observation epochs."""
 
     investigation_id: str
-    epochs: List[EpochDescriptor]
+    epochs: list[EpochDescriptor]
     total_epochs: int
 
 
@@ -104,12 +104,12 @@ class DifferenceResult(BaseModel):
     difference_id: str
     reference_epoch_id: str
     target_epoch_id: str
-    difference_preview_url: Optional[str] = None
-    difference_fits_url: Optional[str] = None
+    difference_preview_url: str | None = None
+    difference_fits_url: str | None = None
     residual_flux_mean: float = 0.0
     residual_flux_std: float = 0.0
     detected_sources_count: int = 0
-    warnings: List[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
 
 
 # --- Scientific Evidence & Provenance Contracts ---
@@ -121,8 +121,8 @@ class EvidencePackage(BaseModel):
     target_ra: float
     target_dec: float
     computed_at_utc: str
-    software_versions: Dict[str, str] = Field(default_factory=dict)
-    provenance_chain: List[Dict[str, Any]] = Field(default_factory=list)
-    light_curve_points: List[Dict[str, Any]] = Field(default_factory=list)
-    motion_vectors: List[Dict[str, Any]] = Field(default_factory=list)
-    quality_notices: List[str] = Field(default_factory=list)
+    software_versions: dict[str, str] = Field(default_factory=dict)
+    provenance_chain: list[dict[str, Any]] = Field(default_factory=list)
+    light_curve_points: list[dict[str, Any]] = Field(default_factory=list)
+    motion_vectors: list[dict[str, Any]] = Field(default_factory=list)
+    quality_notices: list[str] = Field(default_factory=list)

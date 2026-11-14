@@ -1,16 +1,14 @@
 """Basic runtime performance metrics and event counters."""
 
 from dataclasses import dataclass, field
-import time
-from typing import Dict
 
 
 @dataclass
 class MetricsCollector:
     """Lightweight in-memory metrics tracker for local development."""
 
-    counters: Dict[str, int] = field(default_factory=dict)
-    timers: Dict[str, float] = field(default_factory=dict)
+    counters: dict[str, int] = field(default_factory=dict)
+    timers: dict[str, float] = field(default_factory=dict)
 
     def increment(self, metric_name: str, value: int = 1) -> None:
         """Increment a named counter."""

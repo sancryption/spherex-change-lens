@@ -8,7 +8,6 @@ No real NASA data is downloaded and no fake production observations are generate
 
 import json
 from pathlib import Path
-import sys
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SYNTHETIC_DIR = REPO_ROOT / "data" / "synthetic"

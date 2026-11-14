@@ -1,12 +1,12 @@
 """Standardized error responses and exceptions for SPHEREx Change Lens."""
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class ChangeLensError(Exception):
     """Base exception for all domain-specific errors."""
 
-    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, message: str, details: dict[str, Any] | None = None) -> None:
         super().__init__(message)
         self.message = message
         self.details = details or {}

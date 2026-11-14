@@ -1,10 +1,9 @@
 """Target definitions and reference catalog configuration for SPHEREx Change Lens."""
 
-from typing import List
 from change_lens.contracts import TargetItem
 
 # NASA Named Reference Targets (Coverage and usability pending verification)
-NASA_PRESET_TARGETS: List[TargetItem] = [
+NASA_PRESET_TARGETS: list[TargetItem] = [
     TargetItem(
         target_id="barnards-star",
         name="Barnard's Star",

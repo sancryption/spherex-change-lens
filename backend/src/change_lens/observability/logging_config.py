@@ -6,10 +6,9 @@ the Python standard library 'logging' package.
 
 import logging
 import sys
-from typing import Optional
 
 
-def configure_logging(log_level: Optional[str] = None) -> None:
+def configure_logging(log_level: str | None = None) -> None:
     """Configure structured console logging for application and pipelines."""
     level = (log_level or "INFO").upper()
     logging.basicConfig(

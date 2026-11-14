@@ -4,10 +4,10 @@ Status: Pending implementation (SCI/BE workstream).
 Scientific evidence synthesis is not implemented in scaffolding.
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
-def compile_scientific_evidence(investigation_data: Dict[str, Any]) -> Dict[str, Any]:
+def compile_scientific_evidence(investigation_data: dict[str, Any]) -> dict[str, Any]:
     """Placeholder for assembling photometric, astrometric, and difference evidence.
 
     Raises NotImplementedError until scientific pipeline is implemented.
