@@ -39,6 +39,8 @@ class Settings:
         "https://irsa.ipac.caltech.edu/applications/ibe/",
     )
     spherex_timeout_seconds: int = int(os.getenv("SPHEREX_TIMEOUT_SECONDS", "30"))
+    # Max epochs downloaded and played per query in real-archive mode
+    spherex_max_frames: int = int(os.getenv("SPHEREX_MAX_FRAMES", "8"))
 
 
 def get_settings() -> Settings:
