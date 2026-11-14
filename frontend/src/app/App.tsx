@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import "../styles/main.css";
+import { LandingPage } from "./LandingPage";
+import { CoordinatePanel, ObservationViewer } from "./Workspace";
 import {
   formatObservationTime,
   readQueryFromUrl,
@@ -26,6 +28,23 @@ function initialFormValues() {
 }
 
 export default function App() {
+  const [view, setView] = useState(() => viewFromUrl());
+  const [editing, setEditing] = useState(true);
+  const [loadedQuery, setLoadedQuery] = useState<QueryParameters | null>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  function navigate(next: "overview" | "investigation") {
+    const url = new URL(window.location.href);
+    url.searchParams.set("view", next);
+    window.history.pushState({}, "", url);
+    setView(next);
+    setIsPlaying(false);
+  }
+  useEffect(() => {
+    const restore = () => { setView(viewFromUrl()); setForm(initialFormValues()); setIsPlaying(false); };
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
+  useEffect(() => { mainRef.current?.focus(); }, [view]);
   const [form, setForm] = useState(initialFormValues);
   const [mode, setMode] = useState<DataMode>("synthetic");
   const [timeline, setTimeline] = useState<ObservationTimeline | null>(null);
@@ -96,6 +115,8 @@ export default function App() {
           : await loadApiTimeline(query);
       if (currentRequest !== requestNumber.current) return;
       setTimeline(result);
+      setLoadedQuery(query);
+      setEditing(result.epochs.length === 0);
       setRequestState(result.epochs.length > 0 ? "ready" : "empty");
     } catch (error) {
       if (currentRequest !== requestNumber.current) return;
@@ -111,6 +132,9 @@ export default function App() {
   }
 
   function changeMode(nextMode: DataMode) {
+    ++requestNumber.current;
+    setLoadedQuery(null);
+    setEditing(true);
     setMode(nextMode);
     setTimeline(null);
     setRequestState("idle");
@@ -131,37 +155,15 @@ export default function App() {
 
   const submitLabel = mode === "synthetic" ? "Load demo timeline" : "Query backend";
 
+  if (view === "overview") return <LandingPage onStart={() => navigate("investigation")} />;
   return (
     <div className="app-shell">
-      <header className="topbar">
-        <a className="brand" href="#main" aria-label="SPHEREx Change Lens home">
-          <span className="brand-mark" aria-hidden="true"><span /></span>
-          <span><strong>SPHEREx</strong><small>CHANGE LENS</small></span>
-        </a>
-        <div className="topbar-meta">
-          <span className="live-dot" /> NASA Space Apps Challenge 2026
-        </div>
-      </header>
-
-      <main id="main" className="workspace">
-        <section className="intro-row" aria-labelledby="page-title">
-          <div>
-            <div className="eyebrow">TIME DOMAIN EXPLORER <span>·</span> MVP</div>
-            <h1 id="page-title">Follow the light<br className="mobile-break" /> across time.</h1>
-            <p className="intro-copy">Explore repeated views of a patch of sky and move through its observation timeline.</p>
-          </div>
-          <div className="source-switch" role="group" aria-label="Data source">
-            <button className={mode === "synthetic" ? "source-option selected" : "source-option"} type="button" onClick={() => changeMode("synthetic")} aria-pressed={mode === "synthetic"}>
-              <span className="source-icon">✳</span> Synthetic demo
-            </button>
-            <button className={mode === "api" ? "source-option selected" : "source-option"} type="button" onClick={() => changeMode("api")} aria-pressed={mode === "api"}>
-              <span className="source-icon api-icon">↗</span> Backend API
-            </button>
-          </div>
-        </section>
-
-        <div className="workspace-grid">
-          <aside className="query-panel" aria-label="Search coordinates">
+      <a className="skip-link" href="#main">Skip to investigation</a>
+      <header className="topbar"><button className="brand" onClick={() => navigate("overview")}><strong>SPHEREx</strong><span>Change Lens</span></button><span className="workspace-label">/ Investigation</span><button className="overview-link" onClick={() => navigate("overview")}>Overview ↗</button></header>
+      <main id="main" className="workspace" tabIndex={-1} ref={mainRef}>
+        <div className="workspace-heading"><div><span className="eyebrow">Observation atlas</span><h1>Investigate a field.</h1></div><div className="source-switch" role="group" aria-label="Data source"><button aria-pressed={mode === "synthetic"} onClick={() => changeMode("synthetic")}>Synthetic demo</button><button aria-pressed={mode === "api"} onClick={() => changeMode("api")}>Backend API</button></div></div>
+        <div className={`workspace-grid ${editing ? "is-editing" : "is-loaded"}`}>
+          <CoordinatePanel>
             <div className="panel-heading">
               <div className="panel-step">01</div>
               <div><h2>Choose a field</h2><p>Set the sky coordinates to explore.</p></div>
@@ -203,10 +205,10 @@ export default function App() {
                 <div className="mode-note api-note"><span aria-hidden="true">↗</span><p><strong>Backend connection</strong><br />Queries the documented API. Returned provenance is shown with each frame.</p></div>
               )}
             </form>
-          </aside>
+          </CoordinatePanel>
 
-          <section className="viewer-panel" aria-label="Observation timeline">
-            <div className="viewer-topline">
+          <ObservationViewer>
+            <div className="loaded-context"><div><span className="eyebrow">Loaded field</span><h2>{loadedQuery ? (REFERENCE_TARGETS.find(t => t.target_id === loadedQuery.target_id)?.name ?? "Custom sky position") : "No field loaded"}</h2><p className="coordinate-value">{loadedQuery ? `RA ${loadedQuery.ra}° / Dec ${loadedQuery.dec}° / Radius ${loadedQuery.radius_arcsec}″` : "Submit a field to begin an observation timeline."}</p></div><button className="edit-field" onClick={() => { setEditing(!editing); if (!editing) requestAnimationFrame(() => document.getElementById("target")?.focus()); }} aria-expanded={editing} aria-controls="coordinate-panel">{editing ? "Close field controls" : "Edit field"}</button></div><div className="viewer-topline">
               <div className="viewer-title">
                 <div className="panel-step">02</div>
                 <div><h2>Observation timeline</h2><p>{timeline ? `${frames.length} ${frames.length === 1 ? "frame" : "frames"} · ordered by observation date` : "Load a field to view its observations."}</p></div>
@@ -215,7 +217,7 @@ export default function App() {
             </div>
 
             <div className={`image-stage ${requestState === "idle" ? "stage-idle" : ""}`}>
-              {requestState === "idle" && <div className="empty-stage"><div className="orbit-mark" aria-hidden="true"><span /></div><h3>Your sky, over time.</h3><p>Enter coordinates to load a generated demo timeline or query the connected backend.</p><span className="empty-caption">RA · DEC · SEARCH RADIUS</span></div>}
+              {requestState === "idle" && <div className="empty-stage"><span className="section-number">Observation viewer</span><h3>Choose where to look.</h3><p>Enter coordinates to load a generated demo timeline or query the connected backend.</p><span className="empty-caption">RA · DEC · SEARCH RADIUS</span></div>}
               {requestState === "loading" && <div className="state-message" role="status"><span className="large-spinner" /><h3>Finding observations</h3><p>Loading the timeline for this field…</p></div>}
               {requestState === "error" && <div className="state-message error-state" role="alert"><div className="state-symbol">!</div><h3>Couldn’t load this timeline</h3><p>{errorMessage}</p><span>Check the coordinates or backend connection and try again.</span></div>}
               {requestState === "empty" && <div className="state-message" role="status"><div className="state-symbol quiet-symbol">∅</div><h3>No observations found</h3><p>The service returned no frames for this field.</p><span>Try a different target or a wider search radius.</span></div>}
@@ -227,13 +229,14 @@ export default function App() {
                 <div className="detail-label">OBSERVATION TIME <span className="utc-label">UTC</span></div>
                 <strong className="timestamp">{selectedFrame ? formatObservationTime(selectedFrame.observation_time_utc) : "—"}</strong>
               </div>
-              <div className="frame-meta">
+              <div className="frame-meta"><div><span className="detail-label">QUALITY</span><strong>{selectedFrame ? (selectedFrame.quality_warning || selectedFrame.warnings?.length ? "See notices" : "No warnings reported") : "Unavailable"}</strong></div>
                 <div><span className="detail-label">BAND</span><strong>{selectedFrame?.band_id ?? "—"}</strong></div>
                 <div><span className="detail-label">FRAME</span><strong>{selectedFrame ? `${String(selectedIndex + 1).padStart(2, "0")} / ${String(frames.length).padStart(2, "0")}` : "—"}</strong></div>
               </div>
             </div>
-            {selectedFrame && <FrameWarnings frame={selectedFrame} />}
 
+
+            <EpochRail frames={frames} selected={selectedIndex} select={(index) => { setIsPlaying(false); setSelectedIndex(index); }} />
             <div className="player-controls" aria-label="Timeline playback controls">
               <div className="transport-controls">
                 <button type="button" className="transport-button" aria-label="Previous frame" disabled={frames.length === 0 || selectedIndex === 0 || requestState !== "ready"} onClick={() => moveFrame(-1)}>‹</button>
@@ -247,13 +250,25 @@ export default function App() {
               </div>
               <span className="playback-rate">1×</span>
             </div>
-          </section>
+            {selectedFrame && <FrameWarnings frame={selectedFrame} />}
+          </ObservationViewer>
         </div>
 
-        <footer className="workspace-footer"><span>SPHEREx Change Lens <span className="footer-dot">·</span> Frontend MVP</span><span>Coordinates in decimal degrees <span className="footer-dot">·</span> Timestamps in UTC</span></footer>
+
+        <footer className="workspace-footer">SPHEREx Change Lens · Coordinates in decimal degrees · Times in UTC</footer>
       </main>
     </div>
   );
+}
+
+function viewFromUrl(): "overview" | "investigation" {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("view") === "overview") return "overview";
+  return params.get("view") === "investigation" || params.has("ra") || params.has("dec") ? "investigation" : "overview";
+}
+
+function EpochRail({ frames, selected, select }: { frames: ObservationFrame[]; selected: number; select: (index: number) => void }) {
+  return <div className="epoch-navigation"><div className="epoch-heading"><h3>Observation epochs</h3><span>Even spacing shows frame order, not elapsed time.</span></div><div className="epoch-rail">{frames.length ? frames.map((frame, index) => <button key={frame.epoch_id} aria-pressed={selected === index} onClick={() => select(index)}><span>{String(index + 1).padStart(2, "0")}{selected === index ? " · Selected" : ""}</span><time dateTime={frame.observation_time_utc}>{frame.observation_time_utc.slice(0, 10)}</time></button>) : <p>Dates will appear when a timeline is loaded.</p>}</div></div>;
 }
 
 function FrameDisplay({ frame, index, total, mode }: { frame: ObservationFrame; index: number; total: number; mode: DataMode }) {
