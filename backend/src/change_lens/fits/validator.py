@@ -15,6 +15,51 @@ from astropy.wcs import WCS
 from pydantic import BaseModel, Field
 
 
+def _header_value(value: object) -> object:
+    """Normalize FITS scalar values explicitly, never stringify unknown objects."""
+    if isinstance(value, fits.card.Undefined):
+        return None
+    if isinstance(value, np.generic):
+        return _header_value(value.item())
+    if value is None or isinstance(value, (str, bool, int)):
+        return value
+    if isinstance(value, float):
+        if not np.isfinite(value):
+            return {
+                "type": "nonfinite_float",
+                "value": "nan" if np.isnan(value) else ("inf" if value > 0 else "-inf"),
+            }
+        return value
+    if isinstance(value, complex):
+        return {
+            "type": "complex",
+            "real": _header_value(value.real),
+            "imag": _header_value(value.imag),
+        }
+    raise TypeError(f"Unsupported FITS header value: {type(value).__name__}")
+
+
+def _header_metadata(header: fits.Header, warnings: list[str], context: str) -> dict:
+    """Read individual cards to preserve ordered commentary and repeated keywords.
+
+    HISTORY/COMMENT/blank cards are always lists. Other duplicate keywords also
+    become lists. Unsupported values are omitted with a visible warning; this
+    metadata conversion does not change scientific acceptance criteria.
+    """
+    grouped: dict[str, list] = {}
+    for card in header.cards:
+        try:
+            value = _header_value(card.value)
+        except TypeError:
+            warnings.append(f"UNSUPPORTED_HEADER_VALUE:{context}:{card.keyword}")
+            continue
+        grouped.setdefault(card.keyword, []).append(value)
+    return {
+        key: values if key in ("HISTORY", "COMMENT", "") or len(values) > 1 else values[0]
+        for key, values in grouped.items()
+    }
+
+
 @dataclass(frozen=True)
 class ProductPolicy:
     version: str = "sci-structural-v1"
@@ -179,7 +224,9 @@ def validate_fits(path: str | Path, policy: ProductPolicy = ProductPolicy()) -> 
                 ):
                     value = header.get(key, hdus[0].header.get(key))
                     if value is not None:
-                        report.metadata[key] = str(value)
+                        report.metadata[key] = (
+                            list(value) if key == "HISTORY" else str(_header_value(value))
+                        )
                     else:
                         report.warnings.append(f"MISSING_METADATA:{key}")
                 report.observation_id = report.metadata.get("OBSID")
@@ -190,7 +237,7 @@ def validate_fits(path: str | Path, policy: ProductPolicy = ProductPolicy()) -> 
                     hdu = hdus[name]
                     report.extensions[name] = {
                         "shape": list(hdu.data.shape) if hdu.data is not None else None,
-                        "header": dict(hdu.header),
+                        "header": _header_metadata(hdu.header, report.warnings, name),
                     }
             report.has_wcs_wave = "WCS-WAVE" in hdus
     except FileNotFoundError:

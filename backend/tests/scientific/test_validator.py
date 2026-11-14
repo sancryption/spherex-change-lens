@@ -132,3 +132,50 @@ def test_variance_units(product):
     with fits.open(path, mode="update") as hdus:
         hdus["VARIANCE"].header["BUNIT"] = "Jy2/sr2"
     assert "INVALID_REQUIRED_UNITS:VARIANCE" in validate_fits(path).report.errors
+
+
+def test_optional_header_commentary_serializes(product):
+    import json
+
+    path = product()
+    header = fits.Header()
+    header.add_history("First calibration step")
+    header.add_history("Second calibration step")
+    header.add_comment("Instrument context")
+    header.add_comment("Additional context")
+    header["GAIN"] = 2.5
+    header["PHASE"] = complex(1, -2)
+    header["UNDEF"] = None
+    with fits.open(path, mode="update") as hdus:
+        hdus["IMAGE"].header.add_history("Image provenance")
+        hdus.append(fits.ImageHDU(np.ones((2, 2)), header=header, name="PSF"))
+    report = validate_fits(path).require_valid().report
+    payload = json.loads(report.model_dump_json())
+    optional = payload["extensions"]["PSF"]["header"]
+    assert optional["HISTORY"] == ["First calibration step", "Second calibration step"]
+    assert optional["COMMENT"] == ["Instrument context", "Additional context"]
+    assert optional["GAIN"] == 2.5
+    assert optional["PHASE"] == {"type": "complex", "real": 1.0, "imag": -2.0}
+    assert optional["UNDEF"] is None
+    assert payload["metadata"]["HISTORY"] == ["Image provenance"]
+    assert payload["passed"] is True
+
+
+def test_header_values_do_not_stringify_arbitrary_objects():
+    from change_lens.fits.validator import _header_metadata, _header_value
+
+    with pytest.raises(TypeError, match="Unsupported FITS header value"):
+        _header_value(np.arange(3))
+    assert _header_value(np.int32(7)) == 7
+    assert _header_value(float("inf")) == {"type": "nonfinite_float", "value": "inf"}
+
+    class UnsupportedCard:
+        keyword = "UNSUPPORTED"
+        value = object()
+
+    class HeaderWithUnsupportedValue:
+        cards = [UnsupportedCard()]
+
+    warnings = []
+    assert _header_metadata(HeaderWithUnsupportedValue(), warnings, "PSF") == {}
+    assert warnings == ["UNSUPPORTED_HEADER_VALUE:PSF:UNSUPPORTED"]
