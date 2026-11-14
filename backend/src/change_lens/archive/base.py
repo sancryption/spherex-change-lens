@@ -25,6 +25,7 @@ class DiscoveredEpoch:
     detector: str | None = None  # "D1".."D6"
     release: str | None = None  # "DR1", "QR3", ...
     wavelength_range_um: list[float] | None = None
+    source_fits_path: Path | None = None  # local FITS used for SCI analysis (real data only)
 
 
 @dataclass

@@ -8,7 +8,7 @@ import sqlite3
 import threading
 from pathlib import Path
 
-from change_lens.contracts import InvestigationMetadata, TimelineResponse
+from change_lens.contracts import InvestigationMetadata, MoversResponse, TimelineResponse
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS investigations (
@@ -23,6 +23,19 @@ CREATE TABLE IF NOT EXISTS artifacts (
     artifact_id TEXT PRIMARY KEY,
     path        TEXT NOT NULL,
     media_type  TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS epoch_sources (
+    investigation_id TEXT NOT NULL,
+    epoch_id         TEXT NOT NULL,
+    mjd              REAL NOT NULL,
+    fits_path        TEXT NOT NULL,
+    detector         TEXT,
+    release          TEXT,
+    PRIMARY KEY (investigation_id, epoch_id)
+);
+CREATE TABLE IF NOT EXISTS mover_results (
+    investigation_id TEXT PRIMARY KEY,
+    body             TEXT NOT NULL
 );
 """
 
@@ -82,3 +95,33 @@ class Repository:
     def get_artifact(self, artifact_id: str) -> tuple[Path, str] | None:
         row = self._get("SELECT path, media_type FROM artifacts WHERE artifact_id = ?", (artifact_id,))
         return (Path(row[0]), row[1]) if row else None
+
+    # epoch sources (real FITS per timeline frame) ---------------------------
+    def save_epoch_source(
+        self, investigation_id: str, epoch_id: str, mjd: float, fits_path: Path,
+        detector: str | None, release: str | None,
+    ) -> None:
+        self._put(
+            "INSERT OR REPLACE INTO epoch_sources VALUES (?, ?, ?, ?, ?, ?)",
+            (investigation_id, epoch_id, mjd, str(Path(fits_path).resolve()), detector, release),
+        )
+
+    def get_epoch_sources(self, investigation_id: str) -> list[tuple[str, float, Path, str | None, str | None]]:
+        with self._lock:
+            rows = self._conn.execute(
+                "SELECT epoch_id, mjd, fits_path, detector, release FROM epoch_sources "
+                "WHERE investigation_id = ? ORDER BY mjd, epoch_id",
+                (investigation_id,),
+            ).fetchall()
+        return [(r[0], r[1], Path(r[2]), r[3], r[4]) for r in rows]
+
+    # mover results ------------------------------------------------------------
+    def save_movers(self, result: MoversResponse) -> None:
+        self._put(
+            "INSERT OR REPLACE INTO mover_results VALUES (?, ?)",
+            (result.investigation_id, result.model_dump_json()),
+        )
+
+    def get_movers(self, investigation_id: str) -> MoversResponse | None:
+        row = self._get("SELECT body FROM mover_results WHERE investigation_id = ?", (investigation_id,))
+        return MoversResponse.model_validate_json(row[0]) if row else None

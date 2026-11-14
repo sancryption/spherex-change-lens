@@ -10,7 +10,13 @@ from fastapi import APIRouter
 from change_lens.api.errors import InvestigationNotFoundError, TargetNotFoundError
 from change_lens.api.state import ServicesDep
 from change_lens.archive.base import DiscoveredEpoch
-from change_lens.contracts import CoordinateQueryRequest, InvestigationMetadata, TimelineResponse
+from change_lens.contracts import (
+    CoordinateQueryRequest,
+    InvestigationMetadata,
+    MoversResponse,
+    TimelineResponse,
+)
+from change_lens.investigations.movers import screen_movers
 from change_lens.targets import NASA_PRESET_TARGETS
 from change_lens.timeline.builder import build_timeline
 
@@ -55,6 +61,11 @@ def create_query(
     )
     services.repo.save_investigation(inv)
     services.repo.save_timeline(timeline)
+    for e in result.epochs:
+        if e.source_fits_path is not None:
+            services.repo.save_epoch_source(
+                inv_id, e.epoch_id, e.mjd, e.source_fits_path, e.detector, e.release
+            )
     return inv
 
 
@@ -76,3 +87,21 @@ def get_timeline(
     if timeline is None:
         raise InvestigationNotFoundError(f"No timeline for investigation '{investigation_id}'.")
     return timeline
+
+
+@router.get("/{investigation_id}/movers", response_model=MoversResponse)
+def get_movers(investigation_id: str, services: ServicesDep) -> MoversResponse:
+    """Run (once, then cached) SCI possible-mover screening on this timeline's frames.
+
+    Can take up to about a minute the first time on real data. Synthetic/mock
+    investigations return status UNAVAILABLE.
+    """
+    if services.repo.get_investigation(investigation_id) is None:
+        raise InvestigationNotFoundError(f"Investigation '{investigation_id}' not found.")
+    cached = services.repo.get_movers(investigation_id)
+    if cached is not None:
+        return cached
+    result = screen_movers(investigation_id, services.repo.get_epoch_sources(investigation_id))
+    if result.status != "FAILED":
+        services.repo.save_movers(result)
+    return result

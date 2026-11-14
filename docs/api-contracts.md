@@ -88,3 +88,13 @@ Set `SPHEREX_ARCHIVE_MOCK_MODE=false` to serve real SPHEREx data. `change_lens.a
 - **Speed:** the first query for a position takes minutes (TAP discovery plus cutout downloads). Repeat queries are instant (in-process discovery cache plus on-disk FITS cache). Pre-warm demo targets before presenting.
 - **Errors:** IRSA timeout, 5xx or connection failure → `503 ARCHIVE_UNAVAILABLE` (retryable). No coverage → empty timeline, `status="no_coverage"`.
 - **High proper motion targets:** registry coordinates are J2000, so Barnard's Star appears about 4.5′ north of centre in 2025–26 data.
+
+### Possible-mover screening (SCI phase 3 via BE)
+`GET /api/v1/investigations/{investigation_id}/movers` → `MoversResponse`
+
+- Runs the SCI pipeline unchanged (`run_phase2` → `run_phase3` → `possible_movers`) on the real FITS behind the investigation's timeline frames. The result is cached per investigation. The first call on real data can take up to about a minute.
+- `status`: `COMPLETED`, `UNAVAILABLE` (mock/synthetic data has no FITS, fewer than 2 frames, or mixed detectors) or `FAILED` (pipeline error, with the reason in `warnings`; the timeline keeps working).
+- `candidates` empty → no qualifying possible movers. `track_status_counts` shows why the other tracks were not promoted (e.g. `AMBIGUOUS`, `ARTIFACT_RISK`).
+- The UI must present candidates as **screening results, never discoveries**.
+- BE defaults to be confirmed by SCI: FLAGS bit 21 (`SOURCE`, informational, set on ~50% of pixels) is retained and every other set bit is excluded; `centroid_radius=3` px.
+- Live check on the WISE 0855 field (DR1, 6 frames each): D2 → 8 tracks (7 AMBIGUOUS, 1 ARTIFACT_RISK), 0 candidates. D6 → 6 tracks, 0 candidates. This is consistent with WISE 0855 not being detectable in SPHEREx.
