@@ -33,7 +33,7 @@ def create_query(
             raise TargetNotFoundError(f"Unknown target '{req.target_id}'.", {"target_id": req.target_id})
         target_name = target.name
 
-    result = services.archive.discover(req.ra, req.dec, req.radius_arcsec)
+    result = services.archive.discover(req.ra, req.dec, req.radius_arcsec, detector=req.detector)
     inv_id = f"inv_{uuid.uuid4().hex[:12]}"
     prefix = services.settings.api_prefix
 

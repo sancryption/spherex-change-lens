@@ -88,13 +88,20 @@ def test_discover_maps_frames_previews_and_origin(client, monkeypatch, tmp_path)
         return FakePreview(name)
 
     monkeypatch.setattr(irsa, "generate_preview", preview)
-    monkeypatch.setattr(irsa, "align_north_up", lambda png, *a: png)
+    import numpy as np
+
+    monkeypatch.setattr(irsa, "_load_source_manifest", lambda src, **kw: tmp_path / "x.fits")
+    monkeypatch.setattr(irsa, "_load_image_cutout", lambda *a, **kw: (np.ones((5, 5)), None, (0, 0), True))
+    monkeypatch.setattr(irsa, "reproject_north_up", lambda data, *a: data)
+    monkeypatch.setattr(irsa, "render_display", lambda arr: np.zeros((5, 5), dtype=np.uint8))
 
     result = client.discover(269.452, 4.693, radius_arcsec=60)
     assert len(result.epochs) == 3
     first, second, third = result.epochs
     assert first.data_origin == "authentic_live" and first.preview_path is not None
     assert first.band_id == "D2"
+    assert first.detector == "D2" and first.release == "DR1"
+    assert first.wavelength_range_um == [1.10, 1.62]
     assert first.observation_time_utc.endswith("Z")
     assert second.data_origin == "authentic_cached"
     assert second.preview_path is None and "PREVIEW_FAILED" in second.warnings  # kept, flagged
@@ -130,9 +137,9 @@ def test_fov_is_clamped(client, monkeypatch) -> None:
 
     monkeypatch.setattr(irsa, "discover", capture)
     client.discover(10.0, 10.0, radius_arcsec=5)
-    assert seen["fov"] == 10.0
+    assert seen["fov"] == pytest.approx(10.0 * 1.42)
     client.discover(10.0, 10.0, radius_arcsec=3600)
-    assert seen["fov"] == 30.0
+    assert seen["fov"] == pytest.approx(30.0 * 1.42)
 
 
 def test_repeat_query_uses_cache(client, monkeypatch) -> None:
@@ -148,11 +155,10 @@ def test_repeat_query_uses_cache(client, monkeypatch) -> None:
     assert len(calls) == 1
 
 
-def _star_image(tmp_path: Path, name: str, rotated: bool):
-    """A 41x41 FITS-ordered image with one star 60 arcsec north of the centre."""
+def _sky_frame(rotated: bool, gradient: bool = False):
+    """41x41 float image (FITS order) with one star 60 arcsec north of centre."""
     import numpy as np
     from astropy.wcs import WCS
-    from PIL import Image
 
     ra, dec, scale = 150.0, 20.0, 6.15 / 3600
     w = WCS(naxis=2)
@@ -162,25 +168,47 @@ def _star_image(tmp_path: Path, name: str, rotated: bool):
     w.wcs.cdelt = [-scale, scale]
     if rotated:  # detector flipped by 180 degrees
         w.wcs.pc = [[-1, 0], [0, -1]]
+    rng = np.random.default_rng(0)
+    img = 100 + rng.normal(0, 1, (41, 41))
+    if gradient:  # stray-light ramp, like the bright Mar 2026 frame
+        img += np.linspace(0, 80, 41)[:, None]
     x, y = w.world_to_pixel_values(ra, dec + 60 / 3600)
-    img = np.zeros((41, 41), dtype=np.uint8)
-    img[round(float(y)) - 1 : round(float(y)) + 2, round(float(x)) - 1 : round(float(x)) + 2] = 255
-    path = tmp_path / f"{name}.png"
-    Image.fromarray(img, mode="L").save(path)
-    return path, dict(w.to_header()), ra, dec
+    img[round(float(y)) - 1 : round(float(y)) + 2, round(float(x)) - 1 : round(float(x)) + 2] += 500
+    return img, w, ra, dec
 
 
-def test_align_north_up_makes_rotated_frames_match(tmp_path: Path) -> None:
+def test_rotated_frames_align_to_same_pixel() -> None:
     import numpy as np
-    from change_lens.archive.irsa import align_north_up
-    from PIL import Image
+    from change_lens.archive.irsa import render_display, reproject_north_up
 
     peaks = []
-    for name, rotated in (("normal", False), ("flipped", True)):
-        png, header, ra, dec = _star_image(tmp_path, name, rotated)
-        out = align_north_up(png, header, ra, dec, 4.0, tmp_path / "aligned" / f"{name}.png")
-        arr = np.asarray(Image.open(out))
+    for rotated in (False, True):
+        img, w, ra, dec = _sky_frame(rotated)
+        arr = render_display(reproject_north_up(img, w, ra, dec, 4.0))
         peaks.append(np.unravel_index(np.argmax(arr), arr.shape))
     assert peaks[0] == peaks[1]  # same pixel after alignment
-    row, _ = peaks[0]
-    assert row < arr.shape[0] // 2  # star is north of centre -> upper half in display order
+    assert peaks[0][0] < arr.shape[0] // 2  # north of centre -> upper half in display order
+
+
+def test_background_gradient_is_removed() -> None:
+    import numpy as np
+    from change_lens.archive.irsa import render_display, reproject_north_up
+
+    flat_img, w, ra, dec = _sky_frame(False)
+    ramp_img, _, _, _ = _sky_frame(False, gradient=True)
+    flat = render_display(reproject_north_up(flat_img, w, ra, dec, 4.0)).astype(float)
+    ramp = render_display(reproject_north_up(ramp_img, w, ra, dec, 4.0)).astype(float)
+    inner = (slice(8, -8), slice(8, -8))
+    # Without background subtraction the ramp frame would be far brighter; now they match.
+    assert abs(np.median(ramp[inner]) - np.median(flat[inner])) < 10
+    top, bottom = np.median(ramp[8:15, 8:-8]), np.median(ramp[-15:-8, 8:-8])
+    assert abs(top - bottom) < 10  # no residual gradient
+
+
+def test_select_frames_honours_requested_detector() -> None:
+    observations = [obs(i, 60800 + i * 10) for i in range(10)]  # D2, the biggest group
+    observations += [obs(100 + i, 60805 + i * 20, band="SPHEREx-D6") for i in range(4)]
+    chosen, _ = select_frames(observations, max_frames=8, detector="D6")
+    assert {o.band for o in chosen} == {"SPHEREx-D6"} and len(chosen) == 4
+    none, notes = select_frames(observations, max_frames=8, detector="D3")
+    assert none == [] and notes == ["NO_OBSERVATIONS_FOR_D3"]
