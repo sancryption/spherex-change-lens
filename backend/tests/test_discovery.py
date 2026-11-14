@@ -5,11 +5,9 @@ import json
 from pathlib import Path
 
 import pytest
-from requests.exceptions import Timeout
-
 from changelens.contracts import DiscoveryStatus, InvestigationRequest
 from changelens.data.discovery import TAP_URL, discover
-
+from requests.exceptions import Timeout
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

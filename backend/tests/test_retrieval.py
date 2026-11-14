@@ -5,15 +5,14 @@ import io
 import json
 import threading
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
+import changelens.data.retrieval as retrieval_module
 import numpy as np
 import pytest
 from astropy.io import fits
 from astropy.wcs import WCS
-from requests.exceptions import Timeout
-
 from changelens.contracts import (
     ChecksumStatus,
     ErrorCode,
@@ -21,8 +20,8 @@ from changelens.contracts import (
     RetrievalMode,
     SourceArtifact,
 )
-import changelens.data.retrieval as retrieval_module
 from changelens.data.retrieval import RetrievalError, retrieve
+from requests.exceptions import Timeout
 
 
 class FakeResponse:
@@ -123,7 +122,7 @@ def retrieve_with(
         cache_directory=tmp_path / "cache",
         manifest_directory=tmp_path / "manifests",
         session=session,
-        now=lambda: datetime(2026, 11, 14, tzinfo=timezone.utc),
+        now=lambda: datetime(2026, 11, 14, tzinfo=UTC),
         sleep=no_wait,
     )
 
@@ -299,7 +298,7 @@ def test_uncropped_legacy_full_file_cache_is_refetched_for_cutout(tmp_path: Path
         observation_id="plane-001",
         release="DR1",
         size_bytes=len(full_file),
-        retrieved_at=datetime(2026, 11, 14, tzinfo=timezone.utc),
+        retrieved_at=datetime(2026, 11, 14, tzinfo=UTC),
         sha256=hashlib.sha256(full_file).hexdigest(),
         checksum_status=ChecksumStatus.MATCHED,
         retrieval_mode=RetrievalMode.FULL_FILE,

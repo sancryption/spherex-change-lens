@@ -24,7 +24,8 @@ class ContractModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class ObservationAvailability(str, Enum):
+# Retain str, Enum stringification behavior for public API compatibility.
+class ObservationAvailability(str, Enum):  # noqa: UP042
     VALIDATED = "VALIDATED"
     VALIDATED_WITH_WARNINGS = "VALIDATED_WITH_WARNINGS"
     INVALID = "INVALID"
@@ -32,7 +33,7 @@ class ObservationAvailability(str, Enum):
     SYNTHETIC = "SYNTHETIC"
 
 
-class RunStatus(str, Enum):
+class RunStatus(str, Enum):  # noqa: UP042
     QUEUED = "QUEUED"
     RUNNING = "RUNNING"
     SUCCEEDED = "SUCCEEDED"
@@ -41,7 +42,7 @@ class RunStatus(str, Enum):
     CANCELLED = "CANCELLED"
 
 
-class EvidenceStatus(str, Enum):
+class EvidenceStatus(str, Enum):  # noqa: UP042
     NO_RELIABLE_CHANGE = "NO_RELIABLE_CHANGE"
     POSSIBLE_POSITIONAL_MOVEMENT = "POSSIBLE_POSITIONAL_MOVEMENT"
     POSSIBLE_BRIGHTNESS_VARIATION = "POSSIBLE_BRIGHTNESS_VARIATION"
@@ -50,12 +51,12 @@ class EvidenceStatus(str, Enum):
     INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
 
 
-class AnalysisMode(str, Enum):
+class AnalysisMode(str, Enum):  # noqa: UP042
     MOTION = "MOTION"
     BRIGHTNESS = "BRIGHTNESS"
 
 
-class TargetCoverageStatus(str, Enum):
+class TargetCoverageStatus(str, Enum):  # noqa: UP042
     UNVERIFIED = "UNVERIFIED"
     NO_COVERAGE = "NO_COVERAGE"
     DATA_FOUND = "DATA_FOUND"
@@ -63,14 +64,14 @@ class TargetCoverageStatus(str, Enum):
     USABLE = "USABLE"
 
 
-class VerificationLevel(str, Enum):
+class VerificationLevel(str, Enum):  # noqa: UP042
     UNVERIFIED = "UNVERIFIED"
     METADATA_ONLY = "METADATA_ONLY"
     FILE_VALIDATED = "FILE_VALIDATED"
     SCIENCE_VALIDATED = "SCIENCE_VALIDATED"
 
 
-class DiscoveryStatus(str, Enum):
+class DiscoveryStatus(str, Enum):  # noqa: UP042
     COMPLETE = "COMPLETE"
     NO_RESULTS = "NO_RESULTS"
     PARTIAL = "PARTIAL"
@@ -79,27 +80,27 @@ class DiscoveryStatus(str, Enum):
     TIMEOUT = "TIMEOUT"
 
 
-class ChecksumStatus(str, Enum):
+class ChecksumStatus(str, Enum):  # noqa: UP042
     COMPUTED = "COMPUTED"
     MATCHED = "MATCHED"
     MISMATCH = "MISMATCH"
     NO_REMOTE_CHECKSUM = "NO_REMOTE_CHECKSUM"
 
 
-class RetrievalMode(str, Enum):
+class RetrievalMode(str, Enum):  # noqa: UP042
     CUTOUT = "CUTOUT"
     FULL_FILE = "FULL_FILE"
     CACHE = "CACHE"
 
 
-class SeriesStatus(str, Enum):
+class SeriesStatus(str, Enum):  # noqa: UP042
     EMPTY = "EMPTY"
     PARTIALLY_VALIDATED = "PARTIALLY_VALIDATED"
     VALIDATED = "VALIDATED"
     UNAVAILABLE = "UNAVAILABLE"
 
 
-class ErrorCode(str, Enum):
+class ErrorCode(str, Enum):  # noqa: UP042
     INVALID_COORDINATES = "INVALID_COORDINATES"
     NO_OBSERVATIONS = "NO_OBSERVATIONS"
     ARCHIVE_UNAVAILABLE = "ARCHIVE_UNAVAILABLE"

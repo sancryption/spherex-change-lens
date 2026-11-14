@@ -4,10 +4,8 @@ import json
 from pathlib import Path
 
 import pytest
-from pydantic import ValidationError
-
 from changelens.data.targets import get_target, load_targets
-
+from pydantic import ValidationError
 
 EXPECTED_TARGET_IDS = {
     "barnards_star",

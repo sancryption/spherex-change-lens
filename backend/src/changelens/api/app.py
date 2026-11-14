@@ -24,7 +24,6 @@ from changelens.contracts import (
 from changelens.data.retrieval import DEFAULT_CACHE_DIRECTORY
 from changelens.data.targets import load_targets
 
-
 LOGGER = logging.getLogger("uvicorn.error")
 REQUEST_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
 LOCAL_FRONTEND_ORIGINS = (

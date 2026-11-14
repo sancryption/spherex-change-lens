@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pytest
-
 from changelens.contracts import DiscoveryStatus, InvestigationRequest
 from changelens.data.discovery import discover
 from changelens.data.targets import get_target

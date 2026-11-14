@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from changelens.contracts import (
@@ -21,7 +21,7 @@ def test_coverage_counts_frames_detectors_and_visit_groups_without_claiming_usab
         dec_deg=-7.2451472222,
         role="NASA challenge test target",
     )
-    first = datetime(2025, 1, 1, tzinfo=timezone.utc)
+    first = datetime(2025, 1, 1, tzinfo=UTC)
     observations = [
         ObservationRecord(observation_id="p1", observed_at=first, mjd=60676, band="SPHEREx-D1", release="DR1"),
         ObservationRecord(
@@ -96,7 +96,7 @@ def test_duplicate_observation_times_remain_in_the_same_visit_group() -> None:
         dec_deg=4.6933649666,
         role="NASA challenge test target",
     )
-    timestamp = datetime(2025, 1, 1, tzinfo=timezone.utc)
+    timestamp = datetime(2025, 1, 1, tzinfo=UTC)
     result = DiscoveryResult(
         status=DiscoveryStatus.COMPLETE,
         observations=[

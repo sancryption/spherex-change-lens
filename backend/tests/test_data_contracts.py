@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
-from pydantic import ValidationError
-
 from changelens import contracts
+from pydantic import ValidationError
 
 
 def contract(name: str):
@@ -222,7 +221,7 @@ def test_observation_record_keeps_archive_identity_and_metadata() -> None:
     )
 
     assert observation.observation_id == "obs_001"
-    assert observation.observed_at == datetime(2026, 1, 10, tzinfo=timezone.utc)
+    assert observation.observed_at == datetime(2026, 1, 10, tzinfo=UTC)
     assert observation.width == 29
 
 
