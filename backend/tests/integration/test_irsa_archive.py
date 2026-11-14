@@ -212,3 +212,47 @@ def test_select_frames_honours_requested_detector() -> None:
     assert {o.band for o in chosen} == {"SPHEREx-D6"} and len(chosen) == 4
     none, notes = select_frames(observations, max_frames=8, detector="D3")
     assert none == [] and notes == ["NO_OBSERVATIONS_FOR_D3"]
+
+
+def test_discovery_cache_survives_restart(tmp_path, monkeypatch) -> None:
+    """A new client (e.g. after a server restart) reuses the on-disk discovery cache."""
+    import numpy as np
+
+    observations = [obs(i, 60800 + i * 30) for i in range(3)]
+    calls = []
+
+    def counting(req, **kw):
+        calls.append(req)
+        return fake_discovery(observations=observations)
+
+    monkeypatch.setattr(irsa, "discover", counting)
+    monkeypatch.setattr(irsa, "retrieve", lambda o, **kw: FakeSource(RetrievalMode.CUTOUT))
+    (tmp_path / "previews").mkdir()
+
+    def preview(source, target, **kw):
+        name = f"p{len(list((tmp_path / 'previews').iterdir()))}.png"
+        (tmp_path / "previews" / name).write_bytes(b"x")
+        return FakePreview(name)
+
+    monkeypatch.setattr(irsa, "generate_preview", preview)
+    monkeypatch.setattr(irsa, "_load_source_manifest", lambda src, **kw: tmp_path / "x.fits")
+    monkeypatch.setattr(irsa, "_load_image_cutout", lambda *a, **kw: (np.ones((5, 5)), None, (0, 0), True))
+    monkeypatch.setattr(irsa, "reproject_north_up", lambda data, *a: data)
+    monkeypatch.setattr(irsa, "render_display", lambda arr: np.zeros((5, 5), dtype=np.uint8))
+    (tmp_path / "x.fits").write_bytes(b"FITS")
+
+    def new_client():
+        return IrsaArchiveClient(
+            data_dir=tmp_path, previews_dir=tmp_path / "previews", cache_dir=tmp_path / "cache", max_frames=3
+        )
+
+    first = new_client().discover(10.0, 10.0, 60)
+    second = new_client().discover(10.0, 10.0, 60)  # fresh process, same disk
+    assert len(calls) == 1
+    assert [e.epoch_id for e in second.epochs] == [e.epoch_id for e in first.epochs]
+    assert second.epochs[0].preview_path == first.epochs[0].preview_path
+
+    # A deleted preview makes the cache stale -> rediscover
+    first.epochs[0].preview_path.unlink()
+    new_client().discover(10.0, 10.0, 60)
+    assert len(calls) == 2

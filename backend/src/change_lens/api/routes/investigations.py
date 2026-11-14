@@ -101,7 +101,13 @@ def get_movers(investigation_id: str, services: ServicesDep) -> MoversResponse:
     cached = services.repo.get_movers(investigation_id)
     if cached is not None:
         return cached
-    result = screen_movers(investigation_id, services.repo.get_epoch_sources(investigation_id))
+    from change_lens.config import resolve_data_path
+
+    result = screen_movers(
+        investigation_id,
+        services.repo.get_epoch_sources(investigation_id),
+        cache_dir=resolve_data_path(services.settings.data_dir) / "mover_cache",
+    )
     if result.status != "FAILED":
         services.repo.save_movers(result)
     return result

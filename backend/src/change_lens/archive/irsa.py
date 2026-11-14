@@ -24,6 +24,8 @@ gradients) -> stretch in units of each frame's own noise, so brightness is
 comparable between frames.
 """
 
+import hashlib
+import json
 import logging
 import math
 from collections import Counter
@@ -166,11 +168,27 @@ def save_png(pixels, out_path: Path) -> Path:
     return out_path
 
 
+def _epoch_to_json(e: DiscoveredEpoch) -> dict:
+    d = dict(vars(e))
+    for k in ("preview_path", "source_fits_path"):
+        d[k] = str(d[k]) if d[k] is not None else None
+    return d
+
+
+def _epoch_from_json(d: dict) -> DiscoveredEpoch:
+    d = dict(d)
+    for k in ("preview_path", "source_fits_path"):
+        d[k] = Path(d[k]) if d.get(k) else None
+    return DiscoveredEpoch(**d)
+
+
 class IrsaArchiveClient:
     name = "irsa"
 
     def __init__(self, data_dir: Path, previews_dir: Path, cache_dir: Path, max_frames: int = 8):
-        self.query_dir = data_dir / "target_queries"
+        # Runtime TAP query/response artifacts go to an ignored folder; data/target_queries
+        # holds DATA's committed evidence and must not collect every live query.
+        self.query_dir = data_dir / "discovery_cache" / "queries"
         self.manifest_dir = data_dir / "manifests"
         self.previews_dir = previews_dir
         self.cache_dir = cache_dir
@@ -178,6 +196,8 @@ class IrsaArchiveClient:
         # Discovery is slow (TAP query, often 30-120 s). Cache results per position for
         # the life of the process so repeat queries and pre-warmed demo targets are fast.
         self._discovery_cache: dict[tuple, DiscoveryResult] = {}
+        # Also persisted to disk so a server restart (or `make prewarm`) keeps demo targets warm.
+        self.discovery_cache_dir = data_dir / "discovery_cache"
 
     def discover(
         self, ra: float, dec: float, radius_arcsec: float, detector: str | None = None
@@ -186,6 +206,10 @@ class IrsaArchiveClient:
         key = (round(ra, 6), round(dec, 6), round(fov_arcmin, 4), detector)
         if key in self._discovery_cache:
             return self._discovery_cache[key]
+        on_disk = self._load_cached(key)
+        if on_disk is not None:
+            self._discovery_cache[key] = on_disk
+            return on_disk
         # Download ~1.42x wider (sqrt 2) so rotated frames still fill the square after alignment.
         request = InvestigationRequest(ra_deg=ra, dec_deg=dec, fov_arcmin=min(fov_arcmin * 1.42, 300))
         found = discover(request, artifact_directory=self.query_dir)
@@ -217,7 +241,42 @@ class IrsaArchiveClient:
         # Only cache clean results, so a transient retrieval failure can be retried.
         if not any("RETRIEVAL_FAILED" in e.warnings for e in epochs):
             self._discovery_cache[key] = result
+            self._store_cached(key, result)
         return result
+
+    def _cache_file(self, key: tuple) -> Path:
+        digest = hashlib.sha256(repr(key).encode()).hexdigest()[:24]
+        return self.discovery_cache_dir / f"{digest}.json"
+
+    def _load_cached(self, key: tuple) -> DiscoveryResult | None:
+        path = self._cache_file(key)
+        if not path.is_file():
+            return None
+        try:
+            data = json.loads(path.read_text("utf-8"))
+            epochs = [_epoch_from_json(e) for e in data["epochs"]]
+        except (OSError, ValueError, KeyError, TypeError):
+            return None
+        # Stale if any preview or FITS it points to has been deleted.
+        for e in epochs:
+            for p in (e.preview_path, e.source_fits_path):
+                if p is not None and not p.is_file():
+                    return None
+        return DiscoveryResult(epochs=epochs, warnings=list(data.get("warnings", [])))
+
+    def _store_cached(self, key: tuple, result: DiscoveryResult) -> None:
+        try:
+            self.discovery_cache_dir.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "key": repr(key),
+                "epochs": [_epoch_to_json(e) for e in result.epochs],
+                "warnings": result.warnings,
+            }
+            tmp = self._cache_file(key).with_suffix(".tmp")
+            tmp.write_text(json.dumps(payload, indent=1), "utf-8")
+            tmp.replace(self._cache_file(key))
+        except OSError as exc:
+            LOGGER.warning("Could not persist discovery cache: %s", exc)
 
     def _epoch(self, obs: ObservationRecord, target: TargetRecord, fov_arcmin: float) -> DiscoveredEpoch:
         warnings = list(obs.warnings)
