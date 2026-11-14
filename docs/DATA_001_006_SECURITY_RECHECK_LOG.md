@@ -7,7 +7,7 @@
 - The owner selected standalone DATA and selected optional Gaia/AllWISE catalogue support as enabled. This records intended scope, not runtime activation or release approval.
 - DATA-001–005 tests and probes are bound to pinned candidate `2600f2b89701d6d3fbab70ccfcf181fdba1fa2f2`.
 - DATA-006 was checked separately at `f0779d91710727672db5a74f1192c8c31c8c5ad8`; PR #8 merged it to `main` at `0311ad63c9693ecd18d3bc7b0b478d61dc048d06`.
-- The audited upstream candidates require Python `>=3.11` and the test receipts used Python 3.11.14. The separate staged local worktree specifies Python 3.10; it is a different candidate and these receipts do not cover it (N-006).
+- The audited upstream candidates require Python `>=3.11` and the upstream test receipts used Python 3.11.14. The separate staged local worktree specifies Python 3.10; it is a different candidate, so the upstream receipts do not cover it (N-006). Its separate parent-recovery test result follows below.
 - A separate local parent-recovery DATA/BE candidate is recorded at frozen identity `sha256:cbf2ddf1044ff9069e31ffbd7072128c0ab5ee350aa07902db3ef098c9a92a8c`, based on `d45aa956fac7ecb81ba712b06995c27bbb08020a` and tested as clean-clone commit `39b75500182db489fe03a0e349943d0c0fea28d8`. It passed its locked Python 3.10.11 clean-clone and README offline suite separately; this candidate-bound result does not transfer to the upstream snapshots or establish the optional DATA-006 adapter integration.
 - GitHub reported `main` at `f568d39a5df23bf9839449b8b9056a320101e3e0` at 18:45 UTC on 14 November 2026. Open PRs #15 (INT demo pre-warm/persistent caches) and #16 (SCI Phase 4) are unrelated to this standalone DATA audit.
 
@@ -39,6 +39,8 @@ The bounded upstream IRSA request returned HTTP 200 with `QUERY_STATUS=OVERFLOW`
 
 ## Repository status at review
 
-At `2026-11-14 18:45:24 UTC` (`15 November 2026 02:45:24 SGT`), the review checkout was on `data/night-1` at `d45aa956fac7ecb81ba712b06995c27bbb08020a` with 104 porcelain status entries. It was not clean; staged snapshot files and local audit artifacts were present. The separate DATA-006 checkout was clean on `codex/data-006-optional-catalogue-adapters` at `f0779d91710727672db5a74f1192c8c31c8c5ad8`.
+At `2026-11-14 19:35:18 UTC`, PR [#17](https://github.com/sancryption/spherex-change-lens/pull/17) was confirmed open on base `main` `f568d39a5df23bf9839449b8b9056a320101e3e0`, with branch head `2265ba94fbea5634c2f8723d7a7225a0532c1f78`, three commits, and one changed file. Its description records the exact test candidates and remaining limitations.
+
+At `2026-11-14 19:35:32 UTC` (`15 November 2026 03:35:32 SGT`), the review checkout was on `data/night-1` at `d45aa956fac7ecb81ba712b06995c27bbb08020a` with 106 porcelain status entries. It was not clean; staged snapshot files and local audit artifacts were present. The separate DATA-006 checkout was clean on `codex/data-006-optional-catalogue-adapters` at `f0779d91710727672db5a74f1192c8c31c8c5ad8`. The isolated publish checkout was at PR head `2265ba94fbea5634c2f8723d7a7225a0532c1f78`; tracked files were synchronized, with an untracked `main-f568/` worktree directory present. The PR contains only this inventory-free Markdown log.
 
 This log records candidate-specific test outcomes and the captured repository state. Passing tests do not clear the open security findings or establish deployment readiness.
