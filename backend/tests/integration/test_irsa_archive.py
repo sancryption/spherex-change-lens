@@ -203,3 +203,12 @@ def test_background_gradient_is_removed() -> None:
     assert abs(np.median(ramp[inner]) - np.median(flat[inner])) < 10
     top, bottom = np.median(ramp[8:15, 8:-8]), np.median(ramp[-15:-8, 8:-8])
     assert abs(top - bottom) < 10  # no residual gradient
+
+
+def test_select_frames_honours_requested_detector() -> None:
+    observations = [obs(i, 60800 + i * 10) for i in range(10)]  # D2, the biggest group
+    observations += [obs(100 + i, 60805 + i * 20, band="SPHEREx-D6") for i in range(4)]
+    chosen, _ = select_frames(observations, max_frames=8, detector="D6")
+    assert {o.band for o in chosen} == {"SPHEREx-D6"} and len(chosen) == 4
+    none, notes = select_frames(observations, max_frames=8, detector="D3")
+    assert none == [] and notes == ["NO_OBSERVATIONS_FOR_D3"]

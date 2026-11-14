@@ -39,6 +39,8 @@ export interface CoordinateQueryRequest {
   radius_arcsec: number;
   /** Optional preset target_id from /targets */
   target_id?: string;
+  /** Optional detector to play, "D1".."D6". Brown dwarfs: D5/D6. */
+  detector?: string;
 }
 
 export interface InvestigationMetadata {

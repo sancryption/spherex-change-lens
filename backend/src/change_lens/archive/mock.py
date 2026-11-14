@@ -49,7 +49,9 @@ class MockArchiveClient:
     def __init__(self, synthetic_dir: Path):
         self.preview_dir = Path(synthetic_dir) / "previews"
 
-    def discover(self, ra: float, dec: float, radius_arcsec: float) -> DiscoveryResult:
+    def discover(
+        self, ra: float, dec: float, radius_arcsec: float, detector: str | None = None
+    ) -> DiscoveryResult:
         epochs = []
         for suffix, when, mjd, idx, warnings in _EPOCHS:
             outside = "OUTSIDE_FOOTPRINT" in warnings

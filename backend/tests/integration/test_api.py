@@ -96,6 +96,7 @@ def test_preview_png_served(client: TestClient) -> None:
 @pytest.mark.parametrize(
     "body,code",
     [
+        ({"ra": 10, "dec": 0, "detector": "D9"}, "INVALID_REQUEST"),
         ({"ra": 10, "dec": 95}, "INVALID_COORDINATES"),
         ({"ra": 360, "dec": 0}, "INVALID_COORDINATES"),
         ({"ra": 10, "dec": 0, "radius_arcsec": 0}, "INVALID_REQUEST"),

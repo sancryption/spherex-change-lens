@@ -55,6 +55,12 @@ class CoordinateQueryRequest(BaseModel):
     target_id: str | None = Field(
         None, description="Optional preset target_id (from /targets) this query was started from"
     )
+    detector: str | None = Field(
+        None,
+        pattern=r"^D[1-6]$",
+        description="Optional SPHEREx detector to play ('D1'..'D6'). Default: the one with most data. "
+        "Cold brown dwarfs are brightest in D5/D6 (~4-5 um).",
+    )
 
 
 class InvestigationMetadata(BaseModel):

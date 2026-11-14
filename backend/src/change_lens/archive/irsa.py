@@ -84,10 +84,14 @@ def _sample_evenly(items: list, n: int) -> list:
 
 
 def select_frames(
-    observations: list[ObservationRecord], max_frames: int
+    observations: list[ObservationRecord], max_frames: int, detector: str | None = None
 ) -> tuple[list[ObservationRecord], list[str]]:
     """Pick one detector+release group and sample it evenly in time."""
     usable = [o for o in observations if o.mjd is not None and o.access_url is not None]
+    if detector:
+        usable = [o for o in usable if _short_band(o.band) == detector]
+        if not usable:
+            return [], [f"NO_OBSERVATIONS_FOR_{detector}"]
     if not usable:
         return [], []
     # Dedupe by observation_id, keep chronological order.
@@ -173,11 +177,13 @@ class IrsaArchiveClient:
         self.max_frames = max_frames
         # Discovery is slow (TAP query, often 30-120 s). Cache results per position for
         # the life of the process so repeat queries and pre-warmed demo targets are fast.
-        self._discovery_cache: dict[tuple[float, float, float], DiscoveryResult] = {}
+        self._discovery_cache: dict[tuple, DiscoveryResult] = {}
 
-    def discover(self, ra: float, dec: float, radius_arcsec: float) -> DiscoveryResult:
+    def discover(
+        self, ra: float, dec: float, radius_arcsec: float, detector: str | None = None
+    ) -> DiscoveryResult:
         fov_arcmin = min(max(2 * radius_arcsec / 60.0, MIN_FOV_ARCMIN), MAX_FOV_ARCMIN)
-        key = (round(ra, 6), round(dec, 6), round(fov_arcmin, 4))
+        key = (round(ra, 6), round(dec, 6), round(fov_arcmin, 4), detector)
         if key in self._discovery_cache:
             return self._discovery_cache[key]
         # Download ~1.42x wider (sqrt 2) so rotated frames still fill the square after alignment.
@@ -198,7 +204,7 @@ class IrsaArchiveClient:
                 {"discovery_status": found.status.value, "http_status": found.http_status},
             )
 
-        chosen, notes = select_frames(found.observations, self.max_frames)
+        chosen, notes = select_frames(found.observations, self.max_frames, detector)
         target = TargetRecord(
             target_id="user-query",
             name=f"RA {ra:.5f} Dec {dec:+.5f}",
