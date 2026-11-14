@@ -96,3 +96,7 @@ logs/
 .mypy_cache/
 playwright-report/
 test-results/
+
+# Demo pre-warm caches (regenerate with `make prewarm`)
+data/discovery_cache/
+data/mover_cache/

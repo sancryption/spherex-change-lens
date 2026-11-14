@@ -116,3 +116,20 @@ def test_screen_movers_needs_two_frames_and_one_detector(tmp_path: Path) -> None
     )]
     result = screen_movers("i", mixed)
     assert result.status == "UNAVAILABLE" and "MIXED_DETECTORS" in result.warnings
+
+
+def test_mover_cache_reused_across_investigations(tmp_path: Path, monkeypatch) -> None:
+    calls = []
+
+    def fake_phase2(*a, **kw):
+        calls.append(1)
+        return SimpleNamespace(alignment=SimpleNamespace(warnings=()))
+
+    monkeypatch.setattr(phase2, "run_phase2", fake_phase2)
+    monkeypatch.setattr(phase3, "run_phase3", lambda p2: FakePhase3())
+    monkeypatch.setattr(phase3, "possible_movers", lambda p3: (FakeCandidate(),))
+    sources = _sources(tmp_path)
+    a = screen_movers("inv_a", sources, cache_dir=tmp_path / "mc")
+    b = screen_movers("inv_b", sources, cache_dir=tmp_path / "mc")
+    assert len(calls) == 1
+    assert b.investigation_id == "inv_b" and b.candidates == a.candidates

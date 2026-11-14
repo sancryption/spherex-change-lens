@@ -1,7 +1,7 @@
 # SPHEREx Change Lens - Root Automation Makefile
 # Non-destructive project lifecycle targets
 
-.PHONY: all help install lint test test-backend test-frontend test-e2e dev verify-structure clean-scaffold
+.PHONY: all help install lint test test-backend test-frontend test-e2e dev verify-structure clean-scaffold prewarm
 
 all: help
 
@@ -15,6 +15,7 @@ help:
 	@echo "  make test-frontend    - Run vitest on frontend packages"
 	@echo "  make test-e2e         - Run Playwright end-to-end tests (pending implementation)"
 	@echo "  make dev              - Start local development services"
+	@echo "  make prewarm          - Fetch real SPHEREx frames for the 5 NASA targets before a demo"
 
 verify-structure:
 	@python scripts/validate_environment.py
@@ -46,3 +47,6 @@ dev:
 	@echo "[Pending Implementation] Development servers start:"
 	@echo "Backend API: uvicorn change_lens.main:create_app --reload --port 8000"
 	@echo "Frontend UI: cd frontend && npm run dev"
+
+prewarm:
+	@python scripts/prewarm_demo.py

@@ -16,6 +16,7 @@ D2 and D6) and should be confirmed by SCI:
   blends neighbours and marks most centroids AMBIGUOUS.
 """
 
+import hashlib
 import logging
 from collections import Counter
 from pathlib import Path
@@ -30,11 +31,45 @@ FLAG_POLICY_VERSION = "spherex-source-informational-v0"
 MIN_FRAMES = 2
 
 
+def _cache_path(cache_dir: Path, sources: list) -> Path:
+    sig = repr(
+        (FLAG_POLICY_VERSION, CENTROID_RADIUS_PX, sorted((s[0], str(s[2])) for s in sources))
+    )
+    return cache_dir / f"{hashlib.sha256(sig.encode()).hexdigest()[:24]}.json"
+
+
 def screen_movers(
     investigation_id: str,
     sources: list[tuple[str, float, Path, str | None, str | None]],
+    cache_dir: Path | None = None,
 ) -> MoversResponse:
-    """sources: (epoch_id, mjd, fits_path, detector, release), chronological."""
+    """sources: (epoch_id, mjd, fits_path, detector, release), chronological.
+
+    With ``cache_dir``, results are reused for the same set of FITS frames, so a
+    new investigation of a pre-warmed target returns instantly.
+    """
+    if cache_dir is not None and sources:
+        cached = _cache_path(cache_dir, sources)
+        if cached.is_file():
+            try:
+                hit = MoversResponse.model_validate_json(cached.read_text("utf-8"))
+                return hit.model_copy(update={"investigation_id": investigation_id})
+            except ValueError:
+                pass
+    result = _screen(investigation_id, sources)
+    if cache_dir is not None and sources and result.status == "COMPLETED":
+        try:
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            _cache_path(cache_dir, sources).write_text(result.model_dump_json(), "utf-8")
+        except OSError as exc:
+            LOGGER.warning("Could not persist mover cache: %s", exc)
+    return result
+
+
+def _screen(
+    investigation_id: str,
+    sources: list[tuple[str, float, Path, str | None, str | None]],
+) -> MoversResponse:
     method = {
         "pipeline": "sci-phase2+phase3",
         "flag_policy": FLAG_POLICY_VERSION,
