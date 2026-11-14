@@ -73,3 +73,15 @@ With `SPHEREX_ARCHIVE_MOCK_MODE=true` (the default), every query returns 5 **syn
 
 ### For DATA: plugging in the real archive
 Implement the `ArchiveClient` protocol in `backend/src/change_lens/archive/base.py` (a `discover(ra, dec, radius_arcsec) -> DiscoveryResult` method), then return it from `_default_archive()` in `main.py` when mock mode is off. The backend handles sorting, deduplication, storage, artifact IDs and serving.
+
+### Real archive mode (INT-003)
+Set `SPHEREX_ARCHIVE_MOCK_MODE=false` to serve real SPHEREx data. `change_lens.archive.irsa.IrsaArchiveClient` wraps the DATA code in `changelens.data` (`discover` → `retrieve` → `generate_preview`) without changing it:
+
+- **One detector + one release per timeline.** The group with the most observations is played. Mixing detectors (wavelengths) or releases would look like change.
+- **Up to `SPHEREX_MAX_FRAMES` epochs (default 8)**, sampled evenly in time across all visits.
+- **North-up alignment.** SPHEREx cutouts arrive in detector orientation, and visits can be rotated about 180° relative to each other. Every preview is reprojected onto one shared north-up TAN grid (≈6.15″/px) centred on the query position, so stars stay fixed between frames.
+- **FOV** = 2 × `radius_arcsec`, clamped to 10–30 arcmin.
+- **Labels:** `data_origin` is `authentic_live` or `authentic_cached`. Every frame carries `SCIENCE_AND_WCS_VALIDATION_PENDING` until SCI validation exists.
+- **Speed:** the first query for a position takes minutes (TAP discovery plus cutout downloads). Repeat queries are instant (in-process discovery cache plus on-disk FITS cache). Pre-warm demo targets before presenting.
+- **Errors:** IRSA timeout, 5xx or connection failure → `503 ARCHIVE_UNAVAILABLE` (retryable). No coverage → empty timeline, `status="no_coverage"`.
+- **High proper motion targets:** registry coordinates are J2000, so Barnard's Star appears about 4.5′ north of centre in 2025–26 data.

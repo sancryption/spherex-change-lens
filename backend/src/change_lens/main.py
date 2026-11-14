@@ -15,9 +15,13 @@ def _default_archive(settings: Settings) -> Any:
         from change_lens.archive.mock import MockArchiveClient
 
         return MockArchiveClient(resolve_data_path(settings.data_dir) / "synthetic")
-    # DATA workstream: return the real IRSA client here once implemented.
-    raise RuntimeError(
-        "SPHEREX_ARCHIVE_MOCK_MODE=false but no real archive client is implemented yet."
+    from change_lens.archive.irsa import IrsaArchiveClient
+
+    return IrsaArchiveClient(
+        data_dir=resolve_data_path(settings.data_dir),
+        previews_dir=resolve_data_path(settings.previews_dir),
+        cache_dir=resolve_data_path(settings.cached_mefs_dir),
+        max_frames=settings.spherex_max_frames,
     )
 
 
