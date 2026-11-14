@@ -68,6 +68,9 @@ class MockArchiveClient:
                     preview_path=preview,
                     flags_summary={"BAD_PIXEL": 3, "EDGE": 12} if warnings else {},
                     warnings=list(warnings),
+                    detector="D2",
+                    release="SYNTHETIC",
+                    wavelength_range_um=[1.10, 1.62],
                 )
             )
         return DiscoveryResult(

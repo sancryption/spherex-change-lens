@@ -65,6 +65,12 @@ export interface EpochDescriptor {
   data_origin: "authentic_live" | "authentic_cached" | "synthetic" | string;
   /** Reason codes, e.g. "OUTSIDE_FOOTPRINT", "PSF_METADATA_INCOMPLETE" */
   warnings: string[];
+  /** SPHEREx detector, "D1".."D6" */
+  detector?: string | null;
+  /** Archive release, e.g. "DR1", "QR3" */
+  release?: string | null;
+  /** Nominal [min, max] wavelength of the detector in microns */
+  wavelength_range_um?: [number, number] | null;
 }
 
 export interface TimelineResponse {

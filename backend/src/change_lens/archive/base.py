@@ -22,6 +22,9 @@ class DiscoveredEpoch:
     preview_path: Path | None = None  # PNG on disk, or None if no preview could be made
     flags_summary: dict[str, int] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    detector: str | None = None  # "D1".."D6"
+    release: str | None = None  # "DR1", "QR3", ...
+    wavelength_range_um: list[float] | None = None
 
 
 @dataclass

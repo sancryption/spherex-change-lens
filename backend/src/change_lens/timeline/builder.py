@@ -28,6 +28,9 @@ def build_timeline(
             quality_warning=bool(e.warnings) or e.preview_path is None,
             data_origin=e.data_origin,
             warnings=e.warnings,
+            detector=e.detector,
+            release=e.release,
+            wavelength_range_um=e.wavelength_range_um,
         )
         for e in ordered
     ]

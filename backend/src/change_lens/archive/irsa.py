@@ -17,6 +17,11 @@ Alignment: SPHEREx cutouts come in detector orientation, which differs between
 visits (frames can be rotated by ~180 degrees). Every preview is reprojected onto
 one shared north-up TAN grid centred on the target, so stars stay still and only
 real motion or brightness change remains when the frames are played in sequence.
+
+Rendering: previews are made from the float FITS cutout (not an 8-bit PNG):
+reproject north-up -> subtract a smooth background (removes stray-light
+gradients) -> stretch in units of each frame's own noise, so brightness is
+comparable between frames.
 """
 
 import logging
@@ -32,6 +37,7 @@ from changelens.contracts import (
     TargetRecord,
 )
 from changelens.data import PreviewError, discover, generate_preview, retrieve
+from changelens.data.previews import _load_image_cutout, _load_source_manifest
 from changelens.data.retrieval import RetrievalError
 
 from change_lens.api.errors import ArchiveUnavailableError
@@ -43,6 +49,16 @@ _UNAVAILABLE = {DiscoveryStatus.TIMEOUT, DiscoveryStatus.HTTP_5XX}
 # SPHEREx pixels are ~6.2 arcsec, so 10 arcmin gives ~100 px previews.
 MIN_FOV_ARCMIN = 10.0
 MAX_FOV_ARCMIN = 30.0
+
+# Nominal SPHEREx detector bandpasses (microns).
+DETECTOR_WAVELENGTH_UM = {
+    "D1": [0.75, 1.09],
+    "D2": [1.10, 1.62],
+    "D3": [1.63, 2.41],
+    "D4": [2.42, 3.82],
+    "D5": [3.83, 4.41],
+    "D6": [4.42, 5.00],
+}
 
 
 def _short_band(band: str | None) -> str:
@@ -92,32 +108,57 @@ def select_frames(
 SPHEREX_PIXEL_ARCSEC = 6.15
 
 
-def align_north_up(
-    png_path: Path, wcs_header: dict, ra: float, dec: float, fov_arcmin: float, out_path: Path
-) -> Path:
-    """Reproject a preview onto a shared north-up TAN grid centred on (ra, dec).
+def reproject_north_up(data, wcs, ra: float, dec: float, fov_arcmin: float):
+    """Reproject a float image onto a shared north-up TAN grid centred on (ra, dec).
 
-    The input PNG rows follow FITS order (row 0 = bottom), matching ``wcs_header``.
-    The output PNG is in display order (north up, east left).
+    Returns a float array in FITS row order (row 0 = south), NaN outside the source.
     """
     import numpy as np
-    from astropy.io.fits import Header
     from astropy.wcs import WCS
-    from PIL import Image
     from reproject import reproject_interp
 
-    data = np.asarray(Image.open(png_path), dtype=float)
-    src_wcs = WCS(Header(wcs_header)).celestial
     n = max(16, math.ceil(fov_arcmin * 60 / SPHEREX_PIXEL_ARCSEC))
     target = WCS(naxis=2)
     target.wcs.ctype = ["RA---TAN", "DEC--TAN"]
     target.wcs.crval = [ra, dec]
     target.wcs.crpix = [(n + 1) / 2, (n + 1) / 2]
     target.wcs.cdelt = [-SPHEREX_PIXEL_ARCSEC / 3600, SPHEREX_PIXEL_ARCSEC / 3600]
-    aligned, _ = reproject_interp((data, src_wcs), target, shape_out=(n, n), order="bilinear")
-    pixels = np.nan_to_num(aligned, nan=0.0).clip(0, 255).astype(np.uint8)
+    aligned, _ = reproject_interp(
+        (np.asarray(data, dtype=float), wcs.celestial), target, shape_out=(n, n), order="bilinear"
+    )
+    return aligned
+
+
+def render_display(aligned):
+    """Background-subtract and noise-normalise a float image; return uint8 in display order."""
+    import numpy as np
+    from scipy.ndimage import median_filter
+
+    finite = np.isfinite(aligned)
+    if not finite.any():
+        raise ValueError("no finite pixels after alignment")
+    filled = np.where(finite, aligned, np.nanmedian(aligned))
+    # Smooth background: large median filter ignores stars, follows stray-light gradients.
+    size = max(9, min(aligned.shape) // 5) | 1
+    background = median_filter(filled, size=size, mode="nearest")
+    residual = filled - background
+    vals = residual[finite]
+    sigma = 1.4826 * np.median(np.abs(vals - np.median(vals)))
+    if not np.isfinite(sigma) or sigma <= 0:
+        sigma = float(np.std(vals)) or 1.0
+    # Same stretch in noise units for every frame: -2 sigma -> black, +60 sigma -> white.
+    scaled = np.clip((residual + 2 * sigma) / (62 * sigma), 0.0, 1.0)
+    stretched = np.arcsinh(10.0 * scaled) / np.arcsinh(10.0)
+    pixels = np.rint(stretched * 255).astype(np.uint8)
+    pixels[~finite] = 0
+    return np.flipud(pixels)  # north up
+
+
+def save_png(pixels, out_path: Path) -> Path:
+    from PIL import Image
+
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(np.flipud(pixels), mode="L").save(out_path)
+    Image.fromarray(pixels, mode="L").save(out_path)
     return out_path
 
 
@@ -139,7 +180,8 @@ class IrsaArchiveClient:
         key = (round(ra, 6), round(dec, 6), round(fov_arcmin, 4))
         if key in self._discovery_cache:
             return self._discovery_cache[key]
-        request = InvestigationRequest(ra_deg=ra, dec_deg=dec, fov_arcmin=fov_arcmin)
+        # Download ~1.42x wider (sqrt 2) so rotated frames still fill the square after alignment.
+        request = InvestigationRequest(ra_deg=ra, dec_deg=dec, fov_arcmin=min(fov_arcmin * 1.42, 300))
         found = discover(request, artifact_directory=self.query_dir)
 
         if found.status in _UNAVAILABLE or found.error_code in {
@@ -173,8 +215,6 @@ class IrsaArchiveClient:
 
     def _epoch(self, obs: ObservationRecord, target: TargetRecord, fov_arcmin: float) -> DiscoveredEpoch:
         warnings = list(obs.warnings)
-        if obs.release:
-            warnings.append(f"RELEASE_{obs.release}")
         origin = "authentic_live"
         preview_path: Path | None = None
         try:
@@ -189,14 +229,15 @@ class IrsaArchiveClient:
                 manifest_directory=self.manifest_dir,
                 preview_directory=self.previews_dir,
             )
-            raw_png = self.previews_dir / preview.preview_filename
-            preview_path = align_north_up(
-                raw_png,
-                preview.wcs_header,
-                target.ra_deg,
-                target.dec_deg,
-                fov_arcmin,
-                self.previews_dir / "aligned" / preview.preview_filename,
+            source_path = _load_source_manifest(
+                source, cache_directory=self.cache_dir, manifest_directory=self.manifest_dir
+            )
+            cutout, cutout_wcs, _, _ = _load_image_cutout(
+                source_path, obs.observation_id, target, fov_arcmin=fov_arcmin * 1.5
+            )
+            aligned = reproject_north_up(cutout, cutout_wcs, target.ra_deg, target.dec_deg, fov_arcmin)
+            preview_path = save_png(
+                render_display(aligned), self.previews_dir / "aligned" / preview.preview_filename
             )
             warnings += preview.warnings
             if not preview.target_in_footprint:
@@ -222,4 +263,7 @@ class IrsaArchiveClient:
             data_origin=origin,
             preview_path=preview_path,
             warnings=warnings,
+            detector=_short_band(obs.band),
+            release=obs.release,
+            wavelength_range_um=DETECTOR_WAVELENGTH_UM.get(_short_band(obs.band)),
         )

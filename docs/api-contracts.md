@@ -81,6 +81,9 @@ Set `SPHEREX_ARCHIVE_MOCK_MODE=false` to serve real SPHEREx data. `change_lens.a
 - **Up to `SPHEREX_MAX_FRAMES` epochs (default 8)**, sampled evenly in time across all visits.
 - **North-up alignment.** SPHEREx cutouts arrive in detector orientation, and visits can be rotated about 180° relative to each other. Every preview is reprojected onto one shared north-up TAN grid (≈6.15″/px) centred on the query position, so stars stay fixed between frames.
 - **FOV** = 2 × `radius_arcsec`, clamped to 10–30 arcmin.
+- **Rendering:** previews are made from the float FITS cutout. Each one is reprojected north-up, has a smooth background subtracted (large median filter, which removes stray-light gradients), and is stretched in units of its own noise (−2σ → black, +60σ → white, asinh). Brightness is therefore comparable between frames. Cutouts are downloaded about 1.42× wider so that rotated frames still fill the square.
+- **Target position / crosshair:** the image centre is exactly the queried RA/Dec in every frame. The frontend should draw the crosshair as an overlay at the centre, not burn it into the PNG, so it can be toggled and never hides the pixels being inspected.
+- **Per-frame labels:** `detector` (`D1`–`D6`), `release` (`DR1`, `QR3`, …) and `wavelength_range_um` (nominal detector bandpass) are on every `EpochDescriptor`.
 - **Labels:** `data_origin` is `authentic_live` or `authentic_cached`. Every frame carries `SCIENCE_AND_WCS_VALIDATION_PENDING` until SCI validation exists.
 - **Speed:** the first query for a position takes minutes (TAP discovery plus cutout downloads). Repeat queries are instant (in-process discovery cache plus on-disk FITS cache). Pre-warm demo targets before presenting.
 - **Errors:** IRSA timeout, 5xx or connection failure → `503 ARCHIVE_UNAVAILABLE` (retryable). No coverage → empty timeline, `status="no_coverage"`.

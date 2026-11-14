@@ -87,6 +87,11 @@ class EpochDescriptor(BaseModel):
         "Always shown in the UI.",
     )
     warnings: list[str] = Field(default_factory=list, description="Reason codes for quality issues")
+    detector: str | None = Field(None, description="SPHEREx detector, 'D1'..'D6'")
+    release: str | None = Field(None, description="Archive release, e.g. 'DR1', 'QR3'")
+    wavelength_range_um: list[float] | None = Field(
+        None, description="Nominal [min, max] wavelength of the detector in microns"
+    )
 
 
 class TimelineResponse(BaseModel):
