@@ -1,8 +1,0 @@
-{
-  "FORMAT": "votable",
-  "LANG": "ADQL",
-  "MAXREC": "50000",
-  "QUERY": "SELECT\n  'https://irsa.ipac.caltech.edu/' || a.uri || '?center=248.1675,66.755d&size=0.236666666667' AS access_url,\n  p.planeid AS planeid,\n  a.uri AS artifact_path,\n  p.time_bounds_lower AS time_mjd,\n  p.energy_bandpassname AS band,\n  p.dataproducttype AS product,\n  p.position_dimension_naxis1 AS width,\n  p.position_dimension_naxis2 AS height,\n  p.poly AS footprint,\n  a.contentchecksum AS remote_checksum\nFROM spherex.artifact AS a\nJOIN spherex.plane AS p ON a.planeid = p.planeid\nWHERE 1=CONTAINS(POINT('ICRS', 248.1675, 66.755), p.poly)\n  AND a.producttype = 'science'\n  AND a.contenttype = 'image/fits'\nORDER BY p.time_bounds_lower",
-  "REQUEST": "doQuery",
-  "endpoint": "https://irsa.ipac.caltech.edu/TAP/sync"
-}

@@ -186,7 +186,9 @@ class IrsaArchiveClient:
     name = "irsa"
 
     def __init__(self, data_dir: Path, previews_dir: Path, cache_dir: Path, max_frames: int = 8):
-        self.query_dir = data_dir / "target_queries"
+        # Runtime TAP query/response artifacts go to an ignored folder; data/target_queries
+        # holds DATA's committed evidence and must not collect every live query.
+        self.query_dir = data_dir / "discovery_cache" / "queries"
         self.manifest_dir = data_dir / "manifests"
         self.previews_dir = previews_dir
         self.cache_dir = cache_dir
