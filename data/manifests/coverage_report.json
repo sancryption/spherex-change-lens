@@ -39,7 +39,35 @@
       "science_validated_count": 0,
       "target_id": "barnards_star",
       "target_status": "UNVERIFIED",
+      "timeline_status": "PARTIALLY_VALIDATED",
+      "timeline_summary": {
+        "distinct_frame_count": 363,
+        "duplicate_record_count": 0,
+        "evidence_counts": {
+          "compatible": 0,
+          "data_found": 363,
+          "downloaded": 1,
+          "parsed": 1,
+          "scientifically_measured": 0
+        },
+        "provenance_id": null,
+        "raw_discovery_artifact_path": "data/target_queries/art_query_b067bf8d2b95d523.votable",
+        "record_count": 363,
+        "series_count": 363,
+        "series_status_counts": {
+          "ONE_FRAME": 363
+        },
+        "status": "PARTIALLY_VALIDATED",
+        "time_baseline_days": 402.76330600000006
+      },
       "usable": false,
+      "validation_counts": {
+        "compatible": 0,
+        "data_found": 363,
+        "downloaded": 1,
+        "parsed": 1,
+        "scientifically_measured": 0
+      },
       "visit_gap_days": 30.0,
       "visit_group_count": 3,
       "visit_groups": [
@@ -96,7 +124,35 @@
       "science_validated_count": 0,
       "target_id": "epsilon_indi_b",
       "target_status": "UNVERIFIED",
+      "timeline_status": "PARTIALLY_VALIDATED",
+      "timeline_summary": {
+        "distinct_frame_count": 465,
+        "duplicate_record_count": 0,
+        "evidence_counts": {
+          "compatible": 0,
+          "data_found": 465,
+          "downloaded": 0,
+          "parsed": 0,
+          "scientifically_measured": 0
+        },
+        "provenance_id": null,
+        "raw_discovery_artifact_path": "data/target_queries/art_query_3e9389a5c01f6a65.votable",
+        "record_count": 465,
+        "series_count": 465,
+        "series_status_counts": {
+          "ONE_FRAME": 465
+        },
+        "status": "PARTIALLY_VALIDATED",
+        "time_baseline_days": 525.622554
+      },
       "usable": false,
+      "validation_counts": {
+        "compatible": 0,
+        "data_found": 465,
+        "downloaded": 0,
+        "parsed": 0,
+        "scientifically_measured": 0
+      },
       "visit_gap_days": 30.0,
       "visit_group_count": 4,
       "visit_groups": [
@@ -157,7 +213,35 @@
       "science_validated_count": 0,
       "target_id": "wise_0855",
       "target_status": "UNVERIFIED",
+      "timeline_status": "PARTIALLY_VALIDATED",
+      "timeline_summary": {
+        "distinct_frame_count": 258,
+        "duplicate_record_count": 0,
+        "evidence_counts": {
+          "compatible": 0,
+          "data_found": 258,
+          "downloaded": 0,
+          "parsed": 0,
+          "scientifically_measured": 0
+        },
+        "provenance_id": null,
+        "raw_discovery_artifact_path": "data/target_queries/art_query_aa995adb2753c499.votable",
+        "record_count": 258,
+        "series_count": 258,
+        "series_status_counts": {
+          "ONE_FRAME": 258
+        },
+        "status": "PARTIALLY_VALIDATED",
+        "time_baseline_days": 373.58718999999996
+      },
       "usable": false,
+      "validation_counts": {
+        "compatible": 0,
+        "data_found": 258,
+        "downloaded": 0,
+        "parsed": 0,
+        "scientifically_measured": 0
+      },
       "visit_gap_days": 30.0,
       "visit_group_count": 3,
       "visit_groups": [
@@ -214,7 +298,35 @@
       "science_validated_count": 0,
       "target_id": "rw_aurigae",
       "target_status": "UNVERIFIED",
+      "timeline_status": "PARTIALLY_VALIDATED",
+      "timeline_summary": {
+        "distinct_frame_count": 335,
+        "duplicate_record_count": 0,
+        "evidence_counts": {
+          "compatible": 0,
+          "data_found": 335,
+          "downloaded": 0,
+          "parsed": 0,
+          "scientifically_measured": 0
+        },
+        "provenance_id": null,
+        "raw_discovery_artifact_path": "data/target_queries/art_query_8c5e864716de736a.votable",
+        "record_count": 335,
+        "series_count": 335,
+        "series_status_counts": {
+          "ONE_FRAME": 335
+        },
+        "status": "PARTIALLY_VALIDATED",
+        "time_baseline_days": 380.47625
+      },
       "usable": false,
+      "validation_counts": {
+        "compatible": 0,
+        "data_found": 335,
+        "downloaded": 0,
+        "parsed": 0,
+        "scientifically_measured": 0
+      },
       "visit_gap_days": 30.0,
       "visit_group_count": 3,
       "visit_groups": [
@@ -271,7 +383,35 @@
       "science_validated_count": 0,
       "target_id": "r_draconis",
       "target_status": "UNVERIFIED",
+      "timeline_status": "PARTIALLY_VALIDATED",
+      "timeline_summary": {
+        "distinct_frame_count": 2493,
+        "duplicate_record_count": 0,
+        "evidence_counts": {
+          "compatible": 0,
+          "data_found": 2493,
+          "downloaded": 0,
+          "parsed": 0,
+          "scientifically_measured": 0
+        },
+        "provenance_id": null,
+        "raw_discovery_artifact_path": "data/target_queries/art_query_3fb40a75ac8676d8.votable",
+        "record_count": 2493,
+        "series_count": 2493,
+        "series_status_counts": {
+          "ONE_FRAME": 2493
+        },
+        "status": "PARTIALLY_VALIDATED",
+        "time_baseline_days": 520.411564
+      },
       "usable": false,
+      "validation_counts": {
+        "compatible": 0,
+        "data_found": 2493,
+        "downloaded": 0,
+        "parsed": 0,
+        "scientifically_measured": 0
+      },
       "visit_gap_days": 30.0,
       "visit_group_count": 2,
       "visit_groups": [
@@ -289,6 +429,7 @@
       "warnings": []
     }
   ],
+  "timeline_detail": "Compact target summaries are stored here; build_coverage_report() returns the full per-series and per-frame TimelineManifest.",
   "usable_coverage_claimed": false,
   "visit_gap_days": 30.0
 }

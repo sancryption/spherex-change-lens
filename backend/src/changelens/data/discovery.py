@@ -9,9 +9,11 @@ import logging
 import re
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, time as datetime_time, timedelta, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime, timedelta
+from datetime import time as datetime_time
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import requests
 from astropy.io.votable import parse_single_table
@@ -27,7 +29,6 @@ from changelens.contracts import (
 )
 from changelens.data.network import ARCHIVE_REQUEST_GATE
 
-
 TAP_URL = "https://irsa.ipac.caltech.edu/TAP/sync"
 MAX_RECORDS = 50000
 MAX_ATTEMPTS = 3
@@ -42,8 +43,8 @@ def _quote_adql(value: str) -> str:
 
 
 def _mjd_from_date(value: datetime) -> float:
-    epoch = datetime(1858, 11, 17, tzinfo=timezone.utc)
-    normalized = datetime.combine(value.date(), datetime_time.min, tzinfo=timezone.utc)
+    epoch = datetime(1858, 11, 17, tzinfo=UTC)
+    normalized = datetime.combine(value.date(), datetime_time.min, tzinfo=UTC)
     return (normalized - epoch).total_seconds() / 86400.0
 
 
@@ -70,11 +71,11 @@ def _build_query(request: InvestigationRequest) -> str:
         band = _quote_adql(request.band_policy.strip())
         predicates.append(f"p.energy_bandpassname = '{band}'")
     if request.start_date:
-        start = datetime.combine(request.start_date, datetime_time.min, tzinfo=timezone.utc)
+        start = datetime.combine(request.start_date, datetime_time.min, tzinfo=UTC)
         predicates.append(f"p.time_bounds_lower >= {_mjd_from_date(start):.12g}")
     if request.end_date:
         end_exclusive = datetime.combine(
-            request.end_date + timedelta(days=1), datetime_time.min, tzinfo=timezone.utc
+            request.end_date + timedelta(days=1), datetime_time.min, tzinfo=UTC
         )
         predicates.append(f"p.time_bounds_lower < {_mjd_from_date(end_exclusive):.12g}")
 
@@ -130,6 +131,11 @@ def _release_from_artifact_path(path: str) -> str | None:
     return match.group(1).upper() if match else None
 
 
+def _product_family_from_artifact_path(path: str) -> str | None:
+    match = re.search(r"/spherex/[^/]+/([^/]+)/", path, flags=re.IGNORECASE)
+    return match.group(1).upper() if match else None
+
+
 def _observation(row: Any) -> ObservationRecord:
     plane_id = str(_cell(row, "planeid", "")).strip()
     if not plane_id:
@@ -139,7 +145,7 @@ def _observation(row: Any) -> ObservationRecord:
     mjd = float(mjd_value) if mjd_value is not None else None
     observed_at = None
     if mjd is not None:
-        epoch = datetime(1858, 11, 17, tzinfo=timezone.utc)
+        epoch = datetime(1858, 11, 17, tzinfo=UTC)
         observed_at = epoch + timedelta(days=mjd)
     warnings: list[str] = []
     release = _release_from_artifact_path(artifact_path)
@@ -156,6 +162,8 @@ def _observation(row: Any) -> ObservationRecord:
         band=_cell(row, "band"),
         release=release,
         product=_cell(row, "product"),
+        product_family=_product_family_from_artifact_path(artifact_path),
+        spectral_plane=plane_id,
         width=int(_cell(row, "width")) if _cell(row, "width") is not None else None,
         height=int(_cell(row, "height")) if _cell(row, "height") is not None else None,
         footprint=footprint,

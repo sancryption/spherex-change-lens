@@ -3,23 +3,26 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timedelta
 
 from changelens.contracts import (
     DiscoveryResult,
     DiscoveryStatus,
     ObservationRecord,
+    ObservationValidationReport,
+    SourceArtifact,
     TargetRecord,
 )
+from changelens.data.timeline import build_timeline_manifest
 
 
 def _observation_time(observation: ObservationRecord) -> datetime | None:
     if observation.observed_at is not None:
         value = observation.observed_at
-        return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+        return value if value.tzinfo else value.replace(tzinfo=UTC)
     if observation.mjd is not None:
-        epoch = datetime(1858, 11, 17, tzinfo=timezone.utc)
+        epoch = datetime(1858, 11, 17, tzinfo=UTC)
         return epoch + timedelta(days=observation.mjd)
     return None
 
@@ -60,6 +63,8 @@ def build_target_coverage(
     *,
     visit_gap_days: float = 30.0,
     file_validated_observation_ids: set[str] | None = None,
+    validation_reports: Iterable[ObservationValidationReport | dict[str, object]] = (),
+    source_artifacts: Iterable[SourceArtifact | dict[str, object]] = (),
 ) -> dict[str, object]:
     """Summarize metadata coverage while keeping target verification conservative."""
 
@@ -75,8 +80,24 @@ def build_target_coverage(
         release_counts[release] = release_counts.get(release, 0) + 1
     visit_groups = _visit_groups(observations, visit_gap_days)
     known_observation_ids = {item.observation_id for item in observations}
+    timeline_manifest = build_timeline_manifest(
+        target,
+        discovery,
+        validation_reports=validation_reports,
+        source_artifacts=source_artifacts,
+        file_validated_observation_ids=(file_validated_observation_ids or set())
+        & known_observation_ids,
+    )
     validated_ids = sorted(
-        (file_validated_observation_ids or set()) & known_observation_ids
+        (
+            {
+                frame.observation_id
+                for series in timeline_manifest.series
+                for frame in series.frames
+                if frame.fits_status.value == "PASSED"
+            }
+        )
+        & known_observation_ids
     )
     if observations:
         data_state = "DATA_FOUND"
@@ -110,7 +131,10 @@ def build_target_coverage(
         "metadata_only_count": len(observations) - len(validated_ids),
         "file_validated_count": len(validated_ids),
         "file_validated_observation_ids": validated_ids,
-        "science_validated_count": 0,
+        "science_validated_count": timeline_manifest.evidence_counts.scientifically_measured,
+        "timeline_status": timeline_manifest.status.value,
+        "validation_counts": timeline_manifest.evidence_counts.model_dump(),
+        "timeline_manifest": timeline_manifest.model_dump(mode="json"),
         "missing_date_count": missing_date_count,
         "target_status": "UNVERIFIED",
         "usable": False,
@@ -126,6 +150,10 @@ def build_coverage_report(
     *,
     visit_gap_days: float = 30.0,
     file_validated_observation_ids: dict[str, set[str]] | None = None,
+    validation_reports: dict[
+        str, Iterable[ObservationValidationReport | dict[str, object]]
+    ] | None = None,
+    source_artifacts: dict[str, Iterable[SourceArtifact | dict[str, object]]] | None = None,
 ) -> dict[str, object]:
     target_reports = [
         build_target_coverage(
@@ -142,6 +170,8 @@ def build_coverage_report(
             file_validated_observation_ids=(file_validated_observation_ids or {}).get(
                 target.target_id, set()
             ),
+            validation_reports=(validation_reports or {}).get(target.target_id, ()),
+            source_artifacts=(source_artifacts or {}).get(target.target_id, ()),
         )
         for target in targets
     ]
@@ -164,6 +194,8 @@ def render_coverage_report(reports: list[dict[str, object]]) -> str:
         "# SPHEREx target coverage",
         "",
         "This report summarizes IRSA archive metadata and recorded FITS-container checks. Science validation has not been performed. Usable coverage is not claimed; every target remains `UNVERIFIED` until the required validation evidence is recorded.",
+        "",
+        "Timelines group observations by band, product family, spectral plane, and release. Exact duplicate records are counted once; conflicting or unusable observations remain with reasons. Full per-series and per-frame manifests are returned by `build_coverage_report()`; the checked-in JSON stores compact target summaries.",
         "",
         "Visit groups split when adjacent observation times differ by more than 30 days.",
         "",
@@ -194,9 +226,23 @@ def render_coverage_report(reports: list[dict[str, object]]) -> str:
             f"{report['science_validated_count']} science-validated; "
             f"target status `{report['target_status']}`; usable `{str(report['usable']).lower()}`."
         )
+        levels = report.get("validation_counts")
+        if levels:
+            lines.append(
+                "  - Timeline evidence: "
+                f"{levels['data_found']} found, {levels['downloaded']} downloaded, "
+                f"{levels['parsed']} parsed, {levels['compatible']} compatible, "
+                f"{levels['scientifically_measured']} scientifically measured; "
+                f"series status `{report['timeline_status']}`."
+            )
         for warning in report["warnings"]:
             lines.append(f"  - Warning: `{warning}`.")
     return "\n".join(lines) + "\n"
 
 
-__all__ = ["build_coverage_report", "build_target_coverage", "render_coverage_report"]
+__all__ = [
+    "build_coverage_report",
+    "build_target_coverage",
+    "build_timeline_manifest",
+    "render_coverage_report",
+]
