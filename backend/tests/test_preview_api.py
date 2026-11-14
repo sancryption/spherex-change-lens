@@ -92,7 +92,9 @@ def request_asgi(
     async def receive():
         nonlocal delivered
         if delivered:
-            return {"type": "http.disconnect"}
+            # A real client stays connected until the response is sent. Returning
+            # http.disconnect here makes Starlette's FileResponse abort the body.
+            await asyncio.Event().wait()
         delivered = True
         return {"type": "http.request", "body": payload, "more_body": False}
 
