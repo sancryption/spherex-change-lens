@@ -177,3 +177,82 @@ def run_phase3(
     if not association.tracks:
         warnings.append("NO_MATCHED_TRACKS")
     return Phase3Result(association, tuple(screened), tuple(dict.fromkeys(warnings)), provenance)
+
+
+@dataclass(frozen=True)
+class PossibleMover:
+    """Small BE-facing SCI screening view; track_id references Phase3Result.tracks.
+
+    Values remain approximate apparent displacement, requiring scientific review.
+    No orbit, physical proper motion or discovery inference is supplied.
+    """
+
+    track_id: str
+    label: Literal["possible_mover"]
+    displacement_arcsec: float
+    baseline_days: float
+    uncertainty_arcsec: float
+    control_status: Literal["SUPPORTED"]
+    reason_codes: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+
+def possible_movers(result: Phase3Result) -> tuple[PossibleMover, ...]:
+    """Extract qualifying final screened motion only, in deterministic track order.
+
+    BE imports this function from change_lens.pipeline.phase3 and supplies the
+    completed run_phase3 result. Empty output means no qualifying candidate;
+    consult result.tracks[*].motion_status, .controls.checks, and
+    result.association for stationary, ambiguous, artifact-risk, unavailable and
+    unmatched evidence. This adapter never runs measurements or controls again.
+    """
+    candidates = []
+    for track in sorted(result.tracks, key=lambda t: t.track_id):
+        motion = track.preliminary_motion
+        displacement = motion.displacement
+        if (
+            track.motion_status != "POSSIBLE_POSITIONAL_MOVEMENT"
+            or track.controls.motion_status != "SUPPORTED"
+            or motion.status != "POSSIBLE_MOVEMENT"
+            or displacement is None
+            or any(p.centroid.quality != "VALID" for p in motion.measured_positions)
+            or len({p.mjd_utc for p in motion.measured_positions}) < 2
+            or "AMBIGUOUS_ASSOCIATION" in motion.warnings
+        ):
+            continue
+        values = (
+            displacement.angular_arcsec,
+            displacement.baseline_days,
+            displacement.uncertainty_arcsec,
+        )
+        if not all(np.isfinite(v) and v > 0 for v in values):
+            continue
+        reasons = tuple(
+            dict.fromkeys(
+                [
+                    "FINAL_SCREENED_POSITIONAL_MOVEMENT",
+                    *(
+                        reason
+                        for check in track.controls.checks
+                        if check.domain in ("MOTION", "BOTH")
+                        for reason in check.reasons
+                    ),
+                ]
+            )
+        )
+        limitations = tuple(
+            dict.fromkeys(
+                [
+                    *motion.warnings,
+                    *track.controls.provenance.get("limitations", ()),
+                    "APPARENT_DISPLACEMENT_SCREENING_ONLY",
+                    "PARALLAX_NOT_SEPARATELY_MODELED",
+                ]
+            )
+        )
+        candidates.append(
+            PossibleMover(
+                track.track_id, "possible_mover", *values, "SUPPORTED", reasons, limitations
+            )
+        )
+    return tuple(candidates)
