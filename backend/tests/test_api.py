@@ -10,7 +10,9 @@ import pytest
 from changelens.api.app import create_app
 
 
-def request_asgi(app: Any, *, method: str = "GET", path: str, headers: dict[str, str] | None = None):
+def request_asgi(
+    app: Any, *, method: str = "GET", path: str, headers: dict[str, str] | None = None
+):
     scope = {
         "type": "http",
         "asgi": {"version": "3.0"},
@@ -120,7 +122,13 @@ def test_openapi_contains_required_skeleton_routes(tmp_path: Path) -> None:
 
     schema = app.openapi()
 
-    assert {"/health/live", "/health/ready", "/v1/targets"}.issubset(schema["paths"])
+    assert {
+        "/health/live",
+        "/health/ready",
+        "/v1/targets",
+        "/v1/previews",
+        "/v1/previews/{artifact_id}.png",
+    }.issubset(schema["paths"])
 
 
 def test_cors_allows_the_local_frontend_origin(tmp_path: Path) -> None:
@@ -138,3 +146,21 @@ def test_cors_allows_the_local_frontend_origin(tmp_path: Path) -> None:
 
     assert status == 200
     assert headers["access-control-allow-origin"] == "http://localhost:5173"
+
+
+def test_cors_allows_frontend_to_request_preview_generation(tmp_path: Path) -> None:
+    app = create_app(cache_directory=tmp_path / "cache")
+
+    status, headers, _ = request_asgi(
+        app,
+        method="OPTIONS",
+        path="/v1/previews",
+        headers={
+            "Origin": "http://localhost:5173",
+            "Access-Control-Request-Method": "POST",
+        },
+    )
+
+    assert status == 200
+    assert headers["access-control-allow-origin"] == "http://localhost:5173"
+    assert "POST" in headers["access-control-allow-methods"]

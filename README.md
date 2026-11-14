@@ -124,7 +124,17 @@ uv run --project backend --locked --extra dev python -m pytest -c backend/pyproj
 uv run --project backend --locked --extra dev uvicorn changelens.api.app:app --app-dir backend/src --reload
 ```
 
-The API exposes `/health/live`, `/health/ready`, `/v1/targets`, and `/openapi.json` on `http://127.0.0.1:8000`. Readiness returns `503` if the configured cache directory is missing or not writable. Set `CHANGELENS_CACHE_DIR` to use another directory.
+The API exposes `/health/live`, `/health/ready`, `/v1/targets`, `/v1/previews`, and `/openapi.json` on `http://127.0.0.1:8000`. Readiness returns `503` if the configured cache directory is missing or not writable. Set `CHANGELENS_CACHE_DIR` to use another directory.
+
+Request a PNG preview from a FITS artifact that is already in the local cache:
+
+```powershell
+Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/v1/previews `
+  -ContentType 'application/json' `
+  -Body '{"source_artifact_id":"art_source_...","target_id":"wise_0855","fov_arcmin":3}'
+```
+
+The response includes `observation_id`, WCS and stretch metadata, and `preview_url`. Prefix that path with the API origin (`http://127.0.0.1:8000`) to open the PNG in a browser. The preview endpoint reads the cached FITS and never fetches or serves the full FITS file. Previews are labeled `FITS_CONTAINER_VALIDATED_ONLY` with `SCIENCE_AND_WCS_VALIDATION_PENDING` until SCI-001 and SCI-002 are implemented.
 
 ### Archive data and evidence
 

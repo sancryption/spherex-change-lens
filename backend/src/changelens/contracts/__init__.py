@@ -221,6 +221,43 @@ class SourceArtifact(ContractModel):
     retrieval_mode: RetrievalMode
 
 
+class PreviewRequest(ContractModel):
+    """Request a display crop from an already-cached source artifact."""
+
+    source_artifact_id: ArtifactId
+    target_id: str = Field(min_length=1)
+    fov_arcmin: float = Field(ge=0.01666, le=300)
+
+
+class PreviewMetadata(ContractModel):
+    """Provenance and display parameters for a local image preview."""
+
+    artifact_id: ArtifactId
+    preview_filename: str = Field(min_length=1)
+    preview_url: str = Field(min_length=1)
+    source_artifact_id: ArtifactId
+    source_sha256: Sha256Digest
+    observation_id: str = Field(min_length=1)
+    target_id: str = Field(min_length=1)
+    target_name: str = Field(min_length=1)
+    target_ra_deg: RightAscensionDegrees
+    target_dec_deg: DeclinationDegrees
+    target_frame: str = Field(min_length=1)
+    fov_arcmin: float = Field(gt=0, le=300)
+    width: int = Field(gt=0)
+    height: int = Field(gt=0)
+    source_origin_x: int
+    source_origin_y: int
+    target_in_footprint: bool
+    wcs_header: dict[str, Any]
+    stretch_method: str = Field(min_length=1)
+    stretch_percentiles: tuple[float, float]
+    stretch_min: float
+    stretch_max: float
+    validation_status: str = Field(min_length=1)
+    warnings: list[str] = Field(default_factory=list)
+
+
 class TimelineFrame(ContractModel):
     observation_id: str = Field(min_length=1)
     observed_at: datetime
@@ -266,6 +303,8 @@ __all__ = [
     "InvestigationRequest",
     "ObservationAvailability",
     "ObservationRecord",
+    "PreviewMetadata",
+    "PreviewRequest",
     "RetrievalMode",
     "RightAscensionDegrees",
     "RunStatus",

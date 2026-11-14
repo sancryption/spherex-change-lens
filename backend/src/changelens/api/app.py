@@ -1,4 +1,4 @@
-"""Thin FastAPI application exposing health and target-registry endpoints."""
+"""FastAPI application exposing health, target, and local-preview endpoints."""
 
 from __future__ import annotations
 
@@ -12,20 +12,29 @@ from uuid import uuid4
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from changelens.contracts import (
     ErrorCode,
     ErrorDetail,
     ErrorResponse,
+    PreviewMetadata,
+    PreviewRequest,
     TargetRecord,
 )
-from changelens.data.retrieval import DEFAULT_CACHE_DIRECTORY
-from changelens.data.targets import load_targets
+from changelens.data.previews import (
+    DEFAULT_PREVIEW_DIRECTORY,
+    PreviewError,
+    generate_preview,
+    load_source_artifact_from_manifest,
+)
+from changelens.data.retrieval import DEFAULT_CACHE_DIRECTORY, DEFAULT_MANIFEST_DIRECTORY
+from changelens.data.targets import get_target, load_targets
 
 LOGGER = logging.getLogger("uvicorn.error")
 REQUEST_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,128}$")
+PREVIEW_ID_PATTERN = re.compile(r"^art_preview_[a-f0-9]{24}$")
 LOCAL_FRONTEND_ORIGINS = (
     "http://localhost:5173",
     "http://127.0.0.1:5173",
@@ -78,7 +87,12 @@ def _storage_is_writable(directory: Path) -> bool:
     return True
 
 
-def create_app(*, cache_directory: Path | None = None) -> FastAPI:
+def create_app(
+    *,
+    cache_directory: Path | None = None,
+    manifest_directory: Path | None = None,
+    preview_directory: Path | None = None,
+) -> FastAPI:
     configured_cache = cache_directory
     if configured_cache is None:
         environment_value = os.environ.get("CHANGELENS_CACHE_DIR")
@@ -90,12 +104,14 @@ def create_app(*, cache_directory: Path | None = None) -> FastAPI:
         version="0.1.0",
     )
     api.state.cache_directory = configured_cache
+    api.state.manifest_directory = manifest_directory or DEFAULT_MANIFEST_DIRECTORY
+    api.state.preview_directory = preview_directory or DEFAULT_PREVIEW_DIRECTORY
 
     api.add_middleware(
         CORSMiddleware,
         allow_origins=list(LOCAL_FRONTEND_ORIGINS),
         allow_credentials=False,
-        allow_methods=["GET", "OPTIONS"],
+        allow_methods=["GET", "POST", "OPTIONS"],
         allow_headers=["Content-Type", "X-Request-ID"],
         expose_headers=["X-Request-ID"],
     )
@@ -142,13 +158,32 @@ def create_app(*, cache_directory: Path | None = None) -> FastAPI:
             code = ErrorCode.ARCHIVE_UNAVAILABLE
         else:
             code = ErrorCode.ANALYSIS_FAILED
-        message = exc.detail if isinstance(exc.detail, str) else "The request could not be completed."
+        message = (
+            exc.detail if isinstance(exc.detail, str) else "The request could not be completed."
+        )
         return _error_response(
             request,
             code=code,
             message=message,
             retryable=exc.status_code >= 500,
             status_code=exc.status_code,
+        )
+
+    @api.exception_handler(PreviewError)
+    async def preview_error_handler(request: Request, exc: PreviewError):
+        if exc.code is ErrorCode.ARTIFACT_NOT_FOUND:
+            status_code = 404
+        elif exc.code is ErrorCode.ANALYSIS_FAILED:
+            status_code = 500
+        else:
+            status_code = 422
+        return _error_response(
+            request,
+            code=exc.code,
+            message=str(exc),
+            retryable=exc.retryable,
+            status_code=status_code,
+            details=exc.details,
         )
 
     @api.exception_handler(Exception)
@@ -182,6 +217,45 @@ def create_app(*, cache_directory: Path | None = None) -> FastAPI:
     @api.get("/v1/targets", response_model=list[TargetRecord], tags=["targets"])
     def targets() -> list[TargetRecord]:
         return list(load_targets())
+
+    @api.post("/v1/previews", response_model=PreviewMetadata, tags=["previews"])
+    def create_preview(payload: PreviewRequest) -> PreviewMetadata:
+        source_artifact = load_source_artifact_from_manifest(
+            payload.source_artifact_id,
+            manifest_directory=api.state.manifest_directory,
+        )
+        try:
+            target = get_target(payload.target_id)
+        except KeyError as exc:
+            raise StarletteHTTPException(
+                status_code=404,
+                detail="The requested target is not present in the local registry.",
+            ) from exc
+        return generate_preview(
+            source_artifact,
+            target,
+            fov_arcmin=payload.fov_arcmin,
+            cache_directory=api.state.cache_directory,
+            manifest_directory=api.state.manifest_directory,
+            preview_directory=api.state.preview_directory,
+        )
+
+    @api.get(
+        "/v1/previews/{artifact_id}.png",
+        response_class=FileResponse,
+        tags=["previews"],
+    )
+    def read_preview(artifact_id: str) -> FileResponse:
+        if not PREVIEW_ID_PATTERN.fullmatch(artifact_id):
+            raise StarletteHTTPException(status_code=404, detail="Preview artifact not found.")
+        preview_path = api.state.preview_directory / f"{artifact_id}.png"
+        if not preview_path.is_file():
+            raise StarletteHTTPException(status_code=404, detail="Preview artifact not found.")
+        return FileResponse(
+            preview_path,
+            media_type="image/png",
+            headers={"Cache-Control": "no-store"},
+        )
 
     return api
 
