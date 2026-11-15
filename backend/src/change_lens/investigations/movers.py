@@ -100,7 +100,7 @@ def run_sci(usable: list[Source], detector: str | None) -> tuple:
 
 def _cache_path(cache_dir: Path, sources: list) -> Path:
     sig = repr(
-        (FLAG_POLICY_VERSION, CENTROID_RADIUS_PX, sorted((s[0], str(s[2])) for s in sources))
+        (FLAG_POLICY_VERSION, CENTROID_RADIUS_PX, sorted((s[0], Path(s[2]).name) for s in sources))
     )
     return cache_dir / f"{hashlib.sha256(sig.encode()).hexdigest()[:24]}.json"
 

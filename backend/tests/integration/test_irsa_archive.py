@@ -256,3 +256,39 @@ def test_discovery_cache_survives_restart(tmp_path, monkeypatch) -> None:
     first.epochs[0].preview_path.unlink()
     new_client().discover(10.0, 10.0, 60)
     assert len(calls) == 2
+
+
+def test_discovery_cache_portable_to_another_machine(tmp_path) -> None:
+    """A data/ folder copied from another machine (absolute Windows paths) still hits the cache."""
+    import json
+
+    from change_lens.archive.irsa import IrsaArchiveClient, _relocate
+
+    data = tmp_path / "data"
+    (data / "previews" / "aligned").mkdir(parents=True)
+    (data / "cached_mefs").mkdir()
+    (data / "previews" / "aligned" / "p.png").write_bytes(b"x")
+    (data / "cached_mefs" / "s.fits").write_bytes(b"FITS")
+    client = IrsaArchiveClient(data, data / "previews", data / "cached_mefs")
+    key = (10.0, 10.0, 10.0, None)
+    epoch = {
+        "epoch_id": "e1", "observation_time_utc": "2025-04-24T21:06:38Z", "mjd": 60789.9,
+        "band_id": "D1", "data_origin": "authentic_live",
+        "preview_path": r"C:\Users\someone\repo\data\previews\aligned\p.png",
+        "flags_summary": {}, "warnings": [], "detector": "D1", "release": "DR1",
+        "wavelength_range_um": [0.75, 1.09],
+        "source_fits_path": r"C:\Users\someone\repo\data\cached_mefs\s.fits",
+    }
+    client.discovery_cache_dir.mkdir(parents=True)
+    client._cache_file(key).write_text(json.dumps({"epochs": [epoch], "warnings": []}), "utf-8")
+
+    hit = client._load_cached(key)
+    assert hit is not None
+    assert hit.epochs[0].preview_path == data / "previews" / "aligned" / "p.png"
+    assert hit.epochs[0].source_fits_path == data / "cached_mefs" / "s.fits"
+
+    # new entries are stored relative to data/
+    client._store_cached(key, hit)
+    stored = json.loads(client._cache_file(key).read_text("utf-8"))["epochs"][0]
+    assert stored["preview_path"] == "previews/aligned/p.png"
+    assert _relocate(stored["source_fits_path"], data) == data / "cached_mefs" / "s.fits"

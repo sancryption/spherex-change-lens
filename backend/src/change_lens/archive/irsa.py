@@ -29,7 +29,7 @@ import json
 import logging
 import math
 from collections import Counter
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 from changelens.contracts import (
     DiscoveryStatus,
@@ -168,17 +168,44 @@ def save_png(pixels, out_path: Path) -> Path:
     return out_path
 
 
-def _epoch_to_json(e: DiscoveredEpoch) -> dict:
+def _portable(path: Path | None, data_dir: Path) -> str | None:
+    """Store paths under data_dir relative (posix), so a copied data/ folder works elsewhere."""
+    if path is None:
+        return None
+    try:
+        return Path(path).resolve().relative_to(data_dir.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def _relocate(raw: str | None, data_dir: Path) -> Path | None:
+    """Resolve a stored path; remap absolute paths from another machine into data_dir."""
+    if not raw:
+        return None
+    pure = PureWindowsPath(raw) if "\\" in raw or ":" in raw[1:3] else PurePosixPath(raw)
+    if not pure.is_absolute():
+        return data_dir / Path(*pure.parts)
+    if Path(raw).is_file():
+        return Path(raw)
+    # e.g. C:\Users\x\repo\data\previews\a.png -> <data_dir>/previews/a.png
+    parts = pure.parts
+    for i in range(len(parts) - 1, -1, -1):
+        if parts[i] == data_dir.name:
+            return data_dir / Path(*parts[i + 1 :])
+    return Path(raw)
+
+
+def _epoch_to_json(e: DiscoveredEpoch, data_dir: Path) -> dict:
     d = dict(vars(e))
     for k in ("preview_path", "source_fits_path"):
-        d[k] = str(d[k]) if d[k] is not None else None
+        d[k] = _portable(d[k], data_dir)
     return d
 
 
-def _epoch_from_json(d: dict) -> DiscoveredEpoch:
+def _epoch_from_json(d: dict, data_dir: Path) -> DiscoveredEpoch:
     d = dict(d)
     for k in ("preview_path", "source_fits_path"):
-        d[k] = Path(d[k]) if d.get(k) else None
+        d[k] = _relocate(d.get(k), data_dir)
     return DiscoveredEpoch(**d)
 
 
@@ -197,6 +224,7 @@ class IrsaArchiveClient:
         # the life of the process so repeat queries and pre-warmed demo targets are fast.
         self._discovery_cache: dict[tuple, DiscoveryResult] = {}
         # Also persisted to disk so a server restart (or `make prewarm`) keeps demo targets warm.
+        self.data_dir = data_dir
         self.discovery_cache_dir = data_dir / "discovery_cache"
 
     def discover(
@@ -254,7 +282,7 @@ class IrsaArchiveClient:
             return None
         try:
             data = json.loads(path.read_text("utf-8"))
-            epochs = [_epoch_from_json(e) for e in data["epochs"]]
+            epochs = [_epoch_from_json(e, self.data_dir) for e in data["epochs"]]
         except (OSError, ValueError, KeyError, TypeError):
             return None
         # Stale if any preview or FITS it points to has been deleted.
@@ -269,7 +297,7 @@ class IrsaArchiveClient:
             self.discovery_cache_dir.mkdir(parents=True, exist_ok=True)
             payload = {
                 "key": repr(key),
-                "epochs": [_epoch_to_json(e) for e in result.epochs],
+                "epochs": [_epoch_to_json(e, self.data_dir) for e in result.epochs],
                 "warnings": result.warnings,
             }
             tmp = self._cache_file(key).with_suffix(".tmp")

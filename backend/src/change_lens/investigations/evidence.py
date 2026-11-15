@@ -40,7 +40,7 @@ def _signature(sources: list[Source]) -> str:
             EVIDENCE_VERSION,
             FLAG_POLICY_VERSION,
             CENTROID_RADIUS_PX,
-            sorted((s[0], str(s[2])) for s in sources),
+            sorted((s[0], Path(s[2]).name) for s in sources),
         )
     )
     return hashlib.sha256(sig.encode()).hexdigest()[:24]
