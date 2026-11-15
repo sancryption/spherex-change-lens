@@ -209,7 +209,9 @@ def measure_aperture(
     )
 
 
-def compatibility_reasons(frames: list[AlignedFrame]) -> tuple[str, ...]:
+def compatibility_reasons(
+    frames: list[AlignedFrame], *, verified_calibrations: tuple | None = None
+) -> tuple[str, ...]:
     """Require caller-certified product/plane, identical grid and exact unit scale.
 
     Missing calibration/release identity blocks a clean comparison; differing
@@ -219,7 +221,9 @@ def compatibility_reasons(frames: list[AlignedFrame]) -> tuple[str, ...]:
         return ("NO_FRAMES",)
     reasons = []
     signatures = []
-    for frame in frames:
+    if verified_calibrations is not None and len(verified_calibrations) != len(frames):
+        return ("INVALID_CALIBRATION_PROVENANCE_COUNT",)
+    for index, frame in enumerate(frames):
         p = frame.provenance
         identity = p.get("plane_identity", {})
         metadata = p.get("validation", {}).get("metadata", {})
@@ -230,6 +234,8 @@ def compatibility_reasons(frames: list[AlignedFrame]) -> tuple[str, ...]:
             if header in metadata and metadata[header] != identity.get(key):
                 reasons.append("PLANE_IDENTITY_CONFLICTS_WITH_HEADER")
         calibration = metadata.get("CALVER")
+        if not calibration and verified_calibrations is not None:
+            calibration = verified_calibrations[index]
         if not calibration:
             reasons.append("CALIBRATION_UNKNOWN")
         try:

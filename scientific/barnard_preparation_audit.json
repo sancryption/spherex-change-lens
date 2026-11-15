@@ -1,0 +1,913 @@
+{
+  "pair": "Barnard's Star 2025-09-30 / 2025-10-01",
+  "inputs": [
+    {
+      "file": "art_source_fe71283b63d108b56524ee0a.fits",
+      "sha256": "c9282efc61a46f66d674e6dabc65e0cbe6863bbe400e3dfc9aec3598258d6faa",
+      "observation_id": "2025W40_1A_0441_1",
+      "date_obs": "2025-09-30T23:51:40.377",
+      "structurally_valid": true,
+      "calver": null,
+      "detector": 1,
+      "calibration_references": [
+        {
+          "role": "dichroic",
+          "uuid": "019f5219-a3dc-704a-a5dd-18857088b1c6"
+        },
+        {
+          "role": "gain_factors",
+          "uuid": "019f521b-4ad3-7698-b7c3-a40aefa6469e"
+        },
+        {
+          "role": "initial_distortion_table",
+          "uuid": "019f521b-605a-79ba-ab36-caf4d55f5d5e"
+        },
+        {
+          "role": "nonfunc_v2",
+          "uuid": "019f521b-7547-731a-884f-3b322727b061"
+        },
+        {
+          "role": "sband_mnemonics",
+          "uuid": "019f521c-f507-7801-8542-ad9eb4fc903d"
+        },
+        {
+          "role": "spectral_wcs",
+          "uuid": "019f4f98-edf0-744b-9600-424841d46dc0"
+        },
+        {
+          "role": "nonlinear_pars",
+          "uuid": "019f521b-f52e-7dfb-8cbb-b57a3386ec1b"
+        },
+        {
+          "role": "readnoise_pars",
+          "uuid": "019f521c-75d6-7a6c-8c35-104255ec3a29"
+        },
+        {
+          "role": "abs_gain_matrix",
+          "uuid": "019f4f95-1ed2-7fa2-9329-87db4d08754d"
+        },
+        {
+          "role": "aurora_template",
+          "uuid": "019f521d-b6c6-74e2-8d72-791936504e70"
+        },
+        {
+          "role": "dark",
+          "uuid": "019f4f95-cd35-7164-a073-10c1bb9c2a7f"
+        },
+        {
+          "role": "epsf",
+          "uuid": "019f4f97-41f1-7f7c-a94b-cfc0f1d4c9c8"
+        },
+        {
+          "role": "he_template",
+          "uuid": "019f521d-8ba2-7606-a4da-86ea650ca4aa"
+        },
+        {
+          "role": "sip",
+          "uuid": "019f4f98-3cd6-702b-94d2-51e35bf1b279"
+        },
+        {
+          "role": "xtalk_class1",
+          "uuid": "019f521d-e05e-7e99-b25e-470c4f721f9c"
+        },
+        {
+          "role": "xtalk_class2",
+          "uuid": "019f521e-1e78-7c33-8b8f-8029a5316507"
+        },
+        {
+          "role": "zodi_scaling_v2",
+          "uuid": "01a09305-6e52-7223-9ffb-fde388d99ade"
+        }
+      ],
+      "zodi_diagnostic": {
+        "method": "IMAGE-ZODI; zero FLAGS only; no residual model fitted",
+        "pixels": 323,
+        "median": 0.10534603893756866,
+        "unit": "MJy / sr",
+        "certified": false
+      },
+      "native_epsf": {
+        "zones": 441,
+        "stamp_shape": [
+          33,
+          33
+        ],
+        "aligned_compatibility_verified": false
+      },
+      "detector_mapping": {
+        "method": "celestial-integer-mapping-and-four-layer-exact-equality-v1",
+        "parent_sha256": "fb8c7aac163385501b41a0287c5a0cfc48b52696e1b393ad5aa1322e49c2af80",
+        "cutout_sha256": "c9282efc61a46f66d674e6dabc65e0cbe6863bbe400e3dfc9aec3598258d6faa",
+        "observation_id": "2025W40_1A_0441_1",
+        "detector": 1,
+        "detector_x_range": [
+          1469,
+          1606
+        ],
+        "detector_y_range": [
+          1359,
+          1496
+        ],
+        "status": "VERIFIED_EXACT_PARENT_SUBSET"
+      }
+    },
+    {
+      "file": "art_source_3c36ee083ab3b739b7a2df29.fits",
+      "sha256": "cd575d3551f53e2238fecd87958d26d5fc417cb7e2a6710e495d96ac502e3aa4",
+      "observation_id": "2025W40_1A_0500_1",
+      "date_obs": "2025-10-01T06:22:54.995",
+      "structurally_valid": true,
+      "calver": null,
+      "detector": 1,
+      "calibration_references": [
+        {
+          "role": "dichroic",
+          "uuid": "019f5219-a3dc-704a-a5dd-18857088b1c6"
+        },
+        {
+          "role": "gain_factors",
+          "uuid": "019f521b-4ad3-7698-b7c3-a40aefa6469e"
+        },
+        {
+          "role": "initial_distortion_table",
+          "uuid": "019f521b-605a-79ba-ab36-caf4d55f5d5e"
+        },
+        {
+          "role": "nonfunc_v2",
+          "uuid": "019f521b-7547-731a-884f-3b322727b061"
+        },
+        {
+          "role": "sband_mnemonics",
+          "uuid": "019f521c-f507-7801-8542-ad9eb4fc903d"
+        },
+        {
+          "role": "spectral_wcs",
+          "uuid": "019f4f98-edf0-744b-9600-424841d46dc0"
+        },
+        {
+          "role": "nonlinear_pars",
+          "uuid": "019f521b-f52e-7dfb-8cbb-b57a3386ec1b"
+        },
+        {
+          "role": "readnoise_pars",
+          "uuid": "019f521c-75d6-7a6c-8c35-104255ec3a29"
+        },
+        {
+          "role": "abs_gain_matrix",
+          "uuid": "019f4f95-1ed2-7fa2-9329-87db4d08754d"
+        },
+        {
+          "role": "aurora_template",
+          "uuid": "019f521d-b6c6-74e2-8d72-791936504e70"
+        },
+        {
+          "role": "dark",
+          "uuid": "019f4f95-cd35-7164-a073-10c1bb9c2a7f"
+        },
+        {
+          "role": "epsf",
+          "uuid": "019f4f97-41f1-7f7c-a94b-cfc0f1d4c9c8"
+        },
+        {
+          "role": "he_template",
+          "uuid": "019f521d-8ba2-7606-a4da-86ea650ca4aa"
+        },
+        {
+          "role": "sip",
+          "uuid": "019f4f98-3cd6-702b-94d2-51e35bf1b279"
+        },
+        {
+          "role": "xtalk_class1",
+          "uuid": "019f521d-e05e-7e99-b25e-470c4f721f9c"
+        },
+        {
+          "role": "xtalk_class2",
+          "uuid": "019f521e-1e78-7c33-8b8f-8029a5316507"
+        },
+        {
+          "role": "zodi_scaling_v2",
+          "uuid": "01a09305-6e52-7223-9ffb-fde388d99ade"
+        }
+      ],
+      "zodi_diagnostic": {
+        "method": "IMAGE-ZODI; zero FLAGS only; no residual model fitted",
+        "pixels": 320,
+        "median": 0.12048010528087616,
+        "unit": "MJy / sr",
+        "certified": false
+      },
+      "native_epsf": {
+        "zones": 441,
+        "stamp_shape": [
+          33,
+          33
+        ],
+        "aligned_compatibility_verified": false
+      },
+      "detector_mapping": {
+        "method": "celestial-integer-mapping-and-four-layer-exact-equality-v1",
+        "parent_sha256": "a1457634ca8abfb67e05469692557e4f528dbde4e016f8e6eebe7a34d538bda5",
+        "cutout_sha256": "cd575d3551f53e2238fecd87958d26d5fc417cb7e2a6710e495d96ac502e3aa4",
+        "observation_id": "2025W40_1A_0500_1",
+        "detector": 1,
+        "detector_x_range": [
+          551,
+          688
+        ],
+        "detector_y_range": [
+          246,
+          383
+        ],
+        "status": "VERIFIED_EXACT_PARENT_SUBSET"
+      }
+    }
+  ],
+  "candidate_region": {
+    "pixels": 50,
+    "definition": "strict aligned zero-FLAGS intersection",
+    "scientifically_selected": false
+  },
+  "difference_status": "REJECTED",
+  "difference_reasons": [
+    "CALIBRATION_UNVERIFIED:dichroic:019f5219-a3dc-704a-a5dd-18857088b1c6",
+    "CALIBRATION_UNVERIFIED:gain_factors:019f521b-4ad3-7698-b7c3-a40aefa6469e",
+    "CALIBRATION_UNVERIFIED:initial_distortion_table:019f521b-605a-79ba-ab36-caf4d55f5d5e",
+    "CALIBRATION_UNVERIFIED:nonfunc_v2:019f521b-7547-731a-884f-3b322727b061",
+    "CALIBRATION_UNVERIFIED:sband_mnemonics:019f521c-f507-7801-8542-ad9eb4fc903d",
+    "CALIBRATION_UNVERIFIED:spectral_wcs:019f4f98-edf0-744b-9600-424841d46dc0",
+    "CALIBRATION_UNVERIFIED:nonlinear_pars:019f521b-f52e-7dfb-8cbb-b57a3386ec1b",
+    "CALIBRATION_UNVERIFIED:readnoise_pars:019f521c-75d6-7a6c-8c35-104255ec3a29",
+    "CALIBRATION_UNVERIFIED:abs_gain_matrix:019f4f95-1ed2-7fa2-9329-87db4d08754d",
+    "CALIBRATION_UNVERIFIED:aurora_template:019f521d-b6c6-74e2-8d72-791936504e70",
+    "CALIBRATION_UNVERIFIED:dark:019f4f95-cd35-7164-a073-10c1bb9c2a7f",
+    "CALIBRATION_UNVERIFIED:epsf:019f4f97-41f1-7f7c-a94b-cfc0f1d4c9c8",
+    "CALIBRATION_UNVERIFIED:he_template:019f521d-8ba2-7606-a4da-86ea650ca4aa",
+    "CALIBRATION_UNVERIFIED:sip:019f4f98-3cd6-702b-94d2-51e35bf1b279",
+    "CALIBRATION_UNVERIFIED:xtalk_class1:019f521d-e05e-7e99-b25e-470c4f721f9c",
+    "CALIBRATION_UNVERIFIED:xtalk_class2:019f521e-1e78-7c33-8b8f-8029a5316507",
+    "CALIBRATION_UNVERIFIED:zodi_scaling_v2:01a09305-6e52-7223-9ffb-fde388d99ade",
+    "SPECTRAL_BANDWIDTH_INTERVALS_DISJOINT",
+    "SPECTRAL_CALIBRATION_UNVERIFIED",
+    "SPECTRAL_POLICY_UNREVIEWED",
+    "PSF_EVIDENCE_MISSING",
+    "BACKGROUND_EVIDENCE_MISSING",
+    "ALIGNED_SPECTRAL_RESPONSE_UNVERIFIED",
+    "PAIR_COVARIANCE_MODEL_UNAVAILABLE",
+    "PAIR_UNCERTAINTY_UNREVIEWED",
+    "CALIBRATION_UNKNOWN",
+    "MISSING_PLANE_IDENTITY"
+  ],
+  "preparation": {
+    "frame_hashes": [
+      "7571645298051e1fabb83a2de46d22cf47ee9cda73edcbba83afd11a955daea4",
+      "6e82bab922990c880fc1f4a06c5434acb6476016c767d9a9ee3df01c36881785"
+    ],
+    "region_hash": "a2223c5dbf3b6835bd65f1bb3a12722eb926eb1f64d64956c3e623fc92e396d7",
+    "evidence_json": "{\"calibrations\": [], \"measurement_region\": {\"pixels\": [[1, 131], [2, 20], [3, 20], [7, 26], [8, 24], [8, 25], [8, 26], [9, 112], [15, 135], [24, 119], [24, 120], [25, 135], [35, 136], [36, 136], [39, 135], [39, 136], [40, 136], [44, 129], [45, 129], [45, 130], [45, 131], [46, 1], [57, 2], [57, 3], [57, 4], [58, 4], [58, 5], [59, 5], [60, 5], [92, 7], [101, 1], [101, 2], [107, 125], [115, 22], [115, 23], [124, 114], [124, 115], [124, 116], [124, 117], [124, 118], [125, 104], [125, 105], [125, 115], [125, 116], [125, 117], [126, 115], [126, 116], [126, 117], [127, 116], [133, 112]], \"shape\": [138, 138]}, \"spectral\": {\"calibration_hashes\": [\"44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23\", \"44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23\"], \"disjoint_interval_pixels\": 50, \"limitation\": \"Full transmission shapes and SED-dependent color terms are not supplied by CWAVE/CBAND\", \"max_contributor_delta_um\": 0.21599102020263672, \"max_weighted_mean_delta_um\": 0.2158841467302448, \"method\": \"all-bilinear-contributor-intervals-v1\", \"min_contributor_interval_overlap\": 0.0, \"native_cutout_interval_envelopes_um\": [[0.8122201273217797, 0.8584378100931644], [1.0176938157528639, 1.0766359902918339]], \"operator_provenance\": [{\"indices_sha256\": \"9f750667f8e33a824c3a652835e33d6d21be3b9da54ce4e27ec010e483a1ed9c\", \"indptr_sha256\": \"5d7af1c636309ab5c050bf49bbd77faae564fb5f2f2fae02337b4cf5ebfec9d1\", \"input_mask_sha256\": \"9ba6fa459ff08e49bf29838bfe79e142a194092672b401f74c389073928a2175\", \"method\": \"bilinear-strict-v1\", \"source_wcs\": \"WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \", \"target_wcs\": \"WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \", \"weights_sha256\": \"c3c6486e9122d93e3cb79d8d4957894fb1674a0f03047c956500aed0c3de690c\"}, {\"indices_sha256\": \"260e2b51c3b216a2d8940a23f246635e871c83298a0bf242da3038019f44b0ee\", \"indptr_sha256\": \"38c88cd7ae7508895276330dc9e669c0584526ecbb9bb82fd34a983180e193db\", \"input_mask_sha256\": \"dd4397ec9c7d7d7b788e7c2c59e8c45480d1f175856d9dada21d835498a6d16f\", \"method\": \"bilinear-strict-v1\", \"source_wcs\": \"WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =                469.5 / Pixel coordinate of reference point            CRPIX2  =                774.5 / Pixel coordinate of reference point            PC1_1   =     0.00170813235369 / Coordinate transformation matrix element       PC1_2   =    1.82206956048E-05 / Coordinate transformation matrix element       PC2_1   =    8.38405739407E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170915707549 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        270.149212706 / [deg] Coordinate value at reference point      CRVAL2  =        3.52417378129 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        3.52417378129 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-10-01T06:22:54.995' / ISO-8601 time of observation              MJD-OBS =      60949.265914294 / [d] MJD of observation                         DATE-BEG= '2025-10-01T06:22:54.995' / ISO-8601 time at start of observation     MJD-BEG =      60949.265914294 / [d] MJD at start of observation                DATE-AVG= '2025-10-01T06:23:52.554' / ISO-8601 time at midpoint of observation  MJD-AVG =      60949.266580483 / [d] MJD at midpoint of observation             DATE-END= '2025-10-01T06:24:50.113' / ISO-8601 time at end of observation       MJD-END =      60949.267246672 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.369513824101 / SIP distortion coefficient                     A_0_1   =    -0.00034830915584 / SIP distortion coefficient                     A_0_2   =   -1.40547324607E-06 / SIP distortion coefficient                     A_0_3   =   -8.73193753412E-12 / SIP distortion coefficient                     A_1_0   =    0.000105141992261 / SIP distortion coefficient                     A_1_1   =    4.17177813408E-06 / SIP distortion coefficient                     A_1_2   =    6.43994647859E-10 / SIP distortion coefficient                     A_2_0   =   -1.60585072943E-06 / SIP distortion coefficient                     A_2_1   =   -1.32006655991E-10 / SIP distortion coefficient                     A_3_0   =    5.65850234977E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =      -0.920953532473 / SIP distortion coefficient                     B_0_1   =   -0.000376899663959 / SIP distortion coefficient                     B_0_2   =    1.98321647104E-06 / SIP distortion coefficient                     B_0_3   =     4.5183675909E-10 / SIP distortion coefficient                     B_1_0   =    0.000327871609459 / SIP distortion coefficient                     B_1_1   =   -6.83627720967E-07 / SIP distortion coefficient                     B_1_2   =   -4.13433134434E-11 / SIP distortion coefficient                     B_2_0   =    6.67154772224E-06 / SIP distortion coefficient                     B_2_1   =    6.46592706579E-10 / SIP distortion coefficient                     B_3_0   =   -4.57815999323E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =      -0.367108344051 / SIP distortion coefficient                     AP_0_1  =    0.000352741171753 / SIP distortion coefficient                     AP_0_2  =    1.39891592517E-06 / SIP distortion coefficient                     AP_0_3  =   -3.25748966366E-12 / SIP distortion coefficient                     AP_1_0  =   -0.000111291643452 / SIP distortion coefficient                     AP_1_1  =   -4.15298020577E-06 / SIP distortion coefficient                     AP_1_2  =   -6.09746890796E-10 / SIP distortion coefficient                     AP_2_0  =    1.59660629016E-06 / SIP distortion coefficient                     AP_2_1  =    8.93455898068E-11 / SIP distortion coefficient                     AP_3_0  =   -5.30690047802E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =       0.916293831516 / SIP distortion coefficient                     BP_0_1  =    0.000372121170697 / SIP distortion coefficient                     BP_0_2  =   -1.97314951056E-06 / SIP distortion coefficient                     BP_0_3  =   -4.42074027517E-10 / SIP distortion coefficient                     BP_1_0  =   -0.000322201817646 / SIP distortion coefficient                     BP_1_1  =    6.76463000957E-07 / SIP distortion coefficient                     BP_1_2  =    1.56143718497E-11 / SIP distortion coefficient                     BP_2_0  =   -6.65359123044E-06 / SIP distortion coefficient                     BP_2_1  =   -5.61139976357E-10 / SIP distortion coefficient                     BP_3_0  =    1.99423879234E-11 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \", \"target_wcs\": \"WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \", \"weights_sha256\": \"eb117b8bad6e11f9c3e3bdb77ad9ce64b99ba86dea4420937705538dbf57ac01\"}], \"region_pixels\": 50, \"region_sha256\": \"a2223c5dbf3b6835bd65f1bb3a12722eb926eb1f64d64956c3e623fc92e396d7\"}, \"uncertainty_reference\": \"\"}",
+    "reasons": [
+      "CALIBRATION_UNVERIFIED:dichroic:019f5219-a3dc-704a-a5dd-18857088b1c6",
+      "CALIBRATION_UNVERIFIED:gain_factors:019f521b-4ad3-7698-b7c3-a40aefa6469e",
+      "CALIBRATION_UNVERIFIED:initial_distortion_table:019f521b-605a-79ba-ab36-caf4d55f5d5e",
+      "CALIBRATION_UNVERIFIED:nonfunc_v2:019f521b-7547-731a-884f-3b322727b061",
+      "CALIBRATION_UNVERIFIED:sband_mnemonics:019f521c-f507-7801-8542-ad9eb4fc903d",
+      "CALIBRATION_UNVERIFIED:spectral_wcs:019f4f98-edf0-744b-9600-424841d46dc0",
+      "CALIBRATION_UNVERIFIED:nonlinear_pars:019f521b-f52e-7dfb-8cbb-b57a3386ec1b",
+      "CALIBRATION_UNVERIFIED:readnoise_pars:019f521c-75d6-7a6c-8c35-104255ec3a29",
+      "CALIBRATION_UNVERIFIED:abs_gain_matrix:019f4f95-1ed2-7fa2-9329-87db4d08754d",
+      "CALIBRATION_UNVERIFIED:aurora_template:019f521d-b6c6-74e2-8d72-791936504e70",
+      "CALIBRATION_UNVERIFIED:dark:019f4f95-cd35-7164-a073-10c1bb9c2a7f",
+      "CALIBRATION_UNVERIFIED:epsf:019f4f97-41f1-7f7c-a94b-cfc0f1d4c9c8",
+      "CALIBRATION_UNVERIFIED:he_template:019f521d-8ba2-7606-a4da-86ea650ca4aa",
+      "CALIBRATION_UNVERIFIED:sip:019f4f98-3cd6-702b-94d2-51e35bf1b279",
+      "CALIBRATION_UNVERIFIED:xtalk_class1:019f521d-e05e-7e99-b25e-470c4f721f9c",
+      "CALIBRATION_UNVERIFIED:xtalk_class2:019f521e-1e78-7c33-8b8f-8029a5316507",
+      "CALIBRATION_UNVERIFIED:zodi_scaling_v2:01a09305-6e52-7223-9ffb-fde388d99ade",
+      "SPECTRAL_BANDWIDTH_INTERVALS_DISJOINT",
+      "SPECTRAL_CALIBRATION_UNVERIFIED",
+      "SPECTRAL_POLICY_UNREVIEWED",
+      "PSF_EVIDENCE_MISSING",
+      "BACKGROUND_EVIDENCE_MISSING",
+      "ALIGNED_SPECTRAL_RESPONSE_UNVERIFIED",
+      "PAIR_COVARIANCE_MODEL_UNAVAILABLE",
+      "PAIR_UNCERTAINTY_UNREVIEWED"
+    ],
+    "evidence": {
+      "calibrations": [],
+      "measurement_region": {
+        "pixels": [
+          [
+            1,
+            131
+          ],
+          [
+            2,
+            20
+          ],
+          [
+            3,
+            20
+          ],
+          [
+            7,
+            26
+          ],
+          [
+            8,
+            24
+          ],
+          [
+            8,
+            25
+          ],
+          [
+            8,
+            26
+          ],
+          [
+            9,
+            112
+          ],
+          [
+            15,
+            135
+          ],
+          [
+            24,
+            119
+          ],
+          [
+            24,
+            120
+          ],
+          [
+            25,
+            135
+          ],
+          [
+            35,
+            136
+          ],
+          [
+            36,
+            136
+          ],
+          [
+            39,
+            135
+          ],
+          [
+            39,
+            136
+          ],
+          [
+            40,
+            136
+          ],
+          [
+            44,
+            129
+          ],
+          [
+            45,
+            129
+          ],
+          [
+            45,
+            130
+          ],
+          [
+            45,
+            131
+          ],
+          [
+            46,
+            1
+          ],
+          [
+            57,
+            2
+          ],
+          [
+            57,
+            3
+          ],
+          [
+            57,
+            4
+          ],
+          [
+            58,
+            4
+          ],
+          [
+            58,
+            5
+          ],
+          [
+            59,
+            5
+          ],
+          [
+            60,
+            5
+          ],
+          [
+            92,
+            7
+          ],
+          [
+            101,
+            1
+          ],
+          [
+            101,
+            2
+          ],
+          [
+            107,
+            125
+          ],
+          [
+            115,
+            22
+          ],
+          [
+            115,
+            23
+          ],
+          [
+            124,
+            114
+          ],
+          [
+            124,
+            115
+          ],
+          [
+            124,
+            116
+          ],
+          [
+            124,
+            117
+          ],
+          [
+            124,
+            118
+          ],
+          [
+            125,
+            104
+          ],
+          [
+            125,
+            105
+          ],
+          [
+            125,
+            115
+          ],
+          [
+            125,
+            116
+          ],
+          [
+            125,
+            117
+          ],
+          [
+            126,
+            115
+          ],
+          [
+            126,
+            116
+          ],
+          [
+            126,
+            117
+          ],
+          [
+            127,
+            116
+          ],
+          [
+            133,
+            112
+          ]
+        ],
+        "shape": [
+          138,
+          138
+        ]
+      },
+      "spectral": {
+        "calibration_hashes": [
+          "44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23",
+          "44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23"
+        ],
+        "disjoint_interval_pixels": 50,
+        "limitation": "Full transmission shapes and SED-dependent color terms are not supplied by CWAVE/CBAND",
+        "max_contributor_delta_um": 0.21599102020263672,
+        "max_weighted_mean_delta_um": 0.2158841467302448,
+        "method": "all-bilinear-contributor-intervals-v1",
+        "min_contributor_interval_overlap": 0.0,
+        "native_cutout_interval_envelopes_um": [
+          [
+            0.8122201273217797,
+            0.8584378100931644
+          ],
+          [
+            1.0176938157528639,
+            1.0766359902918339
+          ]
+        ],
+        "operator_provenance": [
+          {
+            "indices_sha256": "9f750667f8e33a824c3a652835e33d6d21be3b9da54ce4e27ec010e483a1ed9c",
+            "indptr_sha256": "5d7af1c636309ab5c050bf49bbd77faae564fb5f2f2fae02337b4cf5ebfec9d1",
+            "input_mask_sha256": "9ba6fa459ff08e49bf29838bfe79e142a194092672b401f74c389073928a2175",
+            "method": "bilinear-strict-v1",
+            "source_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "target_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "weights_sha256": "c3c6486e9122d93e3cb79d8d4957894fb1674a0f03047c956500aed0c3de690c"
+          },
+          {
+            "indices_sha256": "260e2b51c3b216a2d8940a23f246635e871c83298a0bf242da3038019f44b0ee",
+            "indptr_sha256": "38c88cd7ae7508895276330dc9e669c0584526ecbb9bb82fd34a983180e193db",
+            "input_mask_sha256": "dd4397ec9c7d7d7b788e7c2c59e8c45480d1f175856d9dada21d835498a6d16f",
+            "method": "bilinear-strict-v1",
+            "source_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =                469.5 / Pixel coordinate of reference point            CRPIX2  =                774.5 / Pixel coordinate of reference point            PC1_1   =     0.00170813235369 / Coordinate transformation matrix element       PC1_2   =    1.82206956048E-05 / Coordinate transformation matrix element       PC2_1   =    8.38405739407E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170915707549 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        270.149212706 / [deg] Coordinate value at reference point      CRVAL2  =        3.52417378129 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        3.52417378129 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-10-01T06:22:54.995' / ISO-8601 time of observation              MJD-OBS =      60949.265914294 / [d] MJD of observation                         DATE-BEG= '2025-10-01T06:22:54.995' / ISO-8601 time at start of observation     MJD-BEG =      60949.265914294 / [d] MJD at start of observation                DATE-AVG= '2025-10-01T06:23:52.554' / ISO-8601 time at midpoint of observation  MJD-AVG =      60949.266580483 / [d] MJD at midpoint of observation             DATE-END= '2025-10-01T06:24:50.113' / ISO-8601 time at end of observation       MJD-END =      60949.267246672 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.369513824101 / SIP distortion coefficient                     A_0_1   =    -0.00034830915584 / SIP distortion coefficient                     A_0_2   =   -1.40547324607E-06 / SIP distortion coefficient                     A_0_3   =   -8.73193753412E-12 / SIP distortion coefficient                     A_1_0   =    0.000105141992261 / SIP distortion coefficient                     A_1_1   =    4.17177813408E-06 / SIP distortion coefficient                     A_1_2   =    6.43994647859E-10 / SIP distortion coefficient                     A_2_0   =   -1.60585072943E-06 / SIP distortion coefficient                     A_2_1   =   -1.32006655991E-10 / SIP distortion coefficient                     A_3_0   =    5.65850234977E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =      -0.920953532473 / SIP distortion coefficient                     B_0_1   =   -0.000376899663959 / SIP distortion coefficient                     B_0_2   =    1.98321647104E-06 / SIP distortion coefficient                     B_0_3   =     4.5183675909E-10 / SIP distortion coefficient                     B_1_0   =    0.000327871609459 / SIP distortion coefficient                     B_1_1   =   -6.83627720967E-07 / SIP distortion coefficient                     B_1_2   =   -4.13433134434E-11 / SIP distortion coefficient                     B_2_0   =    6.67154772224E-06 / SIP distortion coefficient                     B_2_1   =    6.46592706579E-10 / SIP distortion coefficient                     B_3_0   =   -4.57815999323E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =      -0.367108344051 / SIP distortion coefficient                     AP_0_1  =    0.000352741171753 / SIP distortion coefficient                     AP_0_2  =    1.39891592517E-06 / SIP distortion coefficient                     AP_0_3  =   -3.25748966366E-12 / SIP distortion coefficient                     AP_1_0  =   -0.000111291643452 / SIP distortion coefficient                     AP_1_1  =   -4.15298020577E-06 / SIP distortion coefficient                     AP_1_2  =   -6.09746890796E-10 / SIP distortion coefficient                     AP_2_0  =    1.59660629016E-06 / SIP distortion coefficient                     AP_2_1  =    8.93455898068E-11 / SIP distortion coefficient                     AP_3_0  =   -5.30690047802E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =       0.916293831516 / SIP distortion coefficient                     BP_0_1  =    0.000372121170697 / SIP distortion coefficient                     BP_0_2  =   -1.97314951056E-06 / SIP distortion coefficient                     BP_0_3  =   -4.42074027517E-10 / SIP distortion coefficient                     BP_1_0  =   -0.000322201817646 / SIP distortion coefficient                     BP_1_1  =    6.76463000957E-07 / SIP distortion coefficient                     BP_1_2  =    1.56143718497E-11 / SIP distortion coefficient                     BP_2_0  =   -6.65359123044E-06 / SIP distortion coefficient                     BP_2_1  =   -5.61139976357E-10 / SIP distortion coefficient                     BP_3_0  =    1.99423879234E-11 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "target_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "weights_sha256": "eb117b8bad6e11f9c3e3bdb77ad9ce64b99ba86dea4420937705538dbf57ac01"
+          }
+        ],
+        "region_pixels": 50,
+        "region_sha256": "a2223c5dbf3b6835bd65f1bb3a12722eb926eb1f64d64956c3e623fc92e396d7"
+      },
+      "uncertainty_reference": ""
+    }
+  },
+  "propagation_diagnostics": {
+    "statistical_covariance_method": "strict-bilinear-operators-with-independent-native-statistical-variance",
+    "region_pixels": 50,
+    "covariance_sha256": "f5dda0e6e49712a78f122cfef71b62ce27be644d4a18505c3a60931cf5a3128d",
+    "max_offdiagonal_covariance": 7.113527887841453e-05,
+    "certified": false,
+    "missing_uncertainty_inputs": [
+      "source-free background model",
+      "ZODI model covariance",
+      "calibration covariance",
+      "effective-PSF/model uncertainty"
+    ],
+    "spectral_candidate_diagnostics": {
+      "evidence": {
+        "method": "all-bilinear-contributor-intervals-v1",
+        "region_sha256": "a2223c5dbf3b6835bd65f1bb3a12722eb926eb1f64d64956c3e623fc92e396d7",
+        "region_pixels": 50,
+        "max_contributor_delta_um": 0.21599102020263672,
+        "min_contributor_interval_overlap": 0.0,
+        "max_weighted_mean_delta_um": 0.2158841467302448,
+        "disjoint_interval_pixels": 50,
+        "operator_provenance": [
+          {
+            "method": "bilinear-strict-v1",
+            "source_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "target_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "input_mask_sha256": "9ba6fa459ff08e49bf29838bfe79e142a194092672b401f74c389073928a2175",
+            "weights_sha256": "c3c6486e9122d93e3cb79d8d4957894fb1674a0f03047c956500aed0c3de690c",
+            "indices_sha256": "9f750667f8e33a824c3a652835e33d6d21be3b9da54ce4e27ec010e483a1ed9c",
+            "indptr_sha256": "5d7af1c636309ab5c050bf49bbd77faae564fb5f2f2fae02337b4cf5ebfec9d1"
+          },
+          {
+            "method": "bilinear-strict-v1",
+            "source_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =                469.5 / Pixel coordinate of reference point            CRPIX2  =                774.5 / Pixel coordinate of reference point            PC1_1   =     0.00170813235369 / Coordinate transformation matrix element       PC1_2   =    1.82206956048E-05 / Coordinate transformation matrix element       PC2_1   =    8.38405739407E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170915707549 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        270.149212706 / [deg] Coordinate value at reference point      CRVAL2  =        3.52417378129 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        3.52417378129 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-10-01T06:22:54.995' / ISO-8601 time of observation              MJD-OBS =      60949.265914294 / [d] MJD of observation                         DATE-BEG= '2025-10-01T06:22:54.995' / ISO-8601 time at start of observation     MJD-BEG =      60949.265914294 / [d] MJD at start of observation                DATE-AVG= '2025-10-01T06:23:52.554' / ISO-8601 time at midpoint of observation  MJD-AVG =      60949.266580483 / [d] MJD at midpoint of observation             DATE-END= '2025-10-01T06:24:50.113' / ISO-8601 time at end of observation       MJD-END =      60949.267246672 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.369513824101 / SIP distortion coefficient                     A_0_1   =    -0.00034830915584 / SIP distortion coefficient                     A_0_2   =   -1.40547324607E-06 / SIP distortion coefficient                     A_0_3   =   -8.73193753412E-12 / SIP distortion coefficient                     A_1_0   =    0.000105141992261 / SIP distortion coefficient                     A_1_1   =    4.17177813408E-06 / SIP distortion coefficient                     A_1_2   =    6.43994647859E-10 / SIP distortion coefficient                     A_2_0   =   -1.60585072943E-06 / SIP distortion coefficient                     A_2_1   =   -1.32006655991E-10 / SIP distortion coefficient                     A_3_0   =    5.65850234977E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =      -0.920953532473 / SIP distortion coefficient                     B_0_1   =   -0.000376899663959 / SIP distortion coefficient                     B_0_2   =    1.98321647104E-06 / SIP distortion coefficient                     B_0_3   =     4.5183675909E-10 / SIP distortion coefficient                     B_1_0   =    0.000327871609459 / SIP distortion coefficient                     B_1_1   =   -6.83627720967E-07 / SIP distortion coefficient                     B_1_2   =   -4.13433134434E-11 / SIP distortion coefficient                     B_2_0   =    6.67154772224E-06 / SIP distortion coefficient                     B_2_1   =    6.46592706579E-10 / SIP distortion coefficient                     B_3_0   =   -4.57815999323E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =      -0.367108344051 / SIP distortion coefficient                     AP_0_1  =    0.000352741171753 / SIP distortion coefficient                     AP_0_2  =    1.39891592517E-06 / SIP distortion coefficient                     AP_0_3  =   -3.25748966366E-12 / SIP distortion coefficient                     AP_1_0  =   -0.000111291643452 / SIP distortion coefficient                     AP_1_1  =   -4.15298020577E-06 / SIP distortion coefficient                     AP_1_2  =   -6.09746890796E-10 / SIP distortion coefficient                     AP_2_0  =    1.59660629016E-06 / SIP distortion coefficient                     AP_2_1  =    8.93455898068E-11 / SIP distortion coefficient                     AP_3_0  =   -5.30690047802E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =       0.916293831516 / SIP distortion coefficient                     BP_0_1  =    0.000372121170697 / SIP distortion coefficient                     BP_0_2  =   -1.97314951056E-06 / SIP distortion coefficient                     BP_0_3  =   -4.42074027517E-10 / SIP distortion coefficient                     BP_1_0  =   -0.000322201817646 / SIP distortion coefficient                     BP_1_1  =    6.76463000957E-07 / SIP distortion coefficient                     BP_1_2  =    1.56143718497E-11 / SIP distortion coefficient                     BP_2_0  =   -6.65359123044E-06 / SIP distortion coefficient                     BP_2_1  =   -5.61139976357E-10 / SIP distortion coefficient                     BP_3_0  =    1.99423879234E-11 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "target_wcs": "WCSAXES =                    2 / Number of coordinate axes                      CRPIX1  =               -448.5 / Pixel coordinate of reference point            CRPIX2  =               -338.5 / Pixel coordinate of reference point            PC1_1   =     0.00170906895197 / Coordinate transformation matrix element       PC1_2   =    9.40057916374E-07 / Coordinate transformation matrix element       PC2_1   =     6.6510180657E-05 / Coordinate transformation matrix element       PC2_2   =    -0.00170880141017 / Coordinate transformation matrix element       CDELT1  =                  1.0 / [deg] Coordinate increment at reference point  CDELT2  =                  1.0 / [deg] Coordinate increment at reference point  CUNIT1  = 'deg'                / Units of coordinate increment and value        CUNIT2  = 'deg'                / Units of coordinate increment and value        CTYPE1  = 'RA---TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CTYPE2  = 'DEC--TAN-SIP'       / TAN (gnomonic) projection + SIP distortions    CRVAL1  =        268.561841893 / [deg] Coordinate value at reference point      CRVAL2  =        5.35904162047 / [deg] Coordinate value at reference point      LONPOLE =                180.0 / [deg] Native longitude of celestial pole       LATPOLE =        5.35904162047 / [deg] Native latitude of celestial pole        TIMESYS = 'UTC'                / Time scale                                     MJDREF  =                  0.0 / [d] MJD of fiducial time                       DATE-OBS= '2025-09-30T23:51:40.377' / ISO-8601 time of observation              MJD-OBS =      60948.994217326 / [d] MJD of observation                         DATE-BEG= '2025-09-30T23:51:40.377' / ISO-8601 time at start of observation     MJD-BEG =      60948.994217326 / [d] MJD at start of observation                DATE-AVG= '2025-09-30T23:52:37.936' / ISO-8601 time at midpoint of observation  MJD-AVG =      60948.994883516 / [d] MJD at midpoint of observation             DATE-END= '2025-09-30T23:53:35.495' / ISO-8601 time at end of observation       MJD-END =      60948.995549705 / [d] MJD at end of observation                  XPOSURE =             113.5826 / [s] Exposure (integration) time                TELAPSE =             118.1873 / [s] Elapsed time (start to stop)               RADESYS = 'ICRS'               / Equatorial coordinate system                   A_ORDER =                    3 / SIP polynomial order, axis 0, detector to sky  A_0_0   =       0.428746181383 / SIP distortion coefficient                     A_0_1   =   -5.27059686046E-05 / SIP distortion coefficient                     A_0_2   =   -1.42627138667E-06 / SIP distortion coefficient                     A_0_3   =   -3.16353579637E-11 / SIP distortion coefficient                     A_1_0   =   -2.58896384551E-05 / SIP distortion coefficient                     A_1_1   =    4.17972036638E-06 / SIP distortion coefficient                     A_1_2   =    6.51334150869E-10 / SIP distortion coefficient                     A_2_0   =   -1.61818358009E-06 / SIP distortion coefficient                     A_2_1   =   -1.19230281877E-10 / SIP distortion coefficient                     A_3_0   =    5.86692445994E-10 / SIP distortion coefficient                     B_ORDER =                    3 / SIP polynomial order, axis 1, detector to sky  B_0_0   =       -1.04057503113 / SIP distortion coefficient                     B_0_1   =   -0.000102111712349 / SIP distortion coefficient                     B_0_2   =    1.99022543996E-06 / SIP distortion coefficient                     B_0_3   =    4.43152172636E-10 / SIP distortion coefficient                     B_1_0   =   -5.68320234464E-06 / SIP distortion coefficient                     B_1_1   =   -6.81882897143E-07 / SIP distortion coefficient                     B_1_2   =   -4.40440682005E-11 / SIP distortion coefficient                     B_2_0   =     6.6824154744E-06 / SIP distortion coefficient                     B_2_1   =    6.64492699819E-10 / SIP distortion coefficient                     B_3_0   =   -2.63378405858E-11 / SIP distortion coefficient                     AP_ORDER=                    3 / SIP polynomial order, axis 0, sky to detector  AP_0_0  =       -0.42655226887 / SIP distortion coefficient                     AP_0_1  =    5.77057715725E-05 / SIP distortion coefficient                     AP_0_2  =    1.42062088637E-06 / SIP distortion coefficient                     AP_0_3  =    1.96868370587E-11 / SIP distortion coefficient                     AP_1_0  =    1.90910249669E-05 / SIP distortion coefficient                     AP_1_1  =    -4.1608617444E-06 / SIP distortion coefficient                     AP_1_2  =   -6.16665656285E-10 / SIP distortion coefficient                     AP_2_0  =    1.61003401314E-06 / SIP distortion coefficient                     AP_2_1  =    7.63190359267E-11 / SIP distortion coefficient                     AP_3_0  =   -5.51496476208E-10 / SIP distortion coefficient                     BP_ORDER=                    3 / SIP polynomial order, axis 1, sky to detector  BP_0_0  =        1.03550717789 / SIP distortion coefficient                     BP_0_1  =    9.67834725366E-05 / SIP distortion coefficient                     BP_0_2  =   -1.97839836306E-06 / SIP distortion coefficient                     BP_0_3  =   -4.32852502111E-10 / SIP distortion coefficient                     BP_1_0  =    1.22942098813E-05 / SIP distortion coefficient                     BP_1_1  =    6.75729393831E-07 / SIP distortion coefficient                     BP_1_2  =    1.76893914961E-11 / SIP distortion coefficient                     BP_2_0  =   -6.66334284354E-06 / SIP distortion coefficient                     BP_2_1  =   -5.78447857718E-10 / SIP distortion coefficient                     BP_3_0  =   -1.19565886134E-14 / SIP distortion coefficient                     END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+            "input_mask_sha256": "dd4397ec9c7d7d7b788e7c2c59e8c45480d1f175856d9dada21d835498a6d16f",
+            "weights_sha256": "eb117b8bad6e11f9c3e3bdb77ad9ce64b99ba86dea4420937705538dbf57ac01",
+            "indices_sha256": "260e2b51c3b216a2d8940a23f246635e871c83298a0bf242da3038019f44b0ee",
+            "indptr_sha256": "38c88cd7ae7508895276330dc9e669c0584526ecbb9bb82fd34a983180e193db"
+          }
+        ],
+        "calibration_hashes": [
+          "44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23",
+          "44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23"
+        ],
+        "limitation": "Full transmission shapes and SED-dependent color terms are not supplied by CWAVE/CBAND",
+        "native_cutout_interval_envelopes_um": [
+          [
+            0.8122201273217797,
+            0.8584378100931644
+          ],
+          [
+            1.0176938157528639,
+            1.0766359902918339
+          ]
+        ]
+      },
+      "reasons": [
+        "SPECTRAL_BANDWIDTH_INTERVALS_DISJOINT",
+        "SPECTRAL_CALIBRATION_UNVERIFIED",
+        "SPECTRAL_POLICY_UNREVIEWED"
+      ],
+      "certified": false
+    }
+  },
+  "calibration_retrieval": {
+    "observations": [
+      {
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0441_1/D1",
+        "datalink_sha256": "5c0ee5f1fe7eedb3fb558f847f72efc393fd913f21bb61acdb13839afa1391a5",
+        "product_urls": [
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/abs_gain_matrix/cal-agm-v8-2026-191/1/abs_gain_matrix_D1_spx_cal-agm-v8-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/dark/cal-drk-v6-2026-191/1/dark_D1_spx_cal-drk-v6-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/epsf/cal-epsf-v1-2026-191/1/epsf_D1_spx_cal-epsf-v1-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/sip/cal-sip-v1-2026-191/1/sip_D1_spx_cal-sip-v1-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/spectral_wcs/cal-swcs-v5-2026-191/1/spectral_wcs_D1_spx_cal-swcs-v5-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/dichroic/base-2026-191/1/dichroic_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/nonfunc_v2/base-2026-191/1/nonfunc_v2_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/nonlinear_pars/base-2026-191/1/nonlinear_pars_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/readnoise_pars/base-2026-191/1/readnoise_pars_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/he_template/base-2026-191/1/he_template_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/aurora_template/base-2026-191/1/aurora_template_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/gain_factors/base-2026-191/gain_factors_spx_base-2026-191.yaml",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/xtalk_class1/base-2026-191/1/xtalk_class1_D1_spx_base-2026-191.ecsv",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/xtalk_class2/base-2026-191/1/xtalk_class2_D1_spx_base-2026-191.ecsv",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/zodi_scaling_v2/cal-zodi-v2-2026-254/1/zodi_scaling_v2_D1_spx_cal-zodi-v2-2026-254.ecsv"
+        ]
+      },
+      {
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "product_urls": [
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/abs_gain_matrix/cal-agm-v8-2026-191/1/abs_gain_matrix_D1_spx_cal-agm-v8-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/dark/cal-drk-v6-2026-191/1/dark_D1_spx_cal-drk-v6-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/epsf/cal-epsf-v1-2026-191/1/epsf_D1_spx_cal-epsf-v1-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/sip/cal-sip-v1-2026-191/1/sip_D1_spx_cal-sip-v1-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/spectral_wcs/cal-swcs-v5-2026-191/1/spectral_wcs_D1_spx_cal-swcs-v5-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/dichroic/base-2026-191/1/dichroic_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/nonfunc_v2/base-2026-191/1/nonfunc_v2_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/nonlinear_pars/base-2026-191/1/nonlinear_pars_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/readnoise_pars/base-2026-191/1/readnoise_pars_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/he_template/base-2026-191/1/he_template_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/aurora_template/base-2026-191/1/aurora_template_D1_spx_base-2026-191.fits",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/gain_factors/base-2026-191/gain_factors_spx_base-2026-191.yaml",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/xtalk_class1/base-2026-191/1/xtalk_class1_D1_spx_base-2026-191.ecsv",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/xtalk_class2/base-2026-191/1/xtalk_class2_D1_spx_base-2026-191.ecsv",
+          "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/zodi_scaling_v2/cal-zodi-v2-2026-254/1/zodi_scaling_v2_D1_spx_cal-zodi-v2-2026-254.ecsv"
+        ]
+      }
+    ],
+    "products": [
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/abs_gain_matrix/cal-agm-v8-2026-191/1/abs_gain_matrix_D1_spx_cal-agm-v8-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/abs_gain_matrix/cal-agm-v8-2026-191/1/abs_gain_matrix_D1_spx_cal-agm-v8-2026-191.fits",
+        "product_id": "abs_gain_matrix_D1_spx_cal-agm-v8-2026-191",
+        "size_bytes": 16652160,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\abs_gain_matrix_D1_spx_cal-agm-v8-2026-191.fits",
+        "sha256": "c7f4f2c19a3ca385144c2f81989d6a9d711dff4be01e8112bba0c5ed7b09b6d7",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/dark/cal-drk-v6-2026-191/1/dark_D1_spx_cal-drk-v6-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/dark/cal-drk-v6-2026-191/1/dark_D1_spx_cal-drk-v6-2026-191.fits",
+        "product_id": "dark_D1_spx_cal-drk-v6-2026-191",
+        "size_bytes": 16652160,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\dark_D1_spx_cal-drk-v6-2026-191.fits",
+        "sha256": "e00ffe64531cad716372af7b4a0278b84e3bcac70a5dc57d763acb58a3d30314",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/epsf/cal-epsf-v1-2026-191/1/epsf_D1_spx_cal-epsf-v1-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/epsf/cal-epsf-v1-2026-191/1/epsf_D1_spx_cal-epsf-v1-2026-191.fits",
+        "product_id": "epsf_D1_spx_cal-epsf-v1-2026-191",
+        "size_bytes": 7943040,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\epsf_D1_spx_cal-epsf-v1-2026-191.fits",
+        "sha256": "f5eacb19eb90cb96a1684e9116b85f43f615ae5724c0aa26ac0c0ed45fa309e9",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/sip/cal-sip-v1-2026-191/1/sip_D1_spx_cal-sip-v1-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/sip/cal-sip-v1-2026-191/1/sip_D1_spx_cal-sip-v1-2026-191.fits",
+        "product_id": "sip_D1_spx_cal-sip-v1-2026-191",
+        "size_bytes": 5760,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\sip_D1_spx_cal-sip-v1-2026-191.fits",
+        "sha256": "67be04fdade85e6266de05a2f9c1a5f33bd792e1273d672d2a16371d742af646",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/spectral_wcs/cal-swcs-v5-2026-191/1/spectral_wcs_D1_spx_cal-swcs-v5-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/spectral_wcs/cal-swcs-v5-2026-191/1/spectral_wcs_D1_spx_cal-swcs-v5-2026-191.fits",
+        "product_id": "spectral_wcs_D1_spx_cal-swcs-v5-2026-191",
+        "size_bytes": 33312960,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\spectral_wcs_D1_spx_cal-swcs-v5-2026-191.fits",
+        "sha256": "44fb48b236e25a99d42c8986da0064cc58359527e1fc76e182eda52371a1ae23",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/dichroic/base-2026-191/1/dichroic_D1_spx_base-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/dichroic/base-2026-191/1/dichroic_D1_spx_base-2026-191.fits",
+        "product_id": "dichroic_D1_spx_base-2026-191",
+        "size_bytes": 4167360,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\dichroic_D1_spx_base-2026-191.fits",
+        "sha256": "f500d421b8911a5296f7a2acfb4eecee006344559f58c5179391ae5ed9f7979e",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/nonfunc_v2/base-2026-191/1/nonfunc_v2_D1_spx_base-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/nonfunc_v2/base-2026-191/1/nonfunc_v2_D1_spx_base-2026-191.fits",
+        "product_id": "nonfunc_v2_D1_spx_base-2026-191",
+        "size_bytes": 33598080,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\nonfunc_v2_D1_spx_base-2026-191.fits",
+        "sha256": "8ba10f3be0f9f1929368742e7615fd00cfe3596b86b0c897a389122a33a0c9e0",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/nonlinear_pars/base-2026-191/1/nonlinear_pars_D1_spx_base-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/nonlinear_pars/base-2026-191/1/nonlinear_pars_D1_spx_base-2026-191.fits",
+        "product_id": "nonlinear_pars_D1_spx_base-2026-191",
+        "size_bytes": 83249280,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\nonlinear_pars_D1_spx_base-2026-191.fits",
+        "sha256": "b1d93a8d49a5733e4d1d0a178219cd77a8f3e94f3d55856831af1623411787f2",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/readnoise_pars/base-2026-191/1/readnoise_pars_D1_spx_base-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/readnoise_pars/base-2026-191/1/readnoise_pars_D1_spx_base-2026-191.fits",
+        "product_id": "readnoise_pars_D1_spx_base-2026-191",
+        "size_bytes": 50342400,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\readnoise_pars_D1_spx_base-2026-191.fits",
+        "sha256": "a346bfc37c09b9005a7cfbd5dc37105e47a8bb5f2694fa08e7b6b32c817b892d",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/he_template/base-2026-191/1/he_template_D1_spx_base-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/he_template/base-2026-191/1/he_template_D1_spx_base-2026-191.fits",
+        "product_id": "he_template_D1_spx_base-2026-191",
+        "size_bytes": 16652160,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\he_template_D1_spx_base-2026-191.fits",
+        "sha256": "9f407481324767e24ed00e08cdbd9a297a412b4297a8928a7fdb99438f34c6fb",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/aurora_template/base-2026-191/1/aurora_template_D1_spx_base-2026-191.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/aurora_template/base-2026-191/1/aurora_template_D1_spx_base-2026-191.fits",
+        "product_id": "aurora_template_D1_spx_base-2026-191",
+        "size_bytes": 48960,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\aurora_template_D1_spx_base-2026-191.fits",
+        "sha256": "65158f45cb4736c31006932d1c1dcedc21267900d125f68a288b7ac7349387f6",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/gain_factors/base-2026-191/gain_factors_spx_base-2026-191.yaml",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/gain_factors/base-2026-191/gain_factors_spx_base-2026-191.yaml",
+        "product_id": "gain_factors_spx_base-2026-191",
+        "size_bytes": 5544,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\gain_factors_spx_base-2026-191.yaml",
+        "sha256": "a0cec6d1e53134b4b5fa503d187c6c10f1d6ab30f8c6f668c056c9b93c457562",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/xtalk_class1/base-2026-191/1/xtalk_class1_D1_spx_base-2026-191.ecsv",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/xtalk_class1/base-2026-191/1/xtalk_class1_D1_spx_base-2026-191.ecsv",
+        "product_id": "xtalk_class1_D1_spx_base-2026-191",
+        "size_bytes": 1017,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\xtalk_class1_D1_spx_base-2026-191.ecsv",
+        "sha256": "574056c9d6e6277998d393eccf9097149b50e98a7d151a6fb671421af2ec7614",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/xtalk_class2/base-2026-191/1/xtalk_class2_D1_spx_base-2026-191.ecsv",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/xtalk_class2/base-2026-191/1/xtalk_class2_D1_spx_base-2026-191.ecsv",
+        "product_id": "xtalk_class2_D1_spx_base-2026-191",
+        "size_bytes": 9797,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\xtalk_class2_D1_spx_base-2026-191.ecsv",
+        "sha256": "1d96e4a4161953991156ba3ab1c006d21aa1294039de35c3bd7540d7bac2e758",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/zodi_scaling_v2/cal-zodi-v2-2026-254/1/zodi_scaling_v2_D1_spx_cal-zodi-v2-2026-254.ecsv",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/zodi_scaling_v2/cal-zodi-v2-2026-254/1/zodi_scaling_v2_D1_spx_cal-zodi-v2-2026-254.ecsv",
+        "product_id": "zodi_scaling_v2_D1_spx_cal-zodi-v2-2026-254",
+        "size_bytes": 2541,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\zodi_scaling_v2_D1_spx_cal-zodi-v2-2026-254.ecsv",
+        "sha256": "5c50bf42e8fcbf515b088be483ff26cd30d2a747ca9e586d80d6f9ffc4c2db3e",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      }
+    ],
+    "parent_images": [
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/level2/2025W40_1A/l2b-v27-2026-239/1/level2_2025W40_1A_0441_1D1_spx_l2b-v27-2026-239.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W40_1A/l2b-v27-2026-239/1/level2_2025W40_1A_0441_1D1_spx_l2b-v27-2026-239.fits",
+        "product_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0441_1/D1 science image",
+        "size_bytes": 63907200,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0441_1/D1",
+        "datalink_sha256": "5c0ee5f1fe7eedb3fb558f847f72efc393fd913f21bb61acdb13839afa1391a5",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\level2_2025W40_1A_0441_1D1_spx_l2b-v27-2026-239.fits",
+        "sha256": "fb8c7aac163385501b41a0287c5a0cfc48b52696e1b393ad5aa1322e49c2af80",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      },
+      {
+        "url": "https://nasa-irsa-spherex.s3.amazonaws.com/dr1/level2/2025W40_1A/l2b-v27-2026-239/1/level2_2025W40_1A_0500_1D1_spx_l2b-v27-2026-239.fits",
+        "irsa_url": "https://irsa.ipac.caltech.edu/ibe/data/spherex/dr1/level2/2025W40_1A/l2b-v27-2026-239/1/level2_2025W40_1A_0500_1D1_spx_l2b-v27-2026-239.fits",
+        "product_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1 science image",
+        "size_bytes": 62061120,
+        "publisher_id": "ivo://irsa.ipac/spherex_dr1?2025W40_1A_0500_1/D1",
+        "datalink_sha256": "9273fb880fbb879ec5d12f9c14221919d17f6018f990a3318a530a6693291592",
+        "uuid_verified": false,
+        "path": "data\\derived\\calibration_candidates\\level2_2025W40_1A_0500_1D1_spx_l2b-v27-2026-239.fits",
+        "sha256": "a1457634ca8abfb67e05469692557e4f528dbde4e016f8e6eebe7a34d538bda5",
+        "status": "RETRIEVED",
+        "embedded_identity_fields": [],
+        "uuid_status": "UNVERIFIED_REQUIRES_AUTHORITATIVE_UUID_MAPPING"
+      }
+    ],
+    "uuid_mapping_verified": false,
+    "limitations": [
+      "DataLink calibration rows contain observation IDs, not calibration UUIDs",
+      "initial_distortion_table and sband_mnemonics absent from returned calibration links"
+    ]
+  },
+  "official_product_access": {
+    "url": "https://nasa-irsa-spherex.s3.amazonaws.com/",
+    "note": "Local audit of DataLink-listed S3 products; product retrieval does not establish UUID identity."
+  }
+}
