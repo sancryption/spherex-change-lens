@@ -9,8 +9,10 @@
 /* Approved landing composition. The supplied logo is displayed unchanged. */
 .landing-page{background:#000}
 .landing-page .topbar{position:absolute;z-index:2;inset:0 0 auto;height:76px;padding:0 4.3%;border-bottom:1px solid #ffffff30;background:#0005}
-.landing-page .brand{align-items:center;gap:12px}
-.landing-page .brand img{width:72px;height:auto;display:block}
+.landing-page .brand{align-items:center;gap:4px}
+.landing-page .brand img{width:88px;height:auto;display:block;flex:none}
+.app-shell .brand{align-items:center;gap:4px}
+.app-shell .brand img{width:88px;height:auto;display:block;flex:none}
 .landing-page .brand span{font-size:18px;color:#eee}
 .landing-page .topbar nav{gap:32px}
 .landing-page .topbar nav a,.landing-page .topbar nav button{font-size:17px;color:#eee}
@@ -28,7 +30,8 @@
 .query-panel .primary-button{background:#f0f0fa;color:#000}
 .query-panel .primary-button:hover:not(:disabled){background:#dcdce8}
 @media(max-width:1050px){.landing-page .hero-copy{width:58%}.landing-page .hero-copy h1{font-size:clamp(48px,6.4vw,68px)}.landing-page .atlas-hero{background-position:58% center}.landing-page .topbar nav{gap:12px}}
-@media(max-width:767px){.landing-page .topbar{position:absolute;height:auto;min-height:112px;padding:12px 20px;flex-wrap:wrap;gap:8px}.landing-page .brand{gap:8px}.landing-page .brand img{width:54px}.landing-page .brand span{font-size:14px}.landing-page .topbar nav{width:100%;justify-content:space-between;gap:12px}.landing-page .topbar nav a{display:block}.landing-page .topbar nav a,.landing-page .topbar nav button{font-size:13px;padding:8px 0;min-height:44px}.landing-page .atlas-hero{min-height:100svh;padding:180px 24px 100px;background-image:linear-gradient(90deg,#000c,#0006),url('/assets/spherex-hero.png');background-position:65% center}.landing-page .hero-copy{width:100%}.landing-page .hero-copy h1{font-size:clamp(40px,9vw,64px)}.landing-page .hero-copy .eyebrow{font-size:11px;margin-bottom:28px}.landing-page .hero-copy p{font-size:17px;max-width:330px;margin:24px 0 32px}.landing-page .hero-action{width:100%;font-size:12px;padding:16px;letter-spacing:.16em}.landing-page .illustration-credit{left:24px;right:24px;bottom:24px;font-size:11px}}
+@media(max-width:767px){.landing-page .topbar{position:absolute;height:auto;min-height:112px;padding:12px 20px;flex-wrap:wrap;gap:8px}.landing-page .brand{gap:4px}.landing-page .brand img{width:68px}.landing-page .brand span{font-size:14px}.landing-page .topbar nav{width:100%;justify-content:space-between;gap:12px}.landing-page .topbar nav a{display:block}.landing-page .topbar nav a,.landing-page .topbar nav button{font-size:13px;padding:8px 0;min-height:44px}.landing-page .atlas-hero{min-height:100svh;padding:180px 24px 100px;background-image:linear-gradient(90deg,#000c,#0006),url('/assets/spherex-hero.png');background-position:65% center}.landing-page .hero-copy{width:100%}.landing-page .hero-copy h1{font-size:clamp(40px,9vw,64px)}.landing-page .hero-copy .eyebrow{font-size:11px;margin-bottom:28px}.landing-page .hero-copy p{font-size:17px;max-width:330px;margin:24px 0 32px}.landing-page .hero-action{width:100%;font-size:12px;padding:16px;letter-spacing:.16em}.landing-page .illustration-credit{left:24px;right:24px;bottom:24px;font-size:11px}}
+@media(max-width:767px){.app-shell .brand{gap:4px}.app-shell .brand img{width:68px}}
 :root{font-family:Inter,Arial,sans-serif;color:#fff;background:#0d0d0d;--blue:#3f78ff;--muted:#aaa;--line:#363636;--light:#e7e6e3;--mono:Consolas,monospace}
 *{box-sizing:border-box}body{margin:0;min-width:320px}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button,a{transition:background 180ms,color 180ms,transform 180ms}button{cursor:pointer;color:inherit;background:transparent;border:1px solid var(--line);border-radius:6px;min-height:44px;padding:10px 16px}button:disabled{cursor:not-allowed;opacity:.45}a{color:inherit}button:hover:not(:disabled){background:#292929}button:active:not(:disabled){transform:translateY(1px)}:focus-visible{outline:3px solid #80a6ff;outline-offset:4px}h1,h2,h3,p,figure{margin:0}p{line-height:1.6}button[aria-pressed=true]{border-color:var(--blue)}
 .skip-link{position:fixed;z-index:10;left:16px;top:8px;background:#fff;color:#111;padding:14px;transform:translateY(-160%)}.skip-link:focus{transform:none}
