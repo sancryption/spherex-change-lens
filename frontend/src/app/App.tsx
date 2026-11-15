@@ -161,7 +161,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main">Skip to investigation</a>
-      <header className="topbar"><button className="brand" onClick={() => navigate("overview")}><strong>SPHEREx</strong><span>Change Lens</span></button><span className="workspace-label">/ Investigation</span><button className="overview-link" onClick={() => navigate("overview")}>Overview ↗</button></header>
+      <header className="topbar"><button className="brand" onClick={() => navigate("overview")}><img src="/assets/spherex-logo.png" alt="" width="72" height="48" /><strong>SPHEREx</strong><span>Change Lens</span></button><span className="workspace-label">/ Investigation</span><button className="overview-link" onClick={() => navigate("overview")}>Overview ↗</button></header>
       <main id="main" className="workspace" tabIndex={-1} ref={mainRef}>
         <div className="workspace-heading"><div><span className="eyebrow">Observation atlas</span><h1>Investigate a field.</h1></div><div className="source-switch" role="group" aria-label="Data source"><button aria-pressed={mode === "synthetic"} onClick={() => changeMode("synthetic")}>Synthetic demo</button><button aria-pressed={mode === "api"} onClick={() => changeMode("api")}>Backend API</button></div></div>
         <div className={`workspace-grid ${editing ? "is-editing" : "is-loaded"}`}>
