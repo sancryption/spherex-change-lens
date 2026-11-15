@@ -16,8 +16,31 @@ async function loadDemo() {
 }
 
 describe("frontend interaction", () => {
+  it("opens coordinate links directly and retains a loaded field when returning from overview", async () => {
+    window.history.replaceState({}, "", "/?ra=269.4&dec=4.6&radius_arcsec=60");
+    render(<App />);
+    await loadDemo();
+    fireEvent.change(screen.getByLabelText(/Right Ascension/), { target: { value: "12" } });
+    expect(screen.getByText(/RA 269.4°/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Overview/ }));
+    expect(screen.getByRole("heading", { name: /SPHEREx observations, across time/ })).toBeInTheDocument();
+    fireEvent.click(screen.getAllByRole("button", { name: /Start investigation/ })[0]);
+    expect(screen.getByAltText(/Synthetic demo image for frame 1 of 5/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Right Ascension/)).toHaveValue("12");
+  });
+
+  it("selects dated epochs and follows history view changes", async () => {
+    window.history.replaceState({}, "", "/?view=investigation");
+    render(<App />);
+    await loadDemo();
+    fireEvent.click(screen.getByRole("button", { name: /03.*2024-06-16/ }));
+    expect(screen.getByText("03 / 05")).toBeInTheDocument();
+    window.history.replaceState({}, "", "/?view=overview");
+    fireEvent.popState(window);
+    expect(screen.getByRole("heading", { name: /SPHEREx observations, across time/ })).toBeInTheDocument();
+  });
   it("shows coordinate validation feedback and writes valid values into the URL", async () => {
-    window.history.replaceState({}, "", "/");
+    window.history.replaceState({}, "", "/?view=investigation");
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: "Load demo timeline" }));
     expect(await screen.findByText(/0° up to/)).toBeInTheDocument();
@@ -31,7 +54,7 @@ describe("frontend interaction", () => {
   });
 
   it("supports previous, next, play, pause, and scrubbing", async () => {
-    window.history.replaceState({}, "", "/");
+    window.history.replaceState({}, "", "/?view=investigation");
     render(<App />);
     await loadDemo();
 
@@ -53,7 +76,7 @@ describe("frontend interaction", () => {
   });
 
   it("shows a useful error when the backend cannot be reached", async () => {
-    window.history.replaceState({}, "", "/");
+    window.history.replaceState({}, "", "/?view=investigation");
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("Failed to fetch")));
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: /Backend API/ }));
