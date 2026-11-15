@@ -1,3 +1,4 @@
+import { ScienceWorkspace, PreviewImage } from "./ScienceWorkspace";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import "../styles/main.css";
 import { LandingPage } from "./LandingPage";
@@ -22,7 +23,7 @@ function initialFormValues() {
   return {
     ra: params.ra,
     dec: params.dec,
-    radius: params.radius,
+    radius: params.radius || "60",
     targetId: params.targetId,
   };
 }
@@ -74,7 +75,7 @@ export default function App() {
   }
 
   function setCoordinateField(field: "ra" | "dec" | "radius", value: string) {
-    updateForm({ ...form, [field]: value, targetId: "" });
+    updateForm({ ...form, [field]: value, targetId: field === "radius" ? form.targetId : "" });
   }
 
   function chooseTarget(targetId: string) {
@@ -105,6 +106,7 @@ export default function App() {
     window.history.replaceState({}, "", updatedUrl);
     const currentRequest = ++requestNumber.current;
     setTimeline(null);
+    setLoadedQuery(null);
     setSelectedIndex(0);
     setRequestState("loading");
 
@@ -251,6 +253,7 @@ export default function App() {
               <span className="playback-rate">1×</span>
             </div>
             {selectedFrame && <FrameWarnings frame={selectedFrame} />}
+            {timeline && mode === "api" && <ScienceWorkspace key={timeline.investigation_id} id={timeline.investigation_id} />}
           </ObservationViewer>
         </div>
 
@@ -277,7 +280,7 @@ function FrameDisplay({ frame, index, total, mode }: { frame: ObservationFrame; 
   }
   return (
     <div className="image-wrap">
-      <img src={frame.preview_url} alt={`${mode === "synthetic" ? "Synthetic demo" : "Observation"} image for frame ${index + 1} of ${total}, ${frame.observation_time_utc}`} />
+      <PreviewImage key={frame.preview_url} url={frame.preview_url} alt={`${mode === "synthetic" ? "Synthetic demo" : "Observation"} image for frame ${index + 1} of ${total}, ${frame.observation_time_utc}`} />
       <div className="image-overlay"><span className="image-index">FRAME {String(index + 1).padStart(2, "0")} <span>/ {String(total).padStart(2, "0")}</span></span><span className="image-origin">{mode === "synthetic" ? "GENERATED FIXTURE" : (frame.data_origin ?? "ORIGIN NOT REPORTED").replaceAll("_", " ").toUpperCase()}</span></div>
     </div>
   );

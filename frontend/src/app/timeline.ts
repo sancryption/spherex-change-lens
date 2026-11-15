@@ -28,7 +28,7 @@ interface ApiTimelinePayload {
   total_epochs: number;
 }
 
-async function readJson<T>(response: Response): Promise<T> {
+export async function readJson<T>(response: Response): Promise<T> {
   if (!response.ok) {
     let body: ApiErrorBody | undefined;
     try {
