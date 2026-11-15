@@ -88,3 +88,18 @@ describe("frontend interaction", () => {
     await waitFor(() => expect(screen.getByText(/Check the coordinates or backend connection/)).toBeInTheDocument());
   });
 });
+
+it("preserves presets on radius edits and isolates synthetic science", async () => {
+  window.history.replaceState({}, "", "/?view=investigation");
+  const fetcher = vi.fn();
+  vi.stubGlobal("fetch", fetcher);
+  render(<App />);
+  expect(screen.getByLabelText(/Field-of-view radius/)).toHaveValue("60");
+  fireEvent.change(screen.getByLabelText(/Reference target/), { target: { value: "barnards-star" } });
+  fireEvent.change(screen.getByLabelText(/Field-of-view radius/), { target: { value: "120" } });
+  expect(screen.getByLabelText(/Reference target/)).toHaveValue("barnards-star");
+  fireEvent.click(screen.getByRole("button", { name: "Load demo timeline" }));
+  await screen.findByAltText(/Synthetic demo image for frame 1/);
+  expect(fetcher).not.toHaveBeenCalled();
+  expect(screen.getByText("GENERATED FIXTURE")).toBeInTheDocument();
+});
