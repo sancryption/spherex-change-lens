@@ -10,6 +10,7 @@ from astropy.io.fits import Header
 from change_lens.pipeline.alignment import AlignedFrame, celestial_grid
 from change_lens.pipeline.brightness import compatibility_reasons
 from change_lens.pipeline.phase3 import observation_time
+from change_lens.pipeline.preparation import PairPreparation
 
 
 @dataclass(frozen=True)
@@ -55,7 +56,9 @@ class DifferenceResult:
         return np.where(np.isfinite(value), value, np.nan)
 
 
-def compute_difference(earlier: AlignedFrame, later: AlignedFrame) -> DifferenceResult:
+def compute_difference(
+    earlier: AlignedFrame, later: AlignedFrame, *, preparation: PairPreparation | None = None
+) -> DifferenceResult:
     """Subtract an explicitly chronological, certified same-plane aligned pair.
 
     No sorting, unit conversion, resampling, background/PSF matching or calibration
@@ -66,8 +69,22 @@ def compute_difference(earlier: AlignedFrame, later: AlignedFrame) -> Difference
     """
     frames = (earlier, later)
     validations = [f.provenance.get("validation", {}) for f in frames]
+    verified_calibrations = tuple(
+        preparation.calibration_signature(v.get("metadata", {}).get("HISTORY"))
+        if isinstance(preparation, PairPreparation)
+        else None
+        for v in validations
+    )
     ids = [v.get("observation_id") for v in validations]
     times, reasons = [], []
+    # Only explicitly synthetic fixtures retain the legacy demonstration path.
+    # A CALVER string (even a real one) alone is not pair preparation evidence.
+    synthetic = all(v.get("metadata", {}).get("SYNTHET") in (True, "True") for v in validations)
+    if not synthetic or preparation is not None:
+        if not isinstance(preparation, PairPreparation):
+            reasons.append("PAIR_PREPARATION_REQUIRED")
+        else:
+            reasons.extend(preparation.rejection_reasons(earlier, later))
     warnings = [w for f in frames for w in f.warnings]
     warnings.extend(
         (
@@ -80,14 +97,16 @@ def compute_difference(earlier: AlignedFrame, later: AlignedFrame) -> Difference
             "SUPPORTING_IMAGE_NOT_SCREENED_FINDING",
         )
     )
-    for validation in validations:
+    for index, validation in enumerate(validations):
         metadata = validation.get("metadata", {})
         if validation.get("passed") is not True:
             reasons.append("INPUT_VALIDATION_NOT_PASSED")
         if "OBSID" in metadata and metadata["OBSID"] != validation.get("observation_id"):
             reasons.append("OBSERVATION_ID_CONFLICTS_WITH_HEADER")
         calibration = metadata.get("CALVER")
-        if not isinstance(calibration, str) or not calibration.strip():
+        if (
+            not isinstance(calibration, str) or not calibration.strip()
+        ) and not verified_calibrations[index]:
             reasons.append("CALIBRATION_UNKNOWN")
         time, issues = observation_time(metadata)
         times.append(time)
@@ -138,7 +157,9 @@ def compute_difference(earlier: AlignedFrame, later: AlignedFrame) -> Difference
         except (ValueError, TypeError, AttributeError):
             reasons.append("INVALID_WCS_OR_GRID")
     if "INVALID_WCS_OR_GRID" not in reasons:
-        reasons.extend(compatibility_reasons(list(frames)))
+        reasons.extend(
+            compatibility_reasons(list(frames), verified_calibrations=verified_calibrations)
+        )
     for frame in frames:
         identity = frame.provenance.get("plane_identity", {})
         if not all(
@@ -152,6 +173,9 @@ def compute_difference(earlier: AlignedFrame, later: AlignedFrame) -> Difference
             "earlier": earlier.provenance,
             "later": later.provenance,
             "variance_method": "independent_epoch_sum",
+            "pair_preparation": preparation.to_dict()
+            if isinstance(preparation, PairPreparation)
+            else None,
         }
     )
 
